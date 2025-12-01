@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <h1>Função string+number</h1>
+      <input
+        type="number"
+        name="num1"
+        id="numberOne"
+        placeholder="Digite um número"
+      />
+      <select name="simbol" id="simbol">
+        <option id="optionValue" value="+">+</option>
+        <option id="optionValue" value="-">-</option>
+        <option id="optionValue" value="*">*</option>
+        <option id="optionValue" value="/">/</option>
+      </select>
+      <input
+        type="number"
+        name="num2"
+        id="numberTwo"
+        placeholder="Digite um número"
+      />
+      <button onclick="calcular()" id="btn">Calcular</button>
+    </form>
+    <div id="res"></div>
+  </body>
+
+  <script>
+    /*Crie uma função chamada calcular() que receba dois números e uma string com um dos seguintes valores: +,-,* ou /. Retorne a soma, subtração multiplicação ou divisão dependendo do símbolo passado por parametro.*/
+    let numberOne = document.getElementById("numberOne");
+    let numberTwo = document.getElementById("numberTwo");
+    let simbol = document.getElementById("simbol");
+    let btn = document.getElementById("btn");
+    let optionValue = document.getElementById("optionValue");
+
+    function calcular() {
+      let res = document.getElementById("res");
+      let n1 = parseFloat(numberOne.value);
+      let n2 = parseFloat(numberTwo.value);
+      let sinal = simbol.value;
+
+      if (sinal === "+") {
+        let soma = n1 + n2;
+        alert(
+          `Você escolheu fazer um cálculo de adição, os valores que você digitou foram: ${n1} e ${n2}, o resultado da soma desses números é ${soma}`
+        );
+      } else if (sinal === "-") {
+        let sub = n1 - n2;
+        alert(
+          `Você escolheu fazer um cálculo de subtração, os valores que você digitou foram: ${n1} e ${n2}, o resultado da subtração desses números é ${sub}`
+        );
+      } else if (sinal === "*") {
+        let mult = n1 * n2;
+        alert(
+          `Você escolheu fazer um cálculo de multiplicação, os valores que você digitou foram: ${n1} e ${n2}, o resultado da multiplicação desses números é ${mult}`
+        );
+      } else if (sinal === "/") {
+        let div = n1 / n2;
+        alert(
+          `Você escolheu fazer um cálculo de divisão, os valores que você digitou foram: ${n1} e ${n2}, o resultado da divisão desses números é ${div}`
+        );
+      }
+    }
+  </script>
+</html>

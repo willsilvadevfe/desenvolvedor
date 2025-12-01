@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <h1>Analisador de Números</h1>
+            <div class="box-js">
+                <div class="box-inpbutton">
+                    <p>Número (entre 1 e 100):</p><input type="number" id="inpnumber" class="inpnum">
+                    <input type="button" value="Adicionar" id="btn" class="btn" onclick="adicionar()">
+                </div>
+                <div class="select-btn">
+                    <select id="add" size="8"></select>
+                    <input type="button" value="Finalizar" id="finish" onclick="finalizar()">
+                    <div class="res" id="res"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"> </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Desafio grid layout</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      .container {
+        width: 100vw;
+        height: 100dvh;
+        background-color: rgb(255, 255, 255);
+        display: grid;
+        gap: 5px;
+        grid-template-rows: 1fr 0.5fr 4fr 0.5fr;
+        grid-template-columns: 0fr 3fr 1fr;
+      }
+
+      .topo {
+        background-color: lightcoral;
+        grid-area: 1 / 1 / 2 / 5;
+      }
+
+      .menu {
+        background-color: lightseagreen;
+        grid-area: 2 / 1 / 2 / 5;
+      }
+
+      .principal {
+        background-color: lightskyblue;
+        grid-area: 3 / 1 / 3 / 3;
+      }
+
+      .secundario {
+        background-color: lightpink;
+        grid-area: 3 / 3 / 3 / 5;
+      }
+
+      .rodape {
+        background-color: lightseagreen;
+        grid-area: 4 / 1 / 6 / 5;
+      }
+
+      #text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        font-family: sans-serif;
+        font-weight: bold;
+        color: rgb(43, 44, 44);
+      }
+
+      #text:hover {
+        
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="topo" id="text">TOPO</div>
+      <div class="menu" id="text">MENU</div>
+      <div class="principal" id="text">PRINCIPAL</div>
+      <div class="secundario" id="text">SECUNDARIO</div>
+      <div class="rodape" id="text">RODAPE</div>
+    </div>
+  </body>
+</html>

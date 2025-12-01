@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conta bancaria</title>
+  </head>
+  <body>
+    <p>
+      Criar uma classe ContaBancaria que tenha uma propriedade privada para
+      saldo. Utilizar getters e setters para acessar e atualizar o saldo. O
+      saldo só pode ser utilizado através de depósitos e saques, e não deve
+      permitir que o saldo se torne negativo. Implementar métodos para depósito
+      (depositar(valor)) e saque (sacar(valor)), onde o saque só é permitido se
+      houver saldo suficiente.
+    </p>
+
+    <script>
+      class ContaBancaria {
+        #saldo; //Propriedade privada
+        constructor(saldoInicial) {
+          this.#saldo = saldoInicial;
+        }
+
+        get saldo() {
+          console.log(`O saldo da sua conta é de ${this.#saldo} R$`);
+        }
+
+        depositar(valor) {
+          if (valor > 0) {
+            this.#saldo += valor;
+            console.log(`O valor de ${valor} R$ foi depositado em sua conta.`);
+            console.log(`Seu saldo agora é de ${this.#saldo} R$`);
+          } else {
+            console.log(`Deposite um valor acima de 0,00 R$`);
+          }
+        }
+
+        sacar(valor) {
+          if (valor <= this.#saldo && valor > 0) {
+            this.#saldo -= valor;
+            console.log(
+              `O valor de ${this.#saldo} R$ foi descontado em sua conta.`
+            );
+          } else {
+            console.log(`Saldo insuficiente, consulte sua conta bancária.`);
+          }
+        }
+      }
+
+      const minhaConta = new ContaBancaria(350);
+      console.log(minhaConta.saldo);
+    </script>
+  </body>
+</html>

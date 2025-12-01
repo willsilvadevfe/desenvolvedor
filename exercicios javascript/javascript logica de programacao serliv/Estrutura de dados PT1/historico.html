@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historico</title>
+  </head>
+  <body>
+    <script>
+      class Historico {
+        #ponteiro;
+        constructor(limite) {
+          this.limite = limite || 10;
+          this.fila = [];
+          this.#ponteiro = -1;
+        }
+
+        adicionar(item) {
+          this.fila.length = this.#ponteiro + 1;
+          if (estaCheia()) {
+            this.fila.shift();
+            this.#ponteiro--;
+          }
+
+          this.fila.push(item);
+          this.#ponteiro++;
+        }
+
+        voltar() {
+          if (this.#ponteiro > 0) {
+            this.#ponteiro--;
+          }
+        }
+
+        avancar() {
+          if (this.#ponteiro < this.limite - 1) {
+            this.#ponteiro++;
+          }
+        }
+
+        estaCheia() {
+          return this.tamanho >= this.limite;
+        }
+
+        get tamanho() {
+          return this.fila.length;
+        }
+
+        imprimir() {
+          console.log(this.fila.toString());
+          console.log("Ponteiro:", this.#ponteiro);
+        }
+      }
+
+      const historico = new Historico(5);
+    </script>
+  </body>
+</html>

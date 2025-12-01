@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Try&Catch</h1>
+    <p>Estrutura de tratamento de erro.</p>
+    <div id="output"></div>
+
+    <script>
+      let person = { nome: "Willian", email: "willian@server.com", idade: 18 };
+
+      try {
+        document.getElementById(
+          "output2" //ID incompativel com HTML(output)
+        ).innerHTML = `Nome: ${person.nome} Email: ${person.email} Idade: ${person.idade}`; //Não executará essa linha (elemento id incorreto.)
+      } catch (e) {
+        //(e) Define o erro que o código encontrou
+        alert(e.message); //Mostra em um alert o nome do erro encontrado para o usuário
+      }
+    </script>
+  </body>
+</html>

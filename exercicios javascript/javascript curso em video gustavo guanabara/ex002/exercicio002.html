@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(40, 13, 83);
+            color: #fff;
+        }
+
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 300px;
+            background-color: rgba(113, 64, 177, 0.76);
+            border-radius: 8px;
+            border: 3px solid black;
+        }
+
+        input{
+            width: 60%;
+            height: 30px;
+            margin: 10px;
+            text-align: center;
+            font-size: 1.3em;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .btn{
+            cursor: pointer;
+        }
+
+        .btn:hover{
+            background-color: rgba(0, 0, 0, 0.178);
+            color: white;
+            border: 1px solid white;
+        }
+    </style>
+    <title>Detran</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de multas de veiculos</h1>
+        <p>Digite sua velocidade para verificação</p>
+        Velocidade:<input type="number" name="txt1" id="txt1"> KM/H
+        <input type="button" value="Verificar" id="btn1" class="btn" onclick="calcular()">
+        <div id="res"></div>
+    </div>
+    
+    <script>
+        function calcular(){
+        var txt1 = window.document.getElementById('txt1')
+        var btn = window.document.getElementById('btn1')
+        var res = window.document.getElementById('res')
+        var vel = Number(txt1.value)
+        res.innerHTML = `Sua velocidade é de ${vel} Km/h, Use sempre o cinto de segurança!`  
+        if(vel > 80){
+            res.innerHTML = `<strong>${vel}Km/h</strong> está acima do permitido na via, você foi <strong>MULTADO!</strong>`
+        }    
+        }
+    </script>
+</body>
+</html>

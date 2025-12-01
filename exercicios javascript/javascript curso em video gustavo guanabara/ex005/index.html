@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Tabuadas</title>
+</head>
+<body>
+    <div class="container">
+        <div class="side1" id="side1">
+            <h1>Gerador de tabuadas</h1>
+            <span>Número:</span><input type="number" id="number">
+            <input type="button" value="Gerar tabuada" id="btn" onclick="clicar()">
+        </div>
+        <div class="side2">
+            <select name="tab" id="tab" size="10"></select>
+        </div>
+    </div>
+    <script>
+        function clicar(){
+        var number = document.getElementById('number')
+        var tab = document.getElementById('tab')
+        
+        if(num == 0){
+            window.alert('ERRO, digite um número válido para gerar tabuada.')
+        }else{
+            var num = Number(number.value)
+            var c = 1
+            tab.innerHTML = ''
+            
+            while(c <= 10){
+                var item = document.createElement('option')
+                item.text = `${num} X ${c} = ${num*c}`
+                tab.appendChild(item)
+                c++
+            }
+        }
+    }
+    </script>
+    
+</body>
+</html>

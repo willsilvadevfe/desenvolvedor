@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Object Model</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <h1 id="h1">Aprendendo Documento Object Model</h1>
+    <p>Inicio de aprendizagem no DOM</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi fugit, eaque aperiam consequuntur provident iure esse exercitationem minus magni sit voluptates, animi molestiae recusandae aliquam aliquid dicta omnis aspernatur dolor.</p>
+    <script>
+        var h1 = document.getElementById('h1')
+        var par = document.getElementsByTagName('p')[1]
+        document.write('Está escrito: ' + h1.innerHTML)
+        h1.style.background = 'lightblue'
+        h1.style.border = '2px solid black'
+        h1.style.boxShadow = '2px 2px 13px black'
+        h1.style.fontFamily = 'Arial'
+        h1.style.textAlign = 'center'
+        h1.style.padding = '5px'
+
+        par.style.background = 'lightgreen'
+        par.style.padding = '10px'
+        par.style.border = '1px solid black'
+        par.style.fontFamily = 'Arial'
+
+        par.innerText = 'Aqui é um paragrafo lorem, foi alterado para esse paragrafo em JavaScript (aprendendo DOM)'
+        
+    </script>
+</body>
+</html>

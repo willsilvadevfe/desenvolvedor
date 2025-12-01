@@ -1,0 +1,1 @@
+Em uma tela contendo um input e um botão, permitir que o usuario digite um número e, ao clicar no botão, mostrar na tela a tabuada desse número na tela (1 à 100).

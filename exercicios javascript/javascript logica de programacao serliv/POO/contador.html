@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contador</title>
+  </head>
+  <body>
+    <p>
+      Criar uma classe Contador que inicialmente tenha o valor zero. A classe
+      deve ter um método incrementar() para aumentar o contador em um e um
+      método valorAtual() para retornar o valor do contador.
+    </p>
+
+    <script>
+      class Contador {
+        #adicionar;
+        constructor(adicionar) {
+          this.#adicionar = 0;
+        }
+
+        incrementar() {
+          this.#adicionar++;
+          console.log(`Você adicionar um ao contador.`);
+        }
+
+        valorAtual() {
+          return this.#adicionar;
+        }
+      }
+
+      const contador = new Contador();
+      contador.incrementar();
+      contador.incrementar();
+      console.log(contador);
+      console.log(contador.valorAtual());
+    </script>
+  </body>
+</html>

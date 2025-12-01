@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 001</title>
+
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body{
+            width: 100vw;
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background-color: black;
+        }
+
+        .res{
+            width: 800px;
+            height: 500px;
+            font-size: 1.5rem;
+            font-family: Arial, Helvetica, sans-serif;
+            border-radius: 10px;
+            background-color: rgb(59, 235, 138);
+            text-align: center;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="res" class="res"></div>
+    
+
+    <script>
+        let res = document.getElementById('res')
+        let num1 = window.prompt('Digite o primeiro número:')
+        let num2 = window.prompt('Digite o segundo número:')
+        
+        let n1 = Number.parseInt(num1)
+        let n2 = Number.parseInt(num2)
+
+        let soma = n1 + n2
+        let div = n1 / n2
+        let mult = n1 * n2
+        let sub = n1 - n2
+
+        res.innerHTML = `A subtração dos valores digitados é: ${sub}<br>A multiplicação dos valores digitados é: ${mult}<br>A divisão dos valores digitados é: ${div}<br>A soma dos valores digitados é: ${soma}<br>`
+    </script>
+</body>
+</html>

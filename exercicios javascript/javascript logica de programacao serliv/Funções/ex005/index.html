@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Função somar</title>
+  </head>
+  <body>
+    <h1>Função somar</h1>
+    <form>
+      <label> Valor 1:<input id="valueOne" type="number" /> </label>
+      <label> Valor 2:<input id="valueTwo" type="number" /> </label>
+      <button onclick="somarValores()">Somar</button>
+    </form>
+    <div id="res"></div>
+  </body>
+  <script>
+    let valueOne = document.getElementById("valueOne");
+    let valueTwo = document.getElementById("valueTwo");
+    let res = document.getElementById("res");
+
+    function somarValores() {
+      let somar = parseFloat(valueOne.value) + parseFloat(valueTwo.value);
+      alert(`A soma dos valores é: ${somar}`);
+    }
+  </script>
+</html>

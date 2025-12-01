@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propriedades de item</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        .container{
+            background-color: rgb(0, 0, 0);
+            width: 100vw;
+            height: 100dvh;
+            display: grid;
+            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+
+        .box-one{
+            grid-row-start: 1;
+            grid-row-end: 2;
+            grid-column-start: 1;
+            grid-column-end: 5;
+            background-color: antiquewhite;
+        }
+
+        .box-two{
+            grid-row-start: 2;
+            grid-row-end: 4;
+            grid-column-start: 1;
+            grid-column-end: 3;
+            background-color: lightskyblue;
+        }
+
+        .box-three{
+            grid-row-start: 2;
+            grid-row-end: 4;
+            grid-column-start: 3;
+            grid-column-end: 5;
+            background-color: lightpink;
+        }
+
+        .box-one, 
+        .box-two,
+        .box-three{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        h1{
+            padding: 10px;
+        }
+
+        p:nth-child(odd){
+            color: rgb(75, 75, 75);
+        }
+
+        .box-one:hover, 
+        .box-two:hover,
+        .box-three:hover{
+            background-color: rgb(218, 215, 215);
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box-one">
+            <h1>BOX-01</h1>
+            <p>grid-row-start: 1;</p>
+            <p>grid-row-end: 2;</p>
+            <p>grid-column-start: 1;</p>
+            <p>grid-column-end: 5;</p>
+        </div>
+        <div class="box-two">
+            <h1>BOX-02</h1>
+            <p>grid-row-start: 2;</p>
+            <p>grid-row-end: 4;</p>
+            <p>grid-column-start: 1;</p>
+            <p>grid-column-end: 3;</p>
+        </div>
+        <div class="box-three">
+            <h1>BOX-03</h1>
+            <p>grid-row-start: 2;</p>
+            <p>grid-row-end: 4;</p>
+            <p>grid-column-start: 3;</p>
+            <p>grid-column-end: 5;</p>
+        </div>
+    </div>
+</body>
+</html>

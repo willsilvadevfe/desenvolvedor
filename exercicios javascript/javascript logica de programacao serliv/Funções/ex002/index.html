@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Àrea do triângulo</title>
+</head>
+<body>
+    <h1>Calculo da área de um triângulo</h1>
+    <p>Exercicio de Javascript executado por Willian Silva</p>
+    <label>Base:
+        <input type="number" id="base">
+    </label>
+    <label>Altura:
+        <input type="number" id="altura">
+    </label>
+        <input type="button" value="Calcular" onclick="calcular()">
+        <button onclick="limpar()">Limpar</button>
+    <div id="output"></div>
+
+    <script>
+        const base = document.getElementById('base')
+        const alt = document.getElementById('altura')
+        const output = document.getElementById('output')
+
+        function calcular(){
+            
+            let baseValue = parseFloat(base.value)
+            let altValue = parseFloat(alt.value)
+            limpar()
+            
+            if(baseValue <= 0 || altValue <= 0){
+                alert(`Valores digitados, inválidos.`)
+            }else{
+                let res = (baseValue * altValue) / 2
+                output.innerHTML += `Valor da base: <strong>${baseValue}</strong> <br>`
+                output.innerHTML += `Valor de altura: <strong>${altValue}</strong> <br>`
+                output.innerHTML += `Resultado da àrea do triângulo: <strong>${res}</strong>`
+            }
+        }
+
+        function limpar(){
+            output.innerHTML = ""
+        }
+
+
+
+    </script>
+</body>
+</html>

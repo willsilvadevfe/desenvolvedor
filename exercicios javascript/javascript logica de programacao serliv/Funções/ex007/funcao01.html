@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Retornando PAR ou IMPAR</h2>
+    <form>
+      <input type="number" id="inpNumber" />
+      <button id="btn" onclick="calcular()">Calcular</button>
+      <div id="res"></div>
+    </form>
+    <script>
+      /*Crie uma função que retorna um booleano indicando se o número é par*/
+
+      let input = document.getElementById("inpNumber");
+      let res = document.getElementById("res");
+
+      function calcular() {
+        let valorInformado = parseFloat(input.value);
+
+        if (valorInformado % 2 == 0) {
+          alert(
+            `O resto da divisão do número ${valorInformado} é 0, portando o número é par.`
+          );
+        } else {
+          alert(
+            `O resto da divisão do número ${valorInformado} é 1, portando o número é impar.`
+          );
+        }
+      }
+    </script>
+  </body>
+</html>

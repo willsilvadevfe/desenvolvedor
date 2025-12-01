@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 004 Notas</title>
+    <style>
+        *{
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            
+        }
+    </style>
+</head>
+<body>
+    <h1>Situação academica do aluno</h1>
+    <p id="infoaluno"></p>
+    <script>
+        const aluno = {
+        nome: "João",
+        sobrenome: "Cavalcante",
+        notas: [1, 3, 3, 8]
+        }
+
+        let contador = 0
+
+        for(let i = 0;i < aluno.notas.length;i++){
+        contador += aluno.notas[i]
+        }
+
+        let media = contador / aluno.notas.length
+
+        console.log(`Nome do aluno: ${aluno.nome} ${aluno.sobrenome}`)      
+        
+        const infoAluno = document.getElementById('infoaluno')
+        infoAluno.innerHTML += `<h2>Nome do aluno: ${aluno.nome} ${aluno.sobrenome}</h2>`
+        
+        infoAluno.innerHTML += `<p>A média final do aluno foi de: <strong>${media}</strong></p>`
+
+        if(media >= 7){
+            infoAluno.innerHTML += `Parabéns você foi <strong>aprovado</strong> com uma nota igual ou superior a 7.` 
+        }else{
+            infoAluno.innerHTML += `Você está <strong>reprovado</strong>! Estude para melhorar sua nota.` 
+        }
+        
+        </script>
+</body>
+</html>

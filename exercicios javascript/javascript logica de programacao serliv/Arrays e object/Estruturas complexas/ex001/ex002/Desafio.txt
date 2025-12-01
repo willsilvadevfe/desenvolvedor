@@ -1,0 +1,1 @@
+Dado um array contendo 5 objetos (onde cada objeto possui duas propriedades "nome" e "email"), mostrar em uma lista (tag<ul>) cada um desses nomes com seus repectivos e-mails.

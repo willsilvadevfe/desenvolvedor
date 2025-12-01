@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabuada</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Courier New", Courier, monospace;
+    }
+
+    body,
+    html {
+      width: 100%;
+      height: 100dvh;
+      background-color: azure;
+    }
+
+    .container {
+      display: grid;
+      justify-content: center;
+      grid-template-columns: 300px; /* Definindo apenas uma coluna */
+      grid-template-rows: 30px 25px 25px 25px; /* Altura das linhas 1º, 2º e 3º linhas em sequencia */
+      gap: 10px; /*Espaçamento dos elementos */
+    }
+
+    #btn,
+    #btnClean {
+      cursor: pointer;
+      border: 1px solid gray;
+    }
+
+    #btn:hover,
+    #btnClean:hover {
+      background-color: rgba(0, 0, 0, 0.137);
+      transition: 0.5s;
+    }
+
+    .resultado {
+      width: 100%;
+      height: 50rem;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <h2>Gerador de tabuadas</h2>
+      <input type="number" id="inputnumber" placeholder="Digite um número" />
+      <input
+        type="button"
+        id="btn"
+        value="Gerar tabuada"
+        onclick="gerarTabuada()"
+      />
+      <input
+        type="button"
+        name="clean"
+        id="btnClean"
+        value="Limpar"
+        onclick="limparTabuada()"
+      />
+      <div class="resultado" id="res"></div>
+
+      <script>
+        function gerarTabuada() {
+          const inputNumber = document.getElementById("inputnumber").value;
+          const resInput = document.getElementById("res");
+          const resBtn = document.getElementById("btn");
+          const limparTabuada = document.getElementById("btnClean");
+
+          const limparInput = (document.getElementById("inputnumber").value =
+            "");
+          const focarInput = document.getElementById("inputnumber").focus();
+
+          resInput.innerHTML = "";
+
+          resInput.style =
+            "display: flex; justify-content: center; padding: 20px; font-size: 16px;";
+
+          if (inputNumber == null || inputNumber == 0) {
+            alert("Digite um valor válido e maior que 0.");
+            limparInput;
+            focarInput;
+            return;
+          }
+          if (inputNumber < 0) {
+            alert("Valores negativos não são válidos.");
+            limparInput;
+            focarInput;
+            return;
+          }
+
+          for (let start = 1; start <= 30; start++) {
+            resInput.innerHTML +=
+              inputNumber + "X" + start + " = " + start * inputNumber + "<br>";
+
+            if (start === 10 || start === 20) {
+              resInput.innerHTML += "<br>";
+            }
+          }
+        }
+
+        function limparTabuada() {
+          const resInput = document.getElementById("res");
+          resInput.innerHTML = "";
+          const inputNumber = document.getElementById("inputnumber");
+          inputNumber.focus();
+        }
+      </script>
+    </div>
+  </body>
+</html>

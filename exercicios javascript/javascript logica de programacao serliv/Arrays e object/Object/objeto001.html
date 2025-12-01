@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Produto {
+        constructor(nome, quantidade) {
+          this.nome = nome;
+          this.quantidade = quantidade;
+          console.log(this);
+        }
+
+        comprar(unidades) {
+          if (unidades > this.quantidade) {
+            console.log(
+              `Infelizmente, não temos essa quantidade de ${this.nome} disponível em estoque.`
+            );
+            return null;
+          }
+          if (unidades <= 0) {
+            console.log("Quantidade inválida, tente novamente.");
+            return null;
+          }
+
+          this.quantidade -= unidades;
+        }
+
+        adicionar(unidades) {
+          if (unidades <= 0) {
+            console.log("Quantidade incorreta, tente novamente.");
+            return null;
+          }
+          this.quantidade += unidades;
+        }
+      }
+
+      const caneta = new Produto("caneta", 34);
+      const lapis = new Produto("lapis", 22);
+      const borracha = new Produto("borracha", 76);
+      const regua = new Produto("regua", 27);
+      const caderno = new Produto("cardeno", 177);
+      const pincel = new Produto("pincel", 77);
+    </script>
+  </body>
+</html>

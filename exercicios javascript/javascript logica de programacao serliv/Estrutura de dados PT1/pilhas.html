@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pilhas</title>
+  </head>
+  <body>
+    <h1>Implementar pilhas | stack</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ipsam id
+      distinctio harum incidunt quaerat accusantium tenetur autem optio.
+      Voluptas pariatur doloribus ullam ut minima. Dolore nisi reprehenderit
+      reiciendis maiores. Lorem ipsum, dolor sit amet consectetur adipisicing
+      elit. Earum, voluptatibus magni! Aut, dolorum ducimus. Sapiente adipisci
+      dolorum ratione est, quos distinctio incidunt qui doloribus facilis
+      eligendi blanditiis, corporis doloremque obcaecati.
+    </p>
+
+    <script>
+      class Pilha {
+        constructor() {
+          this.pilha = [];
+        }
+
+        //Adicionar elementos na pilha
+        adicionar(novoElemento) {
+          this.pilha.push(novoElemento); //Método push adiciona elementos no Array
+        }
+
+        //Remover elementos da pilha
+        remover() {
+          if (this.estaVazia()) {
+            throw new Error("A pilha está vazia.");
+          }
+          return this.pilha.pop();
+        }
+
+        //Verificar se pilha está vazia
+        estaVazia() {
+          return this.pilha.length === 0;
+        }
+
+        //Espiar elemento do topo da pilha
+        espiar() {
+          if (this.estaVazia()) {
+            return null;
+          }
+          return this.pilha[this.pilha.length - 1];
+        }
+
+        //Limpar pilha
+        limpar() {
+          this.pilha.length = 0;
+        }
+
+        get tamanho() {
+          return this.pilha.length;
+        }
+      }
+
+      const minhaPilha = new Pilha();
+      console.log(minhaPilha.estaVazia());
+      minhaPilha.adicionar(1);
+      minhaPilha.adicionar(2);
+      minhaPilha.adicionar(3);
+      console.log(minhaPilha.estaVazia());
+    </script>
+  </body>
+</html>

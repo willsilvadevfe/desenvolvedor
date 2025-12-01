@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Exercicio 016</title>
+</head>
+<body>
+    <header>
+        <h1>Vamos contar</h1>
+    </header>
+    <section>
+        <div class="inputs">
+            <p>Inicio: <input type="number" name="start" id="start"></p>
+            <p>Fim: <input type="number" name="end" id="end"></p>
+            <p>Passo: <input type="number" name="pass" id="pass"></p>
+            <input type="button" value="Contar" id="contar" onclick="contar()">
+            <div class="res" id="res">Iniciando contagem...</div>
+        </div>
+    </section>
+    <script>
+        function contar(){
+            var start = window.document.getElementById('start')
+            var end = window.document.getElementById('end')
+            var pass = window.document.getElementById('pass')
+            var res = window.document.getElementById('res')
+            
+            if(start.value.length == 0 || end.value.length == 0 || pass.value.length == 0){
+                res.innerHTML = 'Impossivel contar!'
+                window.alert('[ERRO] Verifique os dados e tente novamente!')
+            } else{
+                res.innerHTML = 'Contando: '
+                var n1 = Number(start.value)
+                var n2 = Number(end.value)
+                var n3 = Number(pass.value)
+
+                if(n3 <= 0){
+                    window.alert('Valor de passe inválido! Considerando PASSO 1')
+                    n3 = 1 
+                }
+
+                if(n1 < n2){
+                    //Contagem crescente
+                for(var c = n1; c <= n2; c += n3){
+                    res.innerHTML += `${c} \u{27A1}`
+                }
+            }else{
+                    //Contagem regressiva
+                for(var c = n1;c >= n2; c -= n3)
+                    res.innerHTML += `${c} \u{27A1}`
+            }
+            }
+        }
+    </script>
+</body>
+</html>

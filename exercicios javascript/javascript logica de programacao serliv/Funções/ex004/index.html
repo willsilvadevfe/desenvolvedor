@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funções que aceitam paramêtros</title>
+</head>
+<body>
+    <h1>Calcular àrea de um círculo</h1>
+    <p>Exercicio javascript executado por <span style="font-weight: bold;">Willian Silva</span></p>
+    <label>Raio:
+        <input type="number" id="raio">
+    </label>
+    <button onclick="mostrarAreaPrompt()">Calcular por prompt</button>
+    <button onclick="mostrarAreaInput()">Calcular por input</button>
+    <div id="res"></div>
+
+    <script>
+        const raio = document.getElementById('raio')
+        const res = document.getElementById('res')
+
+        function mostrarAreaPrompt(){
+            clean()
+            let raioValue = parseFloat(prompt('Digite o valor do raio:'))
+            mostrarArea(raioValue)
+        }
+
+        function mostrarAreaInput(){
+            clean()
+            let raioValue = parseFloat(raio.value)
+            mostrarArea(raioValue)
+        }
+
+        function mostrarArea(raio){
+            const pi = Math.PI
+            let calc = pi * raio * raio
+            res.innerHTML += `<br>O resultado do calculo é: ${calc}`
+
+        }
+        function clean(){
+            res.innerHTML = ""
+        }
+
+    </script>
+</body>
+</html>

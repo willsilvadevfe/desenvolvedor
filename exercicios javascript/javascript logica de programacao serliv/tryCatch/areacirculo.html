@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Área do Círculo</title>
+  </head>
+  <body>
+    <h1>Área do círculo</h1>
+    <input
+      type="number"
+      id="numberValue"
+      placeholder="Digite o raio do círculo"
+    />
+    <button id="btn" onclick="calcularAreaCirculo()">Calcular</button>
+    <div id="res"></div>
+
+    <script>
+      function calcularAreaCirculo() {
+        let numberValue = document.getElementById("numberValue");
+        let res = document.getElementById("res");
+
+        let numberUser = parseFloat(numberValue.value);
+
+        try {
+          let raioUser = numberUser * numberUser;
+          let areaUser = Math.PI * raioUser;
+
+          res.innerHTML = `O raio que você digitou: ${numberUser} e a área do círculo é: ${areaUser}cm²<br>`;
+          res.innerHTML += `Valor de PI: ${Math.PI}`;
+        } catch {
+          res.innerHTML = `Foi detectado um ERRO.`;
+        }
+      }
+    </script>
+  </body>
+</html>

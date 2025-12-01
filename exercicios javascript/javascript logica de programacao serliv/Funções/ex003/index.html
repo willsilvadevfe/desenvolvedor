@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Àrea do círculo</title>
+</head>
+<body>
+    <h1>Calcular àrea de um círculo</h1>
+    <p>Exercicio javascript executado por Willian Silva</p>
+    <label>Raio:
+        <input id="raio" type="number">
+    </label>
+    <button onclick="calcular()">Calcular</button>
+    <button onclick="limpar()">Limpar</button>
+    <div id="output"></div>
+
+    <script>
+        const raio = document.getElementById('raio')
+        const output = document.getElementById('output')
+
+        function calcular(){
+            limpar()
+            if(raio.value <= 0){
+                alert('Digite um valor válido.')
+            }else{ 
+                let radius = parseFloat(raio.value)
+                let res = Math.PI * (radius * radius) 
+                output.innerHTML += `<br>O calculo da àrea do círculo é a multiplicação o valor de PI pelo raio ao quadrado.<br>`
+                output.innerHTML += `Valor de Pi: <strong>${Math.PI}</strong><br>`
+                output.innerHTML += `Resultado: <strong>${res}</strong><br>`
+            }
+        }
+
+        function limpar(){
+            output.innerHTML = ""
+        }
+    </script>
+</body>
+</html>

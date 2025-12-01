@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Listas ligadas</title>
+  </head>
+  <body>
+    <h1>Litas ligadas ou encadeadas</h1>
+    <script>
+      class Node {
+        constructor(value) {
+          this.value = value;
+          this.next = null;
+        }
+      }
+
+      class LinkedList {
+        #size;
+        constructor() {
+          this.head = null;
+          this.tail = null;
+          this.#size = 0;
+        }
+
+        append(value) {
+          //Método que adiciona no final da lista
+          const newNode = new Node(value);
+          if (this.head === null) {
+            this.head = newNode;
+            this.tail = newNode;
+          } else {
+            const last = this.tail;
+            last.next = newNode;
+            this.tail = newNode;
+          }
+          this.#size++;
+        }
+
+        prepend(value) {
+          //Método que adiciona no início da lista
+          const newNode = new Node(value);
+          newNode.next = this.head;
+          this.head = newNode;
+          this.#size++;
+        }
+
+        pop() {
+          //Remove o último
+          if (this.tail) {
+            const last = this.tail;
+            const value = last.value;
+
+            if (this.#size === 1) {
+              this.head = null;
+              this.tail = null;
+              this.#size = 0;
+              return value;
+            }
+
+            let current = this.head;
+            let prev = null;
+
+            while (current !== last) {
+              prev = current;
+              current = current.next;
+            }
+
+            pre.next = null;
+            this.tail = prev;
+            this.#size--;
+            return value;
+          }
+        }
+
+        shift() {
+          //Remove o primeiro
+        }
+
+        remove(value) {
+          //Método que remove o valor
+        }
+
+        insertAt(position, value) {
+          //Método que insere novo valor no meio
+          if (position >= 0 && position <= this.#size) {
+            if (position === 0) {
+              return this.prepend(value); //Adiciona ao começa
+            }
+
+            if (position === this.#size) {
+              return this.append(value); //Adiciona ao final
+            }
+
+            const newNode = new Node(value);
+
+            let current = this.head;
+            let prev = null;
+
+            for (let i = 0; i < position; i++) {
+              prev = current;
+              current = current.next;
+            }
+
+            newNode.next = current;
+            current = current.next;
+            this.#size++;
+          }
+        }
+
+        removeAt(position) {
+          //Método que remove valor do meio
+        }
+
+        indexOf(valor) {
+          //Método que retorna a posição do valor
+        }
+
+        isEmpty() {
+          return this.head === null;
+          //Método que ve se está vazio
+        }
+
+        get size() {
+          //Método que mostra o tamanho
+          return this.#size;
+        }
+
+        print() {
+          //Método que imprime resultado
+          let current = this.head;
+          let result = "";
+          while (current) {
+            result += current.value + "--->";
+            current = current.next;
+          }
+
+          console.log(result + "---> Size: " + this.#size);
+        }
+      }
+
+      const list = new LinkedList();
+      console.log(list.isEmpty());
+      list.append(10);
+      list.append(20);
+      list.append(30);
+      list.append(40);
+      list.append(2);
+      list.print();
+    </script>
+  </body>
+</html>

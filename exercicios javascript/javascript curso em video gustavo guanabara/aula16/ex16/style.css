@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{ 
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgb(33, 144, 207);
+}
+
+.container{
+    width: 40%;
+    height: 50%;   
+}
+
+.box{
+    text-align: center;
+}
+
+.box > h1{
+    padding: 10px;
+    color: black;
+}
+
+.box-js{
+    height: 30rem;
+    border-radius: 20px;
+    background-color: rgba(42, 121, 224, 0.616);
+    box-shadow: 2px 2px 13px rgba(0, 0, 0, 0.781);
+}
+
+.box-inpbutton{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.box-inpbutton > p{
+    padding: 8px;
+    margin: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.box-inpbutton > .inpnum{
+    padding: 8px;
+    margin: 5px;
+    text-align: center;
+}
+
+.box-inpbutton > .btn{
+    padding: 8px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.select-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.select-btn > select{
+    width: 200px;
+    height: 150px;
+    margin-top: 20px;
+    border-radius: 5px;
+    border: none;
+}
+
+.select-btn > #finish{
+    width: 200px;
+    height: 30px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.select-btn > #clean{
+    width: 200px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.res{
+    color: white;
+}
