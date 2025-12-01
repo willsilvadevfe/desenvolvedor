@@ -1,0 +1,59 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+.headerbox{
+    background-color: rgba(128, 128, 128, 0.89);
+}
+
+.allitens{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.item{
+    background-color: black;
+    color: white;
+    padding: 10px;
+    width: 400px;
+    text-align: center;
+    border-radius: 8px;
+    margin: 4px;
+}
+
+.item a{
+    text-decoration: none;
+    color: white;
+}
+
+h1{
+    text-align: center;
+    font-size: 2.5em;
+    padding: 5px;
+    color: white;
+    text-shadow: 2px 1px rgba(0, 0, 0, 0.637);
+}
+
+.item:hover{
+    background-color: rgb(100, 99, 99);
+    color: black;
+    cursor: pointer;
+}
+
+.mainbox{
+    flex: auto;
+    margin: 10px;
+    box-shadow: 2px 2px 10px black;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+p{
+    padding: 10px;
+}
+
+h2{
+    padding: 10px;
+}
