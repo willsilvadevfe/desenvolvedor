@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <label>Sucata <input type="number" id="sucata" /></label>
+    <label>Produzido <input type="number" id="produzido" /></label>
+    <button id="resultado" onclick="resultadoTotal()">Enviar</button>
+    <div id="resHtml"></div>
+
+    <script>
+      const sucata = document.getElementById("sucata");
+      const produzido = document.getElementById("produzido");
+      const resultado = document.getElementById("resultado");
+      const resHtml = document.getElementById("resHtml");
+
+      /*function resultadoTotal() {
+          let resultadoPorcentagem = (sucata.value / produzido.value) * 100;
+          
+          resHtml.innerHTML += `Certo, entendi!<br>`;
+          resHtml.innerHTML += `A quantidade de sucata que o equipamento apresentou foi de ${sucata.value}<br>`;
+          resHtml.innerHTML += `E a produção total do equipamento foi de ${produzido.value}<br>`;
+          resHtml.innerHTML += `Sendo assim, a porcentagem de sucata sobre o produzido é de ${resultadoPorcentagem}`;
+        }*/
+
+      resultado.addEventListener("click", () => {
+        let resultadoPorcentagem = (sucata.value / produzido.value) * 100;
+
+        resHtml.innerHTML += `Certo, entendi!<br>`;
+        resHtml.innerHTML += `A quantidade de sucata que o equipamento apresentou foi de ${sucata.value} peça(s)<br>`;
+        resHtml.innerHTML += `E a produção total do equipamento foi de ${produzido.value} peças<br>`;
+        resHtml.innerHTML += `Sendo assim, a porcentagem de sucata sobre o produzido é de <strong>${parseFloat(
+          resultadoPorcentagem.toFixed(2)
+        )}%</strong>`;
+      });
+    </script>
+  </body>
+</html>

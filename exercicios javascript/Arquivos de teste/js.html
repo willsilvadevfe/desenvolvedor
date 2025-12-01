@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clima Atual</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #74ABE2, #5563DE);
+  color: white;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌤️ Clima Atual</h1>
+    <p id="local">Detectando localização...</p>
+    <h2 id="temperatura">-- °C</h2>
+    <p id="descricao"></p>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const apiKey = "SUA_CHAVE_AQUI"; // coloque sua chave da API do OpenWeatherMap
+const localElem = document.getElementById("local");
+const tempElem = document.getElementById("temperatura");
+const descElem = document.getElementById("descricao");
+
+// Função principal
+function buscarClima(lat, lon) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=pt_br`;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      localElem.textContent = `${data.name}, ${data.sys.country}`;
+      tempElem.textContent = `${Math.round(data.main.temp)} °C`;
+      descElem.textContent = data.weather[0].description;
+    })
+    .catch(() => {
+      localElem.textContent = "Erro ao buscar clima 😢";
+    });
+}
+
+// Pedir localização do usuário
+if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      const { latitude, longitude } = position.coords;
+      buscarClima(latitude, longitude);
+    },
+    () => {
+      localElem.textContent = "Não foi possível obter sua localização 😕";
+    }
+  );
+} else {
+  localElem.textContent = "Geolocalização não suportada neste navegador.";
+}
+
+  </script>
+</body>
+</html>

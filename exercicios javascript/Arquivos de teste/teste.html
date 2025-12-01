@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .res {
+        width: 500px;
+        height: 500px;
+        background-color: rgb(191, 226, 226);
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="nominal"
+      >Nominal:
+      <input type="number" id="nominal" />
+    </label>
+    <label for="cromo"
+      >Camada cromada:
+      <input type="number" id="cromo" />
+    </label>
+    <label for="linha"
+      >Linha:
+      <select name="linha" id="linha">
+        <option value=""></option>
+        <option value="1">Linha 01</option>
+        <option value="2">Linha 02</option>
+        <option value="3">Linha 03</option>
+        <option value="4">Linha 04</option>
+        <option value="5">Linha 05</option>
+        <option value="6">Linha 06</option>
+        <option value="7">Linha 07</option>
+      </select>
+    </label>
+    <button type="submit" onclick="gerarResultado()">Buscar</button>
+    <button type="submit" onclick="limparResultado()">Limpar</button>
+    <div class="res" id="res"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      function gerarResultado() {
+        const linha = document.getElementById("linha");
+        const res = document.getElementById("res");
+        const nominal = document.getElementById("nominal").value;
+        const cromo = document.getElementById("cromo").value;
+
+        res.innerHTML = "";
+
+        if (nominal == null || nominal == undefined || nominal <= 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Atenção!",
+            text: "Você deve digitar um valor nominal válido.",
+          });
+          
+        }
+        if (cromo == null || cromo == undefined || cromo < 1) {
+          Swal.fire({
+            icon: "warning",
+            title: "Atenção!",
+            text: "Você não definiu o valor do cromo. Entendo que a válvula seja sem camada de cromo ou nitretada!",
+          });
+          
+        }
+
+        switch (linha.value) {
+          case "1":
+            res.innerHTML += `Entendi, vamos lá! </br>`;
+            res.innerHTML += `As caracteristicas dimensionais contraladas pelo operador na <strong>Linha 1</strong> são: </br> </br>`;
+            res.innerHTML += `Diâmetro da canaleta, diâmetro do blend/rebaixo e comprimento face/canaleta.</br> </br>`;
+            res.innerHTML += `Motivo: Controlamos o comprimento face/canaleta porque o processo de retifica do topo (21A) ainda não foi feito. Já que a face está acabada, controlamos o comprimento face/canaleta. Não controlamos o comprimento sede/canaleta nessa operação porque a sede ainda não está acabada.`;
+            break;
+
+          case "2":
+            res.innerHTML += `Entendi, vamos lá! </br>`;
+            res.innerHTML += `As caracteristicas dimensionais contraladas pelo operador na <strong>Linha 2</strong> são: </br> </br>`;
+            res.innerHTML += `Diâmetro da canaleta, diâmetro do blend/rebaixo e comprimento face/canaleta.</br> </br>`;
+            res.innerHTML += `Motivo: Controlamos o comprimento face/canaleta porque o processo de retifica do topo (21A) ainda não foi feito. Já que a face está acabada, controlamos o comprimento face/canaleta. Não controlamos o comprimento sede/canaleta nessa operação porque a sede ainda não está acabada.`;
+            break;
+        }
+      }
+
+      function limparResultado() {
+        const res = document.getElementById("res");
+        const cromo = (document.getElementById("cromo").value = "");
+        const nominal = (document.getElementById("nominal").value = "");
+        res.innerHTML = "";
+      }
+    </script>
+  </body>
+</html>
