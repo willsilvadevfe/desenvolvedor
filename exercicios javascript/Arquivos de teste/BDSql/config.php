@@ -11,7 +11,7 @@
     }
 
     $host = "localhost";
-    $banco = "FormularioTeste";
+    $banco = "formularioteste";
     $user = "root";
     $senha_user = "";
 

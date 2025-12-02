@@ -1,0 +1,171 @@
+@font-face {
+    font-family: 'idroid' ;
+    src: url(fontes/idroid.otf) format(opentype);
+}
+
+* {
+    margin: auto;
+}
+
+body {
+    background-color: #84E1AD;
+    margin: 0px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+.container {
+    margin: auto;
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+    width: 800px;
+    left: 300px;
+    background-color: white;
+    box-shadow: 1px 1px 10px black;
+}
+
+.header {
+    background-image: linear-gradient(180deg, #3bcf7e 40%, #1A5C38);
+    height: 200px;
+}
+
+.header > h1 {
+    margin: 0px;
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: -2px;
+    text-shadow: 1px 1px 1px black;
+}
+
+.header > p {
+    text-align: center;
+    color: white;
+    padding: 20px 0px 20px 0px;
+    text-shadow: 1px 1px 1px black;
+
+}
+
+.header > nav {
+    font-weight: bold;
+    padding: 20px 0px 0px 0px;
+
+}
+
+.header > nav > a {
+    text-decoration: none;
+    color: white;
+    margin-left: 10px;
+}
+
+.main {
+    padding: 0px 15px 0px 15px;
+}
+
+.main > h1 {
+    font-family: 'idroid', Arial, Helvetica, sans-serif;
+    color: #1f6d42;
+}
+
+.main > p {
+    text-indent: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: justify;
+}
+
+.main > h2 {
+    font-family: 'idroid', Arial, Helvetica, sans-serif;
+    color: #1f6d42;
+}
+
+.android {
+    position: relative;
+    left: 20px;
+    width: 740px;
+    margin: auto;
+    
+}
+
+.irina-blok {
+    position: relative;
+    width: 760px;
+    left: 5px;
+}
+
+.bug-droid {
+    position: relative;
+    left: 220px;
+}
+
+video {
+    position: relative;
+    right: 15px;
+    width: 800px;
+}
+
+.extra {
+    background-color: #C5EBD6;
+    border-radius: 10px;border-radius: 10px;
+    
+}
+
+.extra > h2 {
+    padding: 6px;
+    text-align: left;
+    background-color: #2FA866;
+    color: white;
+    font-size: 18px;
+    border-radius: 10px 10px 0px 0px;
+    
+
+}
+
+ul {
+    position: relative;
+    padding: 0px 20px 0px 200px;
+    
+}
+
+.first-list {
+    display: inline-block;
+    padding: 0px 0px 0px 50px;
+    list-style-type: "✓ ";
+    font-weight: bolder;
+}
+
+.second-list {
+    display: inline-block;
+    list-style-type: "✓ ";
+    font-weight: bolder;
+    
+}
+
+.extra > p {
+    padding: 20px;
+    text-align: justify;
+}
+
+.paragrafo-final {
+    padding: 0px 0px 20px 0px;
+}
+
+
+.footer {
+    padding: 10px;
+    background-color: #1A5C38;
+    text-align: center;
+    color: white;
+   
+}
+
+.irina {
+    text-decoration: none;
+    font-weight: bolder;
+    color: #2FA866;
+}
+
+.google {
+    font-weight: bolder;
+    color: #2FA866;
+}

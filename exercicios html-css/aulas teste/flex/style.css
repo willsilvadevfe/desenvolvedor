@@ -1,0 +1,48 @@
+* {
+    margin: 0px;
+}
+
+body {
+    
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+}
+header{
+    background-color: rgba(2, 2, 2, 0.418);
+    height: 50px;
+    font-size: 2rem;
+    text-align: start;
+    padding: 10px 0px 30px 40px;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+.card {
+    padding: 20px 14px;
+    
+    
+}
+
+picture > img {
+    width: 300px;
+    transition-duration: 0.7s;
+    opacity: 0.5;
+    border-radius: 3px;
+    
+}
+
+picture > img:hover{
+    opacity: 1;
+    cursor: pointer;
+    width: 350px;
+    
+    
+}
+
+
+
