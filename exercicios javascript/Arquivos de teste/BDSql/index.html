@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+</head>
+<body>
+    <form action="config.php" method="post">
+        <div class="formulario">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" placeholder="Digite seu nome" id="nome" class="input" required>
+            <br><br>
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" placeholder="Digite seu CPF" id="cpf" class="input" required>
+            <br><br>
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" placeholder="Digite sua senha" id="senha" class="input" required>
+            <br><br>
+            <label for="senha">Repita sua senha:</label>
+            <input type="password" name="checksenha" placeholder="Repita sua senha" id="checksenha" class="input" required>
+            <button class="btn1" type="submit" name="cadastrar" id="cadastrar">Cadastrar</button>
+        </div>
+    </form>
+</body>
+</html>
