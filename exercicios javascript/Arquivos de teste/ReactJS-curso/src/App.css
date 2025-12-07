@@ -1,0 +1,15 @@
+
+
+.containerApp {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100dvh;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
