@@ -28,15 +28,24 @@
       //Exemplo: Razão 2 = sempre o próximo número multiplicado pela razão.
       //2, 4, 8, 16, 32... (2x2=4 2x4=8 2x8=16 2x16=32...)
 
-      const razao = parseInt(document.getElementById("razao"));
-      const sequencia = parseInt(document.getElementById("sequencia"));
-      const btn = document.getElementById("btn");
-      const resultado = document.getElementById("resultado");
+      // const razao = document.getElementById("razao");
+      // const sequencia = document.getElementById("sequencia");
+      // const btn = document.getElementById("btn");
+      // const resultado = document.getElementById("resultado");
 
-      function progGeo() {
-        let res = razao * sequencia;
-        resultado.innerHTML = res;
+      // btn.addEventListener("click", () => {
+      //});
+
+      function getPG(razao, sequencia, n = 1) {
+        console.log("getPG", n);
+        if (n * razao <= sequencia) {
+          return getPG(razao, sequencia, n * razao);
+        }
+        console.log("FIM getPG");
+        return n;
       }
+
+      console.log(getPG(2, 128))
     </script>
   </body>
 </html>
