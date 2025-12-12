@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fibonacci</title>
+  </head>
+  <body>
+    <script>
+    //   function Fibonacci(num) {
+    //     let n1 = 0;
+    //     for (let i = 0; i <= num; i++) {
+    //         n1++;
+    //       let res = n1 + i;
+    //     console.log(`Valor N1: ` + n1 + ' Valor i: ' + i + '   =   ' + res)
+    //     console.log(res)
+    //     }
+    //   }
+    //   console.log(Fibonacci(6));
+
+
+    function fibonacci(n) {
+  const seq = [0, 1];
+  for (let i = 2; i < n; i++) {
+    seq[i] = seq[i - 1] + seq[i - 2];
+  }
+  return seq;
+}
+
+console.log(fibonacci(10));
+    </script>
+  </body>
+</html>
