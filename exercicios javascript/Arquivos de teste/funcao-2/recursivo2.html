@@ -3,11 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recursivo 2</title>
+    <title>Recursivo</title>
   </head>
   <body>
+    <h1>Recursividade</h1>
+    <p>
+      Crie uma função que receba dois parâmetros inteiros positivos. O primeiro
+      será a razão da progressão geométrica e o segundo parâmetro será o limite
+      dessa sequência de números.
+    </p>
+    <p>
+      Essa função deve retornar o último número da prograssão geométrica de
+      razão <strong>N</strong> que seja menor que o limite.
+    </p>
+
     <script>
-      
+      let count1 = 0;
+
+      function getPG(razao, posicao) {
+        let result = 1;
+
+        for (let i = 1; i <= posicao; i++) {
+          count++;
+          result *= razao;
+        }
+        return result;
+      }
+
+      let count2 = 0;
+
+      function getPG2(razao, posicao) {
+        if (posicao === 0) {
+          console.log("posicao é 0");
+          return 1;
+        }
+        console.log("chamar a funcao getPG2 passando posicao");
+        return razao * getPG2(razao, posicao - 1);
+      }
+
+      console.log(getPG2(2, 5));
+      console.log(count2);
     </script>
   </body>
 </html>

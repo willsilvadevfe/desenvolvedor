@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Fatorial</h1>
+    <p>Crie uma função que receba um inteiro positivo e retorne o número fatorial. (O fatorial de um número n é o produto de todos os números inteiros positivos de 1 até n)</p>
+    <p>Exemplos: fatorial (5) deve retornar 120 (!5 = 1 * 2 * 3 * 4 * 5 = 120)</p>
+
+    <script>
+        let contador = 1
+
+        function fatorial(fator){
+            for(let i = 1; i <= fator;i++){
+                let res = contador *= i
+                console.log(res)
+            }
+        }
+
+        console.log(fatorial(7))
+
+        function fatorial2(n){
+            if(n < 2){
+                return 1
+            } else{
+                return n * fatorial2(n - 1)
+            }
+        }
+
+        console.log(fatorial2(7))
+
+
+    </script>
+</body>
+</html>
