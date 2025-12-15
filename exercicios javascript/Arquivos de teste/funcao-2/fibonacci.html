@@ -6,28 +6,42 @@
     <title>Fibonacci</title>
   </head>
   <body>
+
     <script>
-    //   function Fibonacci(num) {
-    //     let n1 = 0;
-    //     for (let i = 0; i <= num; i++) {
-    //         n1++;
-    //       let res = n1 + i;
-    //     console.log(`Valor N1: ` + n1 + ' Valor i: ' + i + '   =   ' + res)
-    //     console.log(res)
-    //     }
-    //   }
-    //   console.log(Fibonacci(6));
+      function fibo(n) {
+        let prev = 0;
+        let curr = 1;
 
+        for (let i = 2; i <= n; i++) {
+          let next = prev + curr;
+          prev = curr;
+          curr = next;
+        }
+      }
 
-    function fibonacci(n) {
-  const seq = [0, 1];
-  for (let i = 2; i < n; i++) {
-    seq[i] = seq[i - 1] + seq[i - 2];
-  }
-  return seq;
-}
+      console.log(fibo(3));
+      console.log(fibo(5));
 
-console.log(fibonacci(10));
+      //   function Fibonacci(num) {
+      //     let n1 = 0;
+      //     for (let i = 0; i <= num; i++) {
+      //         n1++;
+      //       let res = n1 + i;
+      //     console.log(`Valor N1: ` + n1 + ' Valor i: ' + i + '   =   ' + res)
+      //     console.log(res)
+      //     }
+      //   }
+      //   console.log(Fibonacci(6));
+
+      function fibonacci(n) {
+        const seq = [0, 1];
+        for (let i = 2; i < n; i++) {
+          seq[i] = seq[i - 1] + seq[i - 2];
+        }
+        return seq;
+      }
+
+      console.log(fibonacci(10));
     </script>
   </body>
 </html>
