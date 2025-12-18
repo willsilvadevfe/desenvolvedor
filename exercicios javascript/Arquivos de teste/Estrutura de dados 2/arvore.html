@@ -61,6 +61,42 @@
             return true;
           }
         }
+
+
+        remove(key){
+          this.root = this.#removeNode(this.root, key)
+        }
+
+        #removeNode(node, key){
+          if(node === null){
+            return null
+          }
+
+          if(key < node.key){
+            node.left = this.#removeNode(node.left, key)
+            return node
+          } else if(key > node.key){
+            node.right = this.#removeNode(node.right, key)
+            return node
+          } else{
+            // Nó folha (não tem filhos)
+            if (node.left === null && node.right === null){
+              node = null
+              return node
+            }
+
+            //Nó com apenas um filho
+            if (node.left === null){
+              node = node.right
+              return node
+            } else if(node.right === null){
+              node = node.left
+              return node
+            }
+
+            //Nó com 2 filhos
+          }
+        }
       }
 
       const bst = new BinarySearchTree();
