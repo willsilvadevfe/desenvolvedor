@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap"); /*Bebas Neue*/
+
+body,
+html {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.conteiner {
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: black;
+}
+
+p{
+    color: #fff;
+}
+h1{
+  font-family: "Bebas Neue", Arial, Helvetica, sans-serif;
+  font-size: 5em;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #fff;
+  padding: 10px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+
+
+.char {
+  transform: translateY(150px);
+  transition: transform 0.5s;
+}
