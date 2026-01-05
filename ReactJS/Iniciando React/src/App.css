@@ -1,0 +1,33 @@
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+img{
+  width: 100px;
+  margin: 20px 0px;
+}
+
+.img-svg{
+  padding: 10px;
+}
+
+.btnCount{
+  margin: 0px 10px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+
+
