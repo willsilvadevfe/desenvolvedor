@@ -2,6 +2,7 @@
 import "./App.css";
 // Components
 import FirstComponent from "./components/FirstComponent.jsx";
+import MyButton from "./components/MyButton.jsx";
 import TemplateExpressions from "./components/TemplateExpressions.jsx";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <h1>Meu app.jsx</h1>
       <FirstComponent />
       <TemplateExpressions />
+      <MyButton />
     </div>
   );
 }
