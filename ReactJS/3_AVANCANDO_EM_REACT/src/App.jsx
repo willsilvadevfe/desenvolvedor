@@ -1,5 +1,6 @@
 import "./App.css";
-import City2 from './assets/paisagem2.jpg'
+import City2 from "./assets/paisagem2.jpg";
+import ListRender from "./components/ListRender";
 import ManageData from "./components/ManageData";
 
 function App() {
@@ -14,10 +15,13 @@ function App() {
       <div>
         {/* Importação */}
         <h1>Imagens atráves de assets</h1>
-        <p>Precisa fazer o <strong>import</strong> do arquivo.</p>
+        <p>
+          Precisa fazer o <strong>import</strong> do arquivo.
+        </p>
         <img src={City2} alt="Paisagem-2" />
       </div>
       <ManageData />
+      <ListRender />
     </div>
   );
 }
