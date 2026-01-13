@@ -1,21 +1,18 @@
 import { useState } from "react";
 
 const ConditionalRender = () => {
-  const [x] = useState(true); //useState recebe true
+  const [x] = useState(true);
 
-  const [name] = useState("Willian")
   return (
     <div>
-      <h3>Isso será exibido?</h3>
-      {x && <p>Exibindo... true</p>} {/*Usar operador and (&&) e jsx para retorno de exibição */}
-      <h3>If condicional</h3>
-      {name === "Willian" ? (
+      <h3>Renderização de elementos</h3>
+      {x === true ? (
         <div>
-            <p>Seu nome é Willian.</p>
+          <p>Condição true, elemento sendo renderizado...</p>
         </div>
       ) : (
         <div>
-            <p>Nome não encontrado.</p>
+          <p>Não encontrado...</p>
         </div>
       )}
     </div>

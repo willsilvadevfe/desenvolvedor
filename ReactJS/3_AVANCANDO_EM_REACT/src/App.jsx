@@ -1,11 +1,16 @@
+import { useState } from "react";
 import "./App.css";
 import City2 from "./assets/paisagem2.jpg";
 import ConditionalRender from "./components/ConditionalRender";
 import ListRender from "./components/ListRender";
 import ManageData from "./components/ManageData";
-import TesteComponent from "./components/TesteComponent";
+import ShowUserName from "./components/ShowUserName";
+import ButtonOne from "./components/ButtonOne";
+import ButtonTwo from "./components/ButtonTwo";
 
 function App() {
+  const [userName] = useState("Wilhão");
+
   return (
     <div>
       <div>
@@ -25,6 +30,9 @@ function App() {
       <ManageData />
       <ListRender />
       <ConditionalRender />
+      <ShowUserName name={userName} />
+      <ButtonOne name="First button with props" />
+      <ButtonTwo name="Second button with props"/>
     </div>
   );
 }
