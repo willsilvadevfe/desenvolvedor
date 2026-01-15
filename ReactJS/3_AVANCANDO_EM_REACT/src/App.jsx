@@ -7,6 +7,8 @@ import ManageData from "./components/ManageData";
 import ShowUserName from "./components/ShowUserName";
 import ButtonOne from "./components/ButtonOne";
 import ButtonTwo from "./components/ButtonTwo";
+import TestUseState from "./components/TestUseState";
+import CarDetails from "./components/CarDetails";
 
 function App() {
   const [userName] = useState("Wilhão");
@@ -33,6 +35,11 @@ function App() {
       <ShowUserName name={userName} />
       <ButtonOne name="First button with props" />
       <ButtonTwo name="Second button with props"/>
+      <TestUseState />
+      <CarDetails brand="General Motors" km={45000} color="Branco" year={2022} newCar={false}/>
+      <CarDetails brand="VolksWagen" km={71000} color="Preto" year={2020} newCar={false}/>
+      <CarDetails brand="Honda" km={0} color="Cinza" year={2025} newCar={true}/>
+      <CarDetails brand="Hyundai" km={4000} color="Branco" year={2024} newCar={false}/>
     </div>
   );
 }
