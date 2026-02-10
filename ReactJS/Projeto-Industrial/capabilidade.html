@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Process Capability Analyzer | Unilateral & Bilateral</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.0"></script>
+    <script src="https://unpkg.com/simple-statistics@7.8.3/dist/simple-statistics.min.js"></script>
+</head>
+<body>
+
+<div class="dashboard">
+    <aside class="sidebar">
+        <h3>Configuração</h3>
+        
+        <div class="input-group">
+            <label>Valor das amostras</label>
+            <input type="number" id="val" step="any" placeholder="0.000" autofocus>
+        </div>
+
+        <div class="input-group">
+            <label>Dados inseridos (<span id="count">0</span>)</label>
+            <div class="data-log" id="list"></div>
+        </div>
+
+        <div class="input-group">
+            <label>LSL (TI) Tolerância Inferior</label>
+            <input type="number" id="lsl" step="any" placeholder="Opcional">
+        </div>
+
+        <div class="input-group">
+            <label>USL (TS) Tolerância Superior</label>
+            <input type="number" id="usl" step="any" placeholder="Obrigatório">
+        </div>
+
+        <button class="btn btn-primary" onclick="processData()">Gerar Análise</button>
+        <button class="btn btn-success" id="dl" style="display:none;" onclick="download()">Baixar Relatório (PNG)</button>
+        <button class="btn btn-outline" onclick="location.reload()">Reiniciar Análise</button>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-report">
+            <h2>Análise de Capabilidade do Processo</h2>
+            <p id="type-report">Selecione os limites e gere o relatório</p>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="capChart" width="850" height="520"></canvas>
+        </div>
+    </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
