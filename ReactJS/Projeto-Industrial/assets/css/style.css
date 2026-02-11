@@ -2,12 +2,18 @@
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
 }
 
 .conteiner {
   width: 100vw;
   height: 100dvh;
   background-color: #fff;
+  overflow: hidden;
+}
+
+img{
+  width: 10%;
 }
 
 header {
@@ -21,10 +27,9 @@ header {
 }
 
 section {
-    display: flex;
+  display: flex;
   width: 100vw;
   height: 90dvh;
   background-color: rgb(88, 135, 177);
 }
-
 

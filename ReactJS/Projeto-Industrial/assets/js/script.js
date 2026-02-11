@@ -16,8 +16,8 @@ function updateUI() {
     .map(
       (v, i) => `
         <div class="log-item">
-            <span><strong>#${i + 1}</strong></span>
-            <span>${v.toFixed(3)}</span>
+            <span>Amostra&nbsp;<strong>${i + 1}</strong>:</span>
+            <span>&nbsp;Valor inserido:&nbsp;<strong>${v.toFixed(3)}</strong></span>
             <button style="border:none; background:none; color:red; cursor:pointer;" onclick="remove(${i})">✕</button>
         </div>
     `,
@@ -32,6 +32,7 @@ function remove(index) {
 }
 
 function processData() {
+  const lslInput = document.getElementById("lsl").value;
   const uslInput = document.getElementById("usl").value;
   if (dataPoints.length < 3 || uslInput === "") {
     return Swal.fire({
@@ -43,6 +44,20 @@ function processData() {
       confirmButtonColor: "#0d6efd",
     });
   }
+
+  if(lslInput > uslInput || uslInput === lslInput){
+     Swal.fire({
+      icon: "error",
+      title: "Não foi possível prosseguir",
+      html: "<div> <p>Verifique as tolerâncias inseridas. A <strong>tolerância superior (TS)</strong> não deve ser menor ou igual do que a <strong>tolerância inferior (TI).</strong></p></div>",
+      confirmButton: "btn btn-primary px-4",
+      iconColor: "#dc3545",
+      confirmButtonColor: "#0d6efd",
+    });
+    return
+  }
+
+
 
   const USL = parseFloat(uslInput);
   const LSL =
@@ -80,13 +95,14 @@ function processData() {
 
     outOfSpec += dataPoints.filter((v) => v < LSL).length;
     document.getElementById("type-report").innerText =
-      "Análise Bilateral (TI e TS)";
+      "Estudo de capabilidade com análise bileteral (Tolerância Superior e Tolerância Inferior)";
+      
   } else {
     // Unilateral Superior apenas
     Cpk = (USL - mean) / (3 * stdevS);
     Ppk = (USL - mean) / (3 * stdevP);
     document.getElementById("type-report").innerText =
-      "Análise Unilateral (Apenas TS)";
+      "Estudo de capabilidade com análise unilateral (Tolerância Superior)";
   }
 
   const stats = {
