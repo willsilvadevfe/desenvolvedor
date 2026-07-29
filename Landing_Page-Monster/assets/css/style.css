@@ -39,6 +39,7 @@
 
 body {
   background: var(--bg-void);
+  overflow-x: hidden;
   
 }
 
@@ -47,6 +48,7 @@ body {
 .container-page {
   overflow-x: hidden;
   width: 100vw;
+  
 }
 
 /* Foco visível (acessibilidade) */
