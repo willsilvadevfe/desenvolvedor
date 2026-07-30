@@ -25,10 +25,45 @@
         <p><strong>Email:</strong> teste@teste.com</p>
         <button id="fecharModal">Fechar</button>
       </dialog>
+
+      <!-- Acordeão sem JavaScript com details -->
+      <details>
+        <summary>Perguntas frequentes</summary>
+        <h3>Lorem ipsum, dolor sit amet consectetur reiciendis ipsa?</h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam
+          impedit consequuntur vero odio nobis fugit veritatis amet distinctio
+          vel doloribus commodi sint mollitia, repudiandae dolor fugiat,
+          perspiciatis fuga expedita atque!
+        </p>
+        <h3>Lorem ipsum, dolor sit amet consectetur reiciendis ipsa?</h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam
+          impedit consequuntur vero odio nobis fugit veritatis amet distinctio
+          vel doloribus commodi sint mollitia, repudiandae dolor fugiat,
+          perspiciatis fuga expedita atque!
+        </p>
+        <h3>Lorem ipsum, dolor sit amet consectetur reiciendis ipsa?</h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam
+          impedit consequuntur vero odio nobis fugit veritatis amet distinctio
+          vel doloribus commodi sint mollitia, repudiandae dolor fugiat,
+          perspiciatis fuga expedita atque!
+        </p>
+      </details>
+
+      <!-- inputs -->
+      <input type="date" />
+      <input type="color" />
+      <input type="time" />
+      <input type="range" /><br />
+
+      <!-- Com o atributo popover, você cria menus, caixas flutuantes e pequenos pop-ups de forma nativa, sem bibliotecas -->
+      <button popovertarget="menu">Abrir menu</button>
+      <div id="menu" popover>Meu menu</div>
     </div>
 
     <script>
-
       //Abrir e fechar Modal
       const btnModal = document.getElementById("btnModal");
       const Modal = document.getElementById("Modal");
@@ -41,7 +76,6 @@
       fecharModal.addEventListener("click", () => {
         Modal.close();
       });
-      
     </script>
   </body>
 </html>
