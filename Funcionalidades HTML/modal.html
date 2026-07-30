@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modal</title>
+  </head>
+  <style>
+    /* #modal::backdrop, quando o modal é aberto, background da página muda de cor... */
+    #modal::backdrop{
+        background-color: rgba(0, 0, 0, 0.692);
+    }
+  </style>
+  <body>
+    <!-- Modal sem JavaScript -->
+
+    <dialog id="modal">
+      <!-- <dialog> tudo que fica dentro do modal quando é aberto -->
+      <h3>Modal aberto!</h3>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos non animi
+        aliquid esse eveniet ea iure beatae laborum laboriosam debitis, iusto,
+        iste, ab doloribus. Modi nobis fugiat voluptatem sapiente tempora.
+      </p>
+      <button commandfor="modal" command="close">X</button
+      ><!-- botão que fecha modal -->
+    </dialog>
+
+    <button commandfor="modal" command="show-modal">Abrir formulário</button
+    ><!-- botão que abre modal fora da tag dialog -->
+  </body>
+</html>
