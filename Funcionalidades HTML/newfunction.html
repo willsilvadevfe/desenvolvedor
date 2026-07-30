@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Function HTML</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- contenteditable="true" > deixa o usuário editar essa caixa de texto -->
+      <p contenteditable="true">
+        Usuário pode clicar nesse paragráfo no front end e editar o texto
+        escrito aqui.
+      </p>
+
+      <!-- Atributo "download" dentro de <a> cria um link para baixar o arquivo definido em href -->
+      <a href="test.png" download="">Baixar imagem</a>
+
+      <!-- Permite criar um modal com a tag dialog, precisa de javascript apenas para abrir e fechar caixa modal -->
+      <button id="btnModal">Informações</button>
+      <dialog id="Modal">
+        <h3>Entre em contato conosco:</h3>
+        <p><strong>Telefone:</strong> (99)00000-0000</p>
+        <p><strong>WhatsApp:</strong> (99)11111-1111</p>
+        <p><strong>Email:</strong> teste@teste.com</p>
+        <button id="fecharModal">Fechar</button>
+      </dialog>
+    </div>
+
+    <script>
+
+      //Abrir e fechar Modal
+      const btnModal = document.getElementById("btnModal");
+      const Modal = document.getElementById("Modal");
+      const fecharModal = document.getElementById("fecharModal");
+
+      btnModal.addEventListener("click", () => {
+        Modal.showModal();
+      });
+
+      fecharModal.addEventListener("click", () => {
+        Modal.close();
+      });
+      
+    </script>
+  </body>
+</html>
