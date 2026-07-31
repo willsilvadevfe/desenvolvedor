@@ -1,0 +1,12 @@
+div{
+    display: flex;
+    
+}
+
+#modal{
+    width: 40rem;
+    background-color: rgba(130, 133, 133, 0.856);
+    border-radius: 20px;
+    border: 1px solid black;
+    box-shadow: 1px 1px 12px 2px beige;
+}
