@@ -1,9 +1,14 @@
 @charset "UTF-8";
 @media only screen and (max-width: 600px) {
  /* HERO */
+ .gen-logo img {
+  width: 20%;
+}
+
 .section-hero{
   flex-direction: column;
   padding: 20px;
+  overflow-x: hidden;
 }
 
 .hero{
@@ -30,6 +35,7 @@
 .espaco{
   flex-direction: column;
   padding: 20px;
+  overflow-x: hidden;
 }
 
 .espaco-texto{
@@ -71,7 +77,8 @@
 .experiencia{
   flex-direction: column;
   padding: 0px 20px;
-  height: 135dvh;
+  height: 145dvh;
+  overflow-x: hidden;
 }
 
 .experiencia-texto{
@@ -142,6 +149,10 @@
 
 @media (min-width: 601px) and (max-width: 768px) {
   /* HERO */
+.gen-logo img {
+  width: 20%;
+}
+
 .section-hero{
   flex-direction: column;
   padding: 20px;
