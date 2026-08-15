@@ -98,7 +98,9 @@
 
 /* PROGRESS / BENEFICIOS */
 .area-progresso{
+  overflow-x: hidden;
   padding: 0px 20px;
+  width: 100%;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
@@ -127,7 +129,7 @@
 }
 
 .progresso progress{
-  max-width: 320px;
+  width: 90%;
 }
 
 
