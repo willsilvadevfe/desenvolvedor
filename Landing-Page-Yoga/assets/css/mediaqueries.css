@@ -127,7 +127,7 @@
 }
 
 .progresso progress{
-  width: 380px;
+  max-width: 320px;
 }
 
 
