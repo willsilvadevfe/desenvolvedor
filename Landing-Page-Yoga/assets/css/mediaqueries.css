@@ -1,4 +1,14 @@
 @charset "UTF-8";
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 @media only screen and (max-width: 600px) {
   /* HERO */
   .gen-logo img {
@@ -8,6 +18,7 @@
   .section-hero {
     flex-direction: column;
     padding: 20px;
+    max-width: 100%;
     overflow-x: hidden;
   }
 
@@ -15,6 +26,7 @@
     flex-direction: column;
     align-items: center;
     gap: 60px;
+    max-width: 100%;
   }
 
   .hero h1 {
@@ -35,6 +47,7 @@
   .espaco {
     flex-direction: column;
     padding: 20px;
+    max-width: 100%;
     overflow-x: hidden;
   }
 
@@ -42,6 +55,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 100%;
   }
 
   .espaco-texto h2 {
@@ -58,7 +72,7 @@
   .espaco-texto p {
     font-size: 1.2rem;
     font-weight: 200;
-    max-width: 800px;
+    max-width: 100%;
     font-family: var(--font-body);
   }
 
@@ -70,6 +84,8 @@
 
   .slideshow-container {
     text-align: center;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   /* EXPERIENCIA */
@@ -77,17 +93,24 @@
     flex-direction: column;
     padding: 0px 20px;
     height: 145dvh;
+    max-width: 100%;
     overflow-x: hidden;
+  }
+
+  .experiencia-img {
+    display: none;
   }
 
   .experiencia-texto {
     flex-direction: column;
     gap: 20px;
+    max-width: 100%;
   }
 
   .experiencia-texto h2 {
     font-size: 2.2rem;
     line-height: 2.2rem;
+    max-width: 100%;
   }
 
   .experiencia-texto p {
@@ -100,16 +123,30 @@
     width: 100%;
     max-width: 100%;
     padding: 0 20px;
-    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-x: hidden;
+  }
+
+  .progresso-img{
+    display: none;
   }
 
   .area-progresso-texto {
     width: 100%;
     max-width: 100%;
+  }
+
+  .area-progresso-texto h2{
+    font-size: 2.2rem;
+    line-height: 2rem;
+  }
+
+  .area-progresso-texto p{
+    font-size: 1.2rem;
+    line-height: 2rem;
   }
 
   .progresso {
@@ -126,6 +163,8 @@
   /* MARCAR AVALIAÇÃO */
   .avaliacao {
     padding: 0px 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .avaliacao-texto h2 {
@@ -147,12 +186,15 @@
   .section-hero {
     flex-direction: column;
     padding: 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .hero {
     flex-direction: column;
     align-items: center;
     gap: 70px;
+    max-width: 100%;
   }
 
   .hero h1 {
@@ -173,12 +215,15 @@
   .espaco {
     flex-direction: column;
     padding: 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .espaco-texto {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 100%;
   }
 
   .espaco-texto h2 {
@@ -188,7 +233,7 @@
   .espaco-texto p {
     font-size: 1.3rem;
     font-weight: 200;
-    max-width: 800px;
+    max-width: 100%;
     font-family: var(--font-body);
   }
 
@@ -200,51 +245,68 @@
 
   .slideshow-container {
     text-align: center;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   /* EXPERIENCIA */
   .experiencia {
     flex-direction: column;
     padding: 0px 20px;
-    height: 115dvh;
+    height: 100dvh;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .experiencia-texto {
     flex-direction: column;
     gap: 30px;
+    max-width: 100%;
   }
 
   .experiencia-texto h2 {
     font-size: 4rem;
     line-height: 3.5rem;
+    max-width: 100%;
   }
 
   .experiencia-texto p {
     font-size: 1.3rem;
   }
 
+  .progresso-img{
+    display: none;
+  }
+
   /* PROGRESS / BENEFICIOS */
   .area-progresso {
     padding: 0px 20px;
+    max-width: 100%;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
     justify-content: space-around;
+    overflow-x: hidden;
   }
 
   .area-progresso-texto h2 {
-    max-width: 800px;
+    max-width: 100%;
     font-size: 4rem;
     line-height: 3.5rem;
   }
 
   .area-progresso-texto p {
     font-size: 1.3rem;
-    max-width: 500px;
+    max-width: 100%;
   }
 
   .progresso-img {
     display: none;
+  }
+
+  .progresso {
+    max-width: 100%;
+    min-width: 0;
   }
 
   .progresso span {
@@ -254,12 +316,15 @@
   }
 
   .progresso progress {
-    width: 550px;
+    width: 100%;
+    max-width: 550px;
   }
 
   /* MARCAR AVALIAÇÃO */
   .avaliacao {
     padding: 0px 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .avaliacao-texto h2 {
@@ -277,12 +342,15 @@
   .section-hero {
     flex-direction: column;
     padding: 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .hero {
     flex-direction: column;
     align-items: center;
     gap: 70px;
+    max-width: 100%;
   }
 
   .hero h1 {
@@ -296,6 +364,7 @@
 
   .hero-img {
     display: block;
+    max-width: 100%;
   }
 
   /* NOSSO ESPAÇO */
@@ -304,12 +373,15 @@
     flex-direction: column;
     padding: 20px;
     height: 110dvh;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .espaco-texto {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 100%;
   }
 
   .espaco-texto h2 {
@@ -319,7 +391,7 @@
   .espaco-texto p {
     font-size: 1.5rem;
     font-weight: 200;
-    max-width: 800px;
+    max-width: 100%;
     font-family: var(--font-body);
     margin-bottom: 20px;
   }
@@ -328,10 +400,13 @@
 
   .text {
     left: 230px;
+    max-width: calc(100% - 230px);
   }
 
   .slideshow-container {
     text-align: center;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   /* EXPERIENCIA */
@@ -339,16 +414,20 @@
     flex-direction: column;
     padding: 0px 20px;
     height: 120dvh;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .experiencia-texto {
     flex-direction: column;
     gap: 30px;
+    max-width: 100%;
   }
 
   .experiencia-texto h2 {
     font-size: 5rem;
     line-height: 4rem;
+    max-width: 100%;
   }
 
   .experiencia-texto p {
@@ -358,25 +437,32 @@
   /* PROGRESS / BENEFICIOS */
   .area-progresso {
     padding: 0px 20px;
+    max-width: 100%;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
     justify-content: space-around;
+    overflow-x: hidden;
   }
 
   .area-progresso-texto h2 {
-    max-width: 800px;
+    max-width: 100%;
     font-size: 5rem;
     line-height: 4rem;
   }
 
   .area-progresso-texto p {
     font-size: 1.5rem;
-    max-width: 500px;
+    max-width: 100%;
   }
 
   .progresso-img {
     display: none;
+  }
+
+  .progresso {
+    max-width: 100%;
+    min-width: 0;
   }
 
   .progresso span {
@@ -386,12 +472,15 @@
   }
 
   .progresso progress {
-    width: 650px;
+    width: 100%;
+    max-width: 650px;
   }
 
   /* MARCAR AVALIAÇÃO */
   .avaliacao {
     padding: 0px 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .avaliacao-texto h2 {
@@ -409,12 +498,15 @@
   .section-hero {
     flex-direction: column;
     padding: 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .hero {
     flex-direction: column;
     align-items: center;
     gap: 70px;
+    max-width: 100%;
   }
 
   .hero h1 {
@@ -428,6 +520,7 @@
 
   .hero-img {
     display: block;
+    max-width: 100%;
   }
 
   /* NOSSO ESPAÇO */
@@ -436,12 +529,15 @@
     flex-direction: column;
     padding: 20px;
     height: 110dvh;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .espaco-texto {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 100%;
   }
 
   .espaco-texto h2 {
@@ -451,7 +547,7 @@
   .espaco-texto p {
     font-size: 1.5rem;
     font-weight: 200;
-    max-width: 800px;
+    max-width: 100%;
     font-family: var(--font-body);
     margin-bottom: 20px;
   }
@@ -460,11 +556,14 @@
 
   .text {
     left: 230px;
+    max-width: calc(100% - 230px);
   }
 
   .slideshow-container {
     text-align: center;
     width: 90%;
+    max-width: 90%;
+    overflow: hidden;
   }
 
   /* EXPERIENCIA */
@@ -472,16 +571,20 @@
     flex-direction: column;
     padding: 0px 20px;
     height: 120dvh;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .experiencia-texto {
     flex-direction: column;
     gap: 30px;
+    max-width: 100%;
   }
 
   .experiencia-texto h2 {
     font-size: 5rem;
     line-height: 4rem;
+    max-width: 100%;
   }
 
   .experiencia-texto p {
@@ -491,25 +594,32 @@
   /* PROGRESS / BENEFICIOS */
   .area-progresso {
     padding: 0px 20px;
+    max-width: 100%;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
     justify-content: space-around;
+    overflow-x: hidden;
   }
 
   .area-progresso-texto h2 {
-    max-width: 800px;
+    max-width: 100%;
     font-size: 5rem;
     line-height: 4rem;
   }
 
   .area-progresso-texto p {
     font-size: 1.5rem;
-    max-width: 500px;
+    max-width: 100%;
   }
 
   .progresso-img {
     display: none;
+  }
+
+  .progresso {
+    max-width: 100%;
+    min-width: 0;
   }
 
   .progresso span {
@@ -519,12 +629,15 @@
   }
 
   .progresso progress {
-    width: 650px;
+    width: 100%;
+    max-width: 650px;
   }
 
   /* MARCAR AVALIAÇÃO */
   .avaliacao {
     padding: 0px 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .avaliacao-texto h2 {
@@ -542,12 +655,15 @@
   .section-hero {
     flex-direction: column;
     padding: 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .hero {
     flex-direction: column;
     align-items: center;
     gap: 70px;
+    max-width: 100%;
   }
 
   .hero h1 {
@@ -561,6 +677,7 @@
 
   .hero-img {
     display: block;
+    max-width: 100%;
   }
 
   /* NOSSO ESPAÇO */
@@ -569,12 +686,15 @@
     flex-direction: column;
     padding: 20px;
     height: 110dvh;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .espaco-texto {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 100%;
   }
 
   .espaco-texto h2 {
@@ -584,7 +704,7 @@
   .espaco-texto p {
     font-size: 1.5rem;
     font-weight: 200;
-    max-width: 800px;
+    max-width: 100%;
     font-family: var(--font-body);
     margin-bottom: 20px;
   }
@@ -593,11 +713,14 @@
 
   .text {
     left: 230px;
+    max-width: calc(100% - 230px);
   }
 
   .slideshow-container {
     width: 65%;
+    max-width: 65%;
     text-align: center;
+    overflow: hidden;
   }
 
   /* EXPERIENCIA */
@@ -605,11 +728,14 @@
     flex-direction: column;
     padding: 0px 20px;
     height: 120dvh;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .experiencia-texto {
     flex-direction: column;
     gap: 30px;
+    max-width: 100%;
   }
 
   .experiencia-texto h2 {
@@ -624,25 +750,32 @@
   /* PROGRESS / BENEFICIOS */
   .area-progresso {
     padding: 0px 20px;
+    max-width: 100%;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
     justify-content: space-around;
+    overflow-x: hidden;
   }
 
   .area-progresso-texto h2 {
-    max-width: 800px;
+    max-width: 100%;
     font-size: 5rem;
     line-height: 4rem;
   }
 
   .area-progresso-texto p {
     font-size: 1.5rem;
-    max-width: 500px;
+    max-width: 100%;
   }
 
   .progresso-img {
     display: none;
+  }
+
+  .progresso {
+    max-width: 100%;
+    min-width: 0;
   }
 
   .progresso span {
@@ -652,12 +785,15 @@
   }
 
   .progresso progress {
-    width: 650px;
+    width: 100%;
+    max-width: 650px;
   }
 
   /* MARCAR AVALIAÇÃO */
   .avaliacao {
     padding: 0px 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .avaliacao-texto h2 {
@@ -674,12 +810,15 @@
   .section-hero {
     flex-direction: row;
     padding: 0px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .hero {
     flex-direction: column;
     align-items: center;
     gap: 70px;
+    max-width: 100%;
   }
 
   .hero h1 {
@@ -693,6 +832,7 @@
 
   .hero-img {
     display: block;
+    max-width: 100%;
   }
 
   /* NOSSO ESPAÇO */
@@ -701,12 +841,15 @@
     flex-direction: row;
     padding: 0px 20px;
     height: 110dvh;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .espaco-texto {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 100%;
   }
 
   .espaco-texto h2 {
@@ -725,11 +868,14 @@
 
   .text {
     left: 230px;
+    max-width: calc(100% - 230px);
   }
 
   .slideshow-container {
     width: 70%;
+    max-width: 70%;
     text-align: center;
+    overflow: hidden;
   }
 
   /* EXPERIENCIA */
@@ -737,11 +883,14 @@
     flex-direction: row;
     padding: 0px 20px;
     height: 120dvh;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .experiencia-texto {
     flex-direction: column;
     gap: 30px;
+    max-width: 100%;
   }
 
   .experiencia-texto h2 {
@@ -756,10 +905,12 @@
   /* PROGRESS / BENEFICIOS */
   .area-progresso {
     padding: 0px 20px;
+    max-width: 100%;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
     justify-content: space-around;
+    overflow-x: hidden;
   }
 
   .area-progresso-texto h2 {
@@ -775,6 +926,12 @@
 
   .progresso-img {
     display: block;
+    max-width: 100%;
+  }
+
+  .progresso {
+    max-width: 100%;
+    min-width: 0;
   }
 
   .progresso span {
@@ -784,12 +941,15 @@
   }
 
   .progresso progress {
-    width: 650px;
+    width: 100%;
+    max-width: 650px;
   }
 
   /* MARCAR AVALIAÇÃO */
   .avaliacao {
     padding: 0px 20px;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .avaliacao-texto h2 {
