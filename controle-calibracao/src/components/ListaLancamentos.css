@@ -1,0 +1,134 @@
+.lista {
+  background-color: var(--cor-cartao);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-cartao);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.lista-vazia {
+  background-color: var(--cor-cartao);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-cartao);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  color: var(--cor-texto-suave);
+  text-align: center;
+}
+
+.lista-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.lista-total {
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+}
+
+.lista-tabela-wrapper {
+  overflow-x: auto;
+}
+
+.lista-tabela {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.lista-tabela th {
+  text-align: left;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--cor-texto-suave);
+  padding: 0.6rem 0.75rem;
+  border-bottom: 2px solid var(--cor-borda);
+  white-space: nowrap;
+}
+
+.lista-tabela td {
+  padding: 0.7rem 0.75rem;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.selo-status {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.selo-status-verde {
+  background-color: var(--cor-verde-fundo);
+  color: var(--cor-verde);
+}
+.selo-status-amarelo {
+  background-color: var(--cor-amarelo-fundo);
+  color: var(--cor-amarelo);
+}
+.selo-status-vermelho {
+  background-color: var(--cor-vermelho-fundo);
+  color: var(--cor-vermelho);
+}
+
+.botao-remover {
+  background: none;
+  border: 1px solid var(--cor-vermelho);
+  color: var(--cor-vermelho);
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.botao-remover:hover {
+  background-color: var(--cor-vermelho-fundo);
+}
+
+/* Abaixo de 700px, a tabela vira uma lista de "cards": cada linha
+   passa a ser um bloco, e cada célula mostra seu próprio rótulo
+   (via atributo data-rotulo), em vez de depender do cabeçalho. */
+@media (max-width: 700px) {
+  .lista-tabela thead {
+    display: none;
+  }
+
+  .lista-tabela,
+  .lista-tabela tbody,
+  .lista-tabela tr,
+  .lista-tabela td {
+    display: block;
+    width: 100%;
+  }
+
+  .lista-tabela tr {
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .lista-tabela td {
+    border-bottom: none;
+    padding: 0.35rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .lista-tabela td[data-rotulo]::before {
+    content: attr(data-rotulo);
+    font-weight: 600;
+    color: var(--cor-texto-suave);
+    font-size: 0.75rem;
+  }
+
+  .lista-tabela td[data-rotulo='']::before {
+    content: '';
+  }
+}
