@@ -7,45 +7,49 @@ import { gerarArquivoCSV, baixarCSV } from './services/csvService';
 import { enviarRelatorioPorEmail } from './services/emailService';
 import { calcularStatus, STATUS } from './utils/statusCalibracao';
 import { obterDataHoraAtualFormatada } from './utils/formatarData';
+import { LINHAS } from './data/opcoes';
 import './App.css';
 
-// Contador simples para gerar um "id" único por lançamento, sem
-// precisar de biblioteca. Fica fora do componente para não ser
-// reiniciado a cada nova renderização.
 let proximoId = 1;
 
 function App() {
-  // registros: a lista de instrumentos lançados NA SESSÃO ATUAL.
-  // É só um array em memória — não é salvo em nenhum lugar. Se a
-  // página for recarregada, a lista some (é assim mesmo, de propósito).
   const [registros, setRegistros] = useState([]);
 
-  // Nome de quem está lançando os instrumentos. Pedido uma única vez
-  // por sessão — também some se a página recarregar, igual aos registros.
+  // Nome e Linha: pedidos uma única vez por sessão, igual como já
+  // funcionava com o nome. Ambos somem se a página recarregar.
   const [nomeUsuario, setNomeUsuario] = useState('');
   const [nomeTemporario, setNomeTemporario] = useState('');
+  const [linhaSelecionada, setLinhaSelecionada] = useState('');
+  const [linhaTemporaria, setLinhaTemporaria] = useState('');
 
   const [mensagemSucesso, setMensagemSucesso] = useState('');
   const [avisoSemRegistros, setAvisoSemRegistros] = useState(false);
 
   const [modalAberto, setModalAberto] = useState(false);
-  // 'idle' | 'enviando' | 'sucesso' | 'erro'
   const [statusEnvio, setStatusEnvio] = useState('idle');
   const [arquivoGerado, setArquivoGerado] = useState(null);
 
-  // Confirma o nome digitado na tela de identificação e libera o
-  // restante do app. Só avança se o campo não estiver vazio.
-  function confirmarNome(evento) {
+  const identificacaoCompleta = Boolean(nomeUsuario && linhaSelecionada);
+
+  // Confirma nome + linha da tela de identificação e libera o
+  // restante do app. Só avança se os dois campos estiverem preenchidos.
+  function confirmarIdentificacao(evento) {
     evento.preventDefault();
     const nomeLimpo = nomeTemporario.trim();
-    if (nomeLimpo) {
+    if (nomeLimpo && linhaTemporaria) {
       setNomeUsuario(nomeLimpo);
+      setLinhaSelecionada(linhaTemporaria);
     }
   }
 
   // Chamada pelo FormularioLancamento quando um lançamento é válido.
   function adicionarRegistro(dados) {
-    const novoRegistro = { id: proximoId++, nome: nomeUsuario, ...dados };
+    const novoRegistro = {
+      id: proximoId++,
+      nome: nomeUsuario,
+      linha: linhaSelecionada,
+      ...dados,
+    };
     setRegistros((anteriores) => [...anteriores, novoRegistro]);
 
     setMensagemSucesso(
@@ -54,13 +58,10 @@ function App() {
     setTimeout(() => setMensagemSucesso(''), 3500);
   }
 
-  // Chamada pela ListaLancamentos quando o usuário clica em "Remover".
   function removerRegistro(id) {
     setRegistros((anteriores) => anteriores.filter((registro) => registro.id !== id));
   }
 
-  // Conta quantos registros estão em cada status, para exibir no
-  // resumo e enviar no corpo do e-mail.
   function calcularResumo() {
     const totais = { total: registros.length, validos: 0, alerta: 0, vencidos: 0 };
 
@@ -84,8 +85,6 @@ function App() {
     setModalAberto(true);
   }
 
-  // Gera o CSV e envia por e-mail. É chamada tanto no primeiro clique
-  // em "Finalizar relatório" quanto no botão "Tentar novamente".
   async function confirmarFinalizacao() {
     setStatusEnvio('enviando');
 
@@ -110,8 +109,6 @@ function App() {
     }
   }
 
-  // Só limpa os registros quando o usuário confirma que quer
-  // começar um novo relatório — nunca automaticamente em caso de erro.
   function iniciarNovoRelatorio() {
     setRegistros([]);
     setModalAberto(false);
@@ -120,7 +117,7 @@ function App() {
   }
 
   function fecharModal() {
-    if (statusEnvio === 'enviando') return; // evita fechar durante o envio
+    if (statusEnvio === 'enviando') return;
     setModalAberto(false);
   }
 
@@ -129,8 +126,8 @@ function App() {
       <Header totalLancamentos={registros.length} />
 
       <main className="conteudo">
-        {!nomeUsuario ? (
-          <form className="formulario formulario-identificacao" onSubmit={confirmarNome}>
+        {!identificacaoCompleta ? (
+          <form className="formulario formulario-identificacao" onSubmit={confirmarIdentificacao}>
             <div className="campo">
               <label htmlFor="nomeUsuario">Seu nome</label>
               <input
@@ -142,6 +139,23 @@ function App() {
                 autoFocus
               />
             </div>
+
+            <div className="campo">
+              <label htmlFor="linhaSelecionada">Linha</label>
+              <select
+                id="linhaSelecionada"
+                value={linhaTemporaria}
+                onChange={(e) => setLinhaTemporaria(e.target.value)}
+              >
+                <option value="">Selecione...</option>
+                {LINHAS.map((linha) => (
+                  <option key={linha} value={linha}>
+                    {linha}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <button type="submit" className="botao botao-lancar">
               Continuar
             </button>
@@ -158,7 +172,7 @@ function App() {
 
             {avisoSemRegistros && (
               <div className="alerta alerta-erro" role="alert">
-                Nenhum instrumento foi lançado. Realize pelo menos um lançamento antes de
+                Nenhum relógio foi lançado. Realize pelo menos um lançamento antes de
                 finalizar o relatório.
               </div>
             )}

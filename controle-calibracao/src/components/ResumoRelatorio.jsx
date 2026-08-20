@@ -8,7 +8,7 @@ function ResumoRelatorio({ resumo }) {
   return (
     <div className="resumo-relatorio">
       <div className="resumo-linha resumo-total">
-        <span>Total de instrumentos</span>
+        <span>Total de relógios</span>
         <strong>{resumo.total}</strong>
       </div>
       <div className="resumo-linha">

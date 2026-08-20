@@ -1,7 +1,3 @@
-// Todas as opções dos campos "select" ficam aqui.
-// Se um dia precisar adicionar/remover um tipo de objeto, um setor
-// ou um responsável, este é o único arquivo que precisa ser editado.
-
 export const LINHAS = [
   "Linha 01",
   "Linha 02",
@@ -25,21 +21,19 @@ export const LINHAS = [
   "Cromadora",
 ];
 
-export const RESPONSAVEIS = ["João Silva", "Maria Souza", "Carlos Pereira"];
-
-const NOMES_MESES = [
-  "Janeiro",
-  "Fevereiro",
-  "Março",
-  "Abril",
-  "Maio",
-  "Junho",
-  "Julho",
-  "Agosto",
-  "Setembro",
-  "Outubro",
-  "Novembro",
-  "Dezembro",
+const MESES = [
+  "01",
+  "02",
+  "03",
+  "04",
+  "05",
+  "06",
+  "07",
+  "08",
+  "09",
+  "10",
+  "11",
+  "12",
 ];
 
 export const SETORES = [
@@ -47,6 +41,9 @@ export const SETORES = [
   "15G",
   "15S",
   "15A",
+  "15AC",
+  "15AN",
+  "15P",
   "18D",
   "18DS",
   "18F",
@@ -59,7 +56,7 @@ export const SETORES = [
   "25",
   "Tempera",
   "Cromadora",
-  "Bancada (Ponta de Linha)",
+  "Ponta de Linha",
   "Visual",
 ];
 
@@ -71,9 +68,41 @@ export const opcoesPorTipo = {
     "Esquadro do topo",
   ],
 
-  "15G": ["Diâmetro da haste", "Ovalização da haste"],
-  "15S": ["Diâmetro da haste", "Ovalização da haste"],
-  "15A": ["Diâmetro da haste", "Ovalização da haste"],
+  "15G": [
+    "Diâmetro da haste",
+    "Ovalização da haste",
+    "Diâmetro do rebaixo",
+    "Diâmetro do ressalto",
+  ],
+  "15S": [
+    "Diâmetro da haste",
+    "Ovalização da haste",
+    "Diâmetro do rebaixo",
+    "Diâmetro do ressalto",
+  ],
+  "15A": [
+    "Diâmetro da haste",
+    "Ovalização da haste",
+    "Diâmetro do rebaixo",
+    "Diâmetro do ressalto",
+  ],
+  "15AC": [
+    "Diâmetro da haste",
+    "Ovalização da haste",
+    "Diâmetro do rebaixo",
+    "Diâmetro do ressalto",
+  ],
+  "15AN": [
+    "Diâmetro da haste",
+    "Ovalização da haste",
+    "Diâmetro do rebaixo",
+    "Diâmetro do ressalto",
+  ],
+  "15P": [
+    "Diâmetro do rebaixo",
+    "Comprimento do rebaixo",
+    "Ovalização do rebaixo",
+  ],
 
   "18D": ["Diâmetro da cabeça", "Batimento da cabeça"],
 
@@ -83,6 +112,7 @@ export const opcoesPorTipo = {
     "Batimento do canal de solda",
     "Comprimento Filete/Ponta",
     "Espessura do Filete",
+    "Diâmetro interno",
   ],
 
   "18F": [
@@ -127,6 +157,7 @@ export const opcoesPorTipo = {
     "Espessura da cabeça",
     "Comprimento Face/Ponta",
     "Profundidade da depressão",
+    "Esquadro da face",
   ],
 
   "15PC": [
@@ -150,9 +181,9 @@ export const opcoesPorTipo = {
     "Batimento da Sede",
   ],
 
-  Tempera: ["Batimento da ponta"],
+  Tempera: ["Empenamento da ponta"],
 
-  "Bancada (Ponta de Linha)": [
+  "Ponta de Linha": [
     "Diâmetro da cabeça",
     "Espessura da margem",
     "Comprimento Sede/Ponta",
@@ -161,6 +192,7 @@ export const opcoesPorTipo = {
     "Diâmetro da haste",
     "Batimento da sede",
     "Diâmetro do rebaixo",
+    "Esquadro do topo",
   ],
 
   Visual: [
@@ -172,6 +204,7 @@ export const opcoesPorTipo = {
     "Diâmetro da haste",
     "Batimento da sede",
     "Diâmetro do rebaixo",
+    "Esquadro do topo",
   ],
 
   Cromadora: [
@@ -182,14 +215,11 @@ export const opcoesPorTipo = {
 };
 
 // Estrutura inicial de um lançamento. Usada para limpar o formulário
-// e para saber quais campos um registro deve ter.
-// Se precisar adicionar um novo campo no futuro (ex: "observacoes"),
-// basta incluir a propriedade aqui e no formulário.
 export const CAMPO_INICIAL = {
   codigoObjeto: "",
   dataCalibracao: "",
   dataVencimento: "",
-  tipoObjeto: "",
   setor: "",
   responsavel: "",
+  etiquetaLegivel: null,
 };

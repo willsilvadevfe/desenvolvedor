@@ -13,12 +13,11 @@ export function validarRegistro(dados) {
     erros.dataCalibracao = "Informe a data de calibração.";
   }
 
+  // dataVencimento agora é calculada automaticamente a partir da
+  // dataCalibracao (+6 meses). Essa checagem só deve disparar se
+  // algo sair errado no cálculo — funciona como uma segurança.
   if (!dados.dataVencimento) {
-    erros.dataVencimento = "Informe a data de vencimento.";
-  }
-
-  if (!dados.tipoObjeto) {
-    erros.tipoObjeto = "Selecione a linha.";
+    erros.dataVencimento = "Data de vencimento não pôde ser calculada.";
   }
 
   if (!dados.setor) {
@@ -29,13 +28,8 @@ export function validarRegistro(dados) {
     erros.responsavel = "Selecione a caracteristica.";
   }
 
-  // Só compara as datas se as duas estiverem preenchidas,
-  // para não sobrescrever as mensagens de campo obrigatório acima.
-  if (dados.dataCalibracao && dados.dataVencimento) {
-    if (dados.dataVencimento < dados.dataCalibracao) {
-      erros.dataVencimento =
-        "A data de vencimento não pode ser anterior à data de calibração.";
-    }
+  if (dados.etiquetaLegivel === undefined || dados.etiquetaLegivel === null) {
+    erros.etiquetaLegivel = "Selecione se a etiqueta está legível.";
   }
 
   return {

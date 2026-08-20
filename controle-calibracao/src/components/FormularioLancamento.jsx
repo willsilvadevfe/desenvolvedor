@@ -1,26 +1,13 @@
 import { useState, useMemo } from "react";
-import { LINHAS, SETORES, opcoesPorTipo, CAMPO_INICIAL } from "../data/opcoes";
+import { SETORES, opcoesPorTipo, CAMPO_INICIAL } from "../data/opcoes";
 import { validarRegistro } from "../utils/validacoes";
 import "./FormularioLancamento.css";
 
-const NOMES_MESES = [
-  "Janeiro",
-  "Fevereiro",
-  "Março",
-  "Abril",
-  "Maio",
-  "Junho",
-  "Julho",
-  "Agosto",
-  "Setembro",
-  "Outubro",
-  "Novembro",
-  "Dezembro",
+const MESES = [
+  "01", "02", "03", "04", "05", "06",
+  "07", "08", "09", "10", "11", "12",
 ];
 
-// Gera as opções de mês/ano dentro do intervalo permitido para calibração.
-// Formato do value: "AAAA-MM" (mesmo padrão de um input type="date",
-// só que sem o dia — assim continua fácil de ordenar/exportar no CSV).
 function gerarOpcoesMesAno(anoInicial, anoFinal) {
   const opcoes = [];
   for (let ano = anoInicial; ano <= anoFinal; ano++) {
@@ -28,41 +15,64 @@ function gerarOpcoesMesAno(anoInicial, anoFinal) {
       const mesFormatado = String(mes).padStart(2, "0");
       opcoes.push({
         value: `${ano}-${mesFormatado}`,
-        label: `${NOMES_MESES[mes - 1]}/${ano}`,
+        label: `${MESES[mes - 1]}/${ano}`,
       });
     }
   }
   return opcoes;
 }
 
-// "onLancar" é uma função que vem do App.jsx (component pai).
-// Esse formulário não sabe nada sobre a lista de registros — ele só
-// valida os dados e, se estiverem certos, avisa o pai através dessa
-// função. Isso é o que chamamos de "levantar o estado" (lifting state up).
+// Soma 6 meses a uma data "YYYY-MM", ajustando o ano quando necessário.
+// Dias são ignorados de propósito — só mês/ano importam aqui.
+function calcularDataVencimento(dataCalibracao) {
+  if (!dataCalibracao) return "";
+
+  const [anoStr, mesStr] = dataCalibracao.split("-");
+  let ano = parseInt(anoStr, 10);
+  let mes = parseInt(mesStr, 10) + 6;
+
+  while (mes > 12) {
+    mes -= 12;
+    ano += 1;
+  }
+
+  return `${ano}-${String(mes).padStart(2, "0")}`;
+}
+
+function formatarLabelMesAno(valor) {
+  if (!valor) return "—";
+  const [ano, mes] = valor.split("-");
+  return `${mes}/${ano}`;
+}
+
 function FormularioLancamento({ onLancar }) {
-  // dados: guarda o que o usuário está digitando/selecionando agora.
   const [dados, setDados] = useState(CAMPO_INICIAL);
-  // erros: guarda as mensagens de validação de cada campo.
   const [erros, setErros] = useState({});
 
-  // Intervalo fixo: janeiro/2025 até dezembro/2027.
-  // Se precisar mudar a janela de anos no futuro, é só ajustar aqui.
-  const opcoesMesAno = useMemo(() => gerarOpcoesMesAno(2025, 2027), []);
+  const opcoesMesAno = useMemo(() => gerarOpcoesMesAno(2026, 2027), []);
 
   function atualizarCampo(campo, valor) {
     setDados((anterior) => {
       const novoEstado = { ...anterior, [campo]: valor };
-      // Se o equipamento mudou, a lista de características muda junto,
-      // então limpamos a seleção anterior pra evitar um valor "fantasma"
-      // que não existe mais nas novas opções.
+
       if (campo === "setor") {
         novoEstado.responsavel = "";
       }
+
+      // Ao escolher a data de calibração, a de vencimento é
+      // recalculada automaticamente (+6 meses).
+      if (campo === "dataCalibracao") {
+        novoEstado.dataVencimento = calcularDataVencimento(valor);
+      }
+
       return novoEstado;
     });
 
     if (erros[campo]) {
       setErros((anterior) => ({ ...anterior, [campo]: undefined }));
+    }
+    if (campo === "dataCalibracao" && erros.dataVencimento) {
+      setErros((anterior) => ({ ...anterior, dataVencimento: undefined }));
     }
   }
 
@@ -118,39 +128,15 @@ function FormularioLancamento({ onLancar }) {
 
         <div className="campo">
           <label htmlFor="dataVencimento">Data de vencimento</label>
-          <select
+          <input
             id="dataVencimento"
-            value={dados.dataVencimento}
-            onChange={(e) => atualizarCampo("dataVencimento", e.target.value)}
-          >
-            <option value="">Não informado</option>
-            {opcoesMesAno.map((opcao) => (
-              <option key={opcao.value} value={opcao.value}>
-                {opcao.label}
-              </option>
-            ))}
-          </select>
+            type="text"
+            value={formatarLabelMesAno(dados.dataVencimento)}
+            disabled
+            readOnly
+          />
           {erros.dataVencimento && (
             <span className="campo-erro">{erros.dataVencimento}</span>
-          )}
-        </div>
-
-        <div className="campo">
-          <label htmlFor="tipoObjeto">Linhas</label>
-          <select
-            id="tipoObjeto"
-            value={dados.tipoObjeto}
-            onChange={(e) => atualizarCampo("tipoObjeto", e.target.value)}
-          >
-            <option value="">Selecione...</option>
-            {LINHAS.map((tipo) => (
-              <option key={tipo} value={tipo}>
-                {tipo}
-              </option>
-            ))}
-          </select>
-          {erros.tipoObjeto && (
-            <span className="campo-erro">{erros.tipoObjeto}</span>
           )}
         </div>
 

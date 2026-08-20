@@ -59,7 +59,7 @@ function ModalConfirmacao({
 
         {statusEnvio === 'erro' && (
           <>
-            <h2>⚠ Não foi possível enviar o relatório</h2>
+            <h2>Não foi possível enviar o relatório por email</h2>
             <p className="modal-pergunta">
               O CSV foi gerado corretamente. Você pode baixar o arquivo ou tentar enviar novamente.
             </p>

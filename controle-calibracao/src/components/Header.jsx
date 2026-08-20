@@ -6,13 +6,13 @@ function Header({ totalLancamentos }) {
       <div className="cabecalho-conteudo">
         <h1>Controle de Calibração</h1>
         <p className="cabecalho-subtitulo">
-          Realize os lançamentos dos instrumentos e finalize o relatório ao terminar.
+          Realize os lançamentos dos relógios comparadores e finalize o relatório ao terminar.
         </p>
       </div>
 
       <div className="cabecalho-contador">
         <span className="contador-numero">{totalLancamentos}</span>
-        <span className="contador-label">lançamentos realizados</span>
+        <span className="contador-label">Lançamentos realizados</span>
       </div>
     </header>
   );
