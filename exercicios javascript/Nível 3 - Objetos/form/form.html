@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User form</title>
+  </head>
+  <body>
+    <form id="form">
+      <input type="text" id="name" placeholder="Name" required />
+      <input type="number" id="age" placeholder="Age" required />
+      <input type="text" id="email" placeholder="Email" required />
+      <button type="submit">Send data</button>
+    </form>
+    <div id="res"></div>
+  </body>
+  <script>
+    const users = [];
+    const form = document.getElementById("form");
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const age = document.getElementById("age").value;
+      const email = document.getElementById("email").value;
+      const res = document.getElementById("res");
+
+      const user = {
+        name: name,
+        age: age,
+        email: email,
+      };
+
+      users.push(user);
+      console.log(users);
+
+      res.style.backgroundColor = "lightgreen";
+      res.style.border = "1px solid black";
+      res.style.padding = "10px";
+      res.style.width = "500px";
+
+      res.innerHTML += `<div>
+        <strong>User:</strong> ${user.name}<br> <strong>Age:</strong> ${user.age}<br> <strong>Email</strong> ${user.email}<br>
+        </div><hr>`;
+
+      form.reset();
+    });
+  </script>
+</html>
