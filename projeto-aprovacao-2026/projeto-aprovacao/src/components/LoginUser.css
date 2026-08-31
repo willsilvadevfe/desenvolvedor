@@ -1,29 +1,88 @@
 /*Importando fontes do Google Fonts*/
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 
-
-.login-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100dvh;
-    font-family: 'Roboto', sans-serif;
+.login-svg{
+    width: 500px;
+    
 }
 
-.login-form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 300px;
-    height: 300px;
-    gap: 15px;
-    background-color: #6ed3d6;
-    padding: 20px;
-    border-radius: 10px;
-
+.login-header h2{
+    color: var(--font-title-color);
+    font-size: 3.5rem;
+    text-align: start;
 }
 
-.form-group{
-    display: flex;
-    flex-direction: column;
+.login-header h2 span{
+    color: var(--font-label);
+    font-size: 3.5rem;
+    text-align: center;
+    font-style: italic;
+}
+
+
+.login-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100dvh;
+  font-family: "Roboto", sans-serif;
+  background-color: var(--background-color);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 400px;
+  height: 400px;
+  gap: 15px;
+  background-color: var(--background-form);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 1px 1px 50px rgba(2, 2, 2, 0.452);
+}
+
+.login-form h1 {
+  text-align: center;
+  color: var(--font-title-color);
+  text-transform: uppercase;
+}
+
+label {
+  font-weight: 100;
+  margin-bottom: 5px;
+  color: var(--font-label);
+}
+
+input {
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--background-input);
+  color: white;
+}
+
+button {
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--background-button);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.678);
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  box-shadow: 1px 1px 8px var(--background-button);
+}
+
+
+
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
 }

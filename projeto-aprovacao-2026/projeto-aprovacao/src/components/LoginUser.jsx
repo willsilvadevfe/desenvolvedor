@@ -1,5 +1,7 @@
 import "./LoginUser.css";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import LoginSvg from "../assets/img/login.svg";
 
 const LoginUser = () => {
   const navigate = useNavigate();
@@ -11,18 +13,48 @@ const LoginUser = () => {
     const password = document.getElementById("password").value;
 
     if (login === "Admin" && password === "Adm5858@") {
-      navigate("/admin-config");
+      //Alerta de sucesso com sweetalert com timer e vai para a página de configurações
+      Swal.fire({
+        title: "Login bem-sucedido",
+        text: "Você será redirecionado para a página de configurações.",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      }).then(() => {
+        navigate("/admin-config");
+      });
+      return;
+    }
+    if (login === "" || password === "") {
+      Swal.fire({
+        title: "Preencha todos os campos",
+        text: "Por favor, insira seu login e senha.",
+        icon: "error",
+      }).then(() => {
+        window.location.reload();
+      });
     } else {
-      alert("Login ou senha incorretos, tente novamente.");
-      window.location.reload();
+      //Recarregar página após clicar em Ok no alerta
+      Swal.fire({
+        title: "Login ou senha incorretos",
+        text: "Por favor, verifique suas credenciais e tente novamente.",
+        icon: "error",
+      }).then(() => {
+        window.location.reload();
+      });
     }
   };
+
   return (
     <div className="login-container">
+      <div className="login-header">
+        <h2>Sistema de configuração<br></br> <span>de usuários</span></h2>
+        <img src={LoginSvg} alt="Login" className="login-svg" />
+        </div>
       <form action="" className="login-form" onSubmit={handleSubmit}>
-        <h1>Configurações</h1>
+        <h1>Login</h1>
         <div className="form-group">
-          <label htmlFor="login">Login</label>
+          <label htmlFor="login">Usuário</label>
           <input type="text" id="login" name="login" />
         </div>
         <div className="form-group">
