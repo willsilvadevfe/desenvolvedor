@@ -5,10 +5,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4rem;
-  min-height: 100vh;
+  gap: 10rem;
+  height: 100vh;
   width: 100%;
   background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-soft) 100%);
+  font-family: 'Inter', 'Roboto', 'Lato', sans-serif;
   padding: 2rem;
   box-sizing: border-box;
   flex-wrap: wrap;
@@ -26,21 +27,22 @@
 }
  
 .login-header h2 {
-  font-size: 1.9rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 500;
   color: var(--color-text);
   line-height: 1.3;
   margin-bottom: 1.5rem;
+  
 }
  
 .login-header h2 span {
   color: var(--color-primary);
-  font-weight: 800;
+  font-weight: 500;
 }
  
 .login-svg {
   width: 100%;
-  max-width: 340px;
+  max-width: 500px;
   height: auto;
   filter: drop-shadow(var(--shadow-md));
   animation: float 4s ease-in-out infinite;
@@ -70,12 +72,12 @@
  
 .login-form:hover {
   box-shadow: 0 16px 40px rgba(37, 99, 235, 0.18);
-  transform: translateY(-2px);
+  
 }
  
 .login-form h1 {
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 300;
   color: var(--color-text);
   text-align: center;
   margin-bottom: 0.5rem;

@@ -1,0 +1,23 @@
+.meu-swal {
+  font-family: "Inter", sans-serif;
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.meu-swal-title {
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.meu-swal-text {
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+
+
+

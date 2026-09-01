@@ -2,6 +2,7 @@ import "./LoginUser.css";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import LoginSvg from "../assets/img/login.svg";
+import "./SweetAlert.css";
 
 const LoginUser = () => {
   const navigate = useNavigate();
@@ -18,8 +19,15 @@ const LoginUser = () => {
         title: "Login bem-sucedido",
         text: "Você será redirecionado para a página de configurações.",
         icon: "success",
+        iconColor: "#2563eb",
         timer: 2000,
         showConfirmButton: false,
+
+        customClass: {
+          popup: "meu-swal",
+          title: "meu-swal-title",
+          htmlContainer: "meu-swal-text",
+        },
       }).then(() => {
         navigate("/admin-config");
       });
@@ -27,9 +35,18 @@ const LoginUser = () => {
     }
     if (login === "" || password === "") {
       Swal.fire({
-        title: "Preencha todos os campos",
+        title: "Preencha todos os campos.",
         text: "Por favor, insira seu login e senha.",
         icon: "error",
+        iconColor: "#ef4444",
+        confirmButtonText: "Tentar novamente",
+        confirmButtonColor: "#2563eb",
+
+        customClass: {
+          popup: "meu-swal",
+          title: "meu-swal-title",
+          htmlContainer: "meu-swal-text",
+        },
       }).then(() => {
         window.location.reload();
       });
@@ -39,6 +56,15 @@ const LoginUser = () => {
         title: "Login ou senha incorretos",
         text: "Por favor, verifique suas credenciais e tente novamente.",
         icon: "error",
+        iconColor: "#ef4444",
+        confirmButtonText: "Tentar novamente",
+        confirmButtonColor: "#2563eb",
+
+        customClass: {
+          popup: "meu-swal",
+          title: "meu-swal-title",
+          htmlContainer: "meu-swal-text",
+        },
       }).then(() => {
         window.location.reload();
       });
@@ -48,9 +74,11 @@ const LoginUser = () => {
   return (
     <div className="login-container">
       <div className="login-header">
-        <h2>Sistema de configuração<br></br> <span>de usuários</span></h2>
+        <h2>
+          Sistema de configuração<br></br> <span>de usuários</span>
+        </h2>
         <img src={LoginSvg} alt="Login" className="login-svg" />
-        </div>
+      </div>
       <form action="" className="login-form" onSubmit={handleSubmit}>
         <h1>Login</h1>
         <div className="form-group">

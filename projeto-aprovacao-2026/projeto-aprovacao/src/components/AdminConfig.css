@@ -1,13 +1,164 @@
 .admin-config-container {
-  width: 100%;
-  height: 100dvh;
-  background-color: blue;
+  height: 100vh;
+  background: var(--color-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.admin-config-title{
-    margin: 0px;
+.admin-config-title {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.admin-config-subtitle {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.admin-config-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* ---------- Botões ---------- */
+.cd-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.4rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.cd-btn:active {
+  transform: scale(0.98);
+}
+
+.cd-btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+.cd-btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+.cd-btn-primary:active {
+  background-color: var(--color-primary-active);
+}
+
+.cd-btn-danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+.cd-btn-danger:hover {
+  filter: brightness(0.9);
+}
+
+.cd-btn-ghost {
+  background-color: var(--color-bg-soft);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+.cd-btn-ghost:hover {
+  background-color: var(--color-border);
+}
+
+/* ---------- Modal (dialog) ---------- */
+.cd-modal {
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 380px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 10px 30px rgba(30, 41, 59, 0.15);
+}
+
+.cd-modal::backdrop {
+  background: rgba(30, 41, 59, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+.cd-modal-title {
+  color: var(--color-text);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.cd-modal-subtitle {
+  display: block;
+  color: var(--color-text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.cd-modal-danger .cd-modal-title {
+  color: var(--color-danger);
+}
+
+/* ---------- Formulário ---------- */
+.cd-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.cd-form-group label {
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.cd-form-group input {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cd-form-group input:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.cd-form-group input::placeholder {
+  color: var(--color-text-light);
+}
+
+/* ---------- Ações do modal ---------- */
+.cd-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+/* Animação de abertura */
+.cd-modal[open] {
+  animation: cd-modal-in 0.2s ease-out;
+}
+
+@keyframes cd-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
