@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: "Inter", "Roboto", "Lato", Arial, Helvetica, sans-serif;
 }
 
 .admin-config-title {

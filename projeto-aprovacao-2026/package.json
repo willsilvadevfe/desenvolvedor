@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "react-router-dom": "^7.18.3",
-    "sweetalert2": "^11.26.25"
-  }
-}

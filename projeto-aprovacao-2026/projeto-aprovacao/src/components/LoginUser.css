@@ -38,6 +38,7 @@
 .login-header h2 span {
   color: var(--color-primary);
   font-weight: 500;
+  font-style: italic;
 }
  
 .login-svg {
