@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { fileURLToPath } from "url";
-import { inserirUsuario, listarUsuarios } from "./database.cjs";
+import { inserirUsuario, listarUsuarios, deletarUsuario } from "./database.cjs"; // <- deletarUsuario aqui
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,4 +26,9 @@ ipcMain.handle("usuario:criar", async (event, { nome, registro, senha }) => {
 
 ipcMain.handle("usuario:listar", async () => {
   return await listarUsuarios();
+});
+
+ipcMain.handle("usuario:deletar", async (event, { registro }) => {
+  // <- esse aqui
+  return await deletarUsuario(registro);
 });

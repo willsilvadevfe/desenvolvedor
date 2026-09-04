@@ -51,4 +51,31 @@ function listarUsuarios() {
   });
 }
 
-module.exports = { inserirUsuario, listarUsuarios };
+function deletarUsuario(registro) {
+  return new Promise((resolve, reject) => {
+    db.get(
+      "SELECT id FROM usuario WHERE registro = ?",
+      [registro],
+      (err, row) => {
+        if (err) return reject(err);
+
+        if (!row) {
+          // não existe -> rejeita com um erro específico pra tratar no front
+          return reject(new Error("USUARIO_NAO_ENCONTRADO"));
+        }
+
+        db.run(
+          "DELETE FROM usuario WHERE registro = ?",
+          [registro],
+          function (err) {
+            if (err) return reject(err);
+            resolve({ registro, deletado: true });
+          }
+        );
+      }
+    );
+  });
+}
+
+module.exports = { inserirUsuario, listarUsuarios, deletarUsuario };
+
