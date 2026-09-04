@@ -13,9 +13,14 @@
   position: absolute;
   top: 30px;
   right: 30px;
+  transition: 0.2s ease-in-out;
 }
 
-.admin-config-title-sub{
+.exit-icon:hover {
+  transform: translateY(-2px);
+}
+
+.admin-config-title-sub {
   text-align: center;
   line-height: 10px;
 }
@@ -29,7 +34,6 @@
 .admin-config-title-sub p {
   color: var(--color-text-muted);
   margin-bottom: 1.5rem;
-  
 }
 
 .admin-config-actions {
@@ -48,7 +52,7 @@
   transition:
     background-color 0.2s ease,
     transform 0.1s ease;
-    margin-bottom: 4rem;
+  margin-bottom: 4rem;
 }
 
 .cd-btn:active {
