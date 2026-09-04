@@ -1,10 +1,37 @@
 import "./AdminConfig.css";
-import { useRef } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
+import LoginUser from "./LoginUser";
+import { Route } from "react-router-dom";
 
 const AdminConfig = () => {
   const modalRef = useRef(null);
+  const nomeRef = useRef(null);
+  const registroRef = useRef(null);
+  const senhaRef = useRef(null);
+
+  const [erro, setErro] = useState("");
+  const [enviando, setEnviando] = useState(false);
+  const [usuarios, setUsuarios] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+
+  const carregarUsuarios = useCallback(async () => {
+    setCarregando(true);
+    try {
+      const lista = await window.api.listarUsuarios();
+      setUsuarios(lista);
+    } catch (err) {
+      console.error("Erro ao listar usuários:", err);
+    } finally {
+      setCarregando(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    carregarUsuarios();
+  }, [carregarUsuarios]);
 
   function abrirModal() {
+    setErro("");
     modalRef.current.showModal();
   }
 
@@ -22,13 +49,64 @@ const AdminConfig = () => {
     modalRefDeletar.current.close();
   }
 
-  return (
-    <div className="admin-config-container">
-      <h1 className="admin-config-title">Configurações do Administrador</h1>
+  async function handleAdicionarUsuario(e) {
+    e.preventDefault();
+    setErro("");
 
-      <p className="admin-config-subtitle">
-        Aqui você pode gerenciar os usuários do sistema.
-      </p>
+    const nome = nomeRef.current.value.trim();
+    const registro = registroRef.current.value.trim();
+    const senha = senhaRef.current.value;
+
+    if (!nome || !registro || !senha) {
+      setErro("Preencha todos os campos.");
+      return;
+    }
+
+    setEnviando(true);
+    try {
+      const resultado = await window.api.criarUsuario({
+        nome,
+        registro,
+        senha,
+      });
+      console.log("Usuário criado:", resultado);
+
+      e.target.reset();
+      fecharModal();
+      carregarUsuarios(); // atualiza a tabela com o novo usuário
+    } catch (err) {
+      console.error("Erro ao criar usuário:", err);
+      setErro(
+        err.message.includes("UNIQUE")
+          ? "Esse registro já está em uso."
+          : "Erro ao adicionar usuário.",
+      );
+    } finally {
+      setEnviando(false);
+    }
+  }
+
+  return (
+    
+    <div className="admin-config-container">
+      <a className="exit-icon" href="/">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="48px"
+            viewBox="0 -960 960 960"
+            width="48px"
+            fill="#000000"
+          >
+            <path d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h299v60H180v600h299v60H180Zm486-185-43-43 102-102H360v-60h363L621-612l43-43 176 176-174 174Z" />
+          </svg>
+        </a>
+      
+      <div className="admin-config-title-sub">
+        <h1>Configurações do Administrador</h1>
+        <p>
+          Aqui você pode gerenciar os usuários do sistema.
+        </p>
+      </div>
 
       <div className="admin-config-actions">
         <button className="cd-btn cd-btn-primary" onClick={abrirModal}>
@@ -39,13 +117,42 @@ const AdminConfig = () => {
         </button>
       </div>
 
+      <table className="cd-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Registro</th>
+          </tr>
+        </thead>
+        <tbody>
+          {carregando && (
+            <tr>
+              <td colSpan={3}>Carregando...</td>
+            </tr>
+          )}
+          {!carregando && usuarios.length === 0 && (
+            <tr>
+              <td colSpan={3}>Nenhum usuário cadastrado.</td>
+            </tr>
+          )}
+          {usuarios.map((usuario) => (
+            <tr key={usuario.id}>
+              <td>{usuario.id}</td>
+              <td>{usuario.nome}</td>
+              <td>{usuario.registro}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <dialog ref={modalRefDeletar} className="cd-modal cd-modal-danger">
         <h2 className="cd-modal-title">Deletar</h2>
         <small className="cd-modal-subtitle">Deletar usuário no sistema.</small>
 
         <div className="cd-form-group">
           <label htmlFor="idDeletar">ID</label>
-          <input type="number" id="idDeletar" required/>
+          <input type="number" id="idDeletar" required />
         </div>
 
         <div className="cd-modal-actions">
@@ -62,32 +169,42 @@ const AdminConfig = () => {
           Adicionar novo usuário no sistema.
         </small>
 
-        <div className="cd-form-group">
-          <label htmlFor="nome">Nome</label>
-          <input type="text" id="nome" required/>
-        </div>
+        <form onSubmit={handleAdicionarUsuario}>
+          <div className="cd-form-group">
+            <label htmlFor="nome">Nome</label>
+            <input type="text" id="nome" ref={nomeRef} required />
+          </div>
 
-        <div className="cd-form-group">
-          <label htmlFor="id">ID</label>
-          <input type="number" id="id" />
-        </div>
+          <div className="cd-form-group">
+            <label htmlFor="registro">Registro</label>
+            <input type="text" id="registro" ref={registroRef} required />
+          </div>
 
-        <div className="cd-form-group">
-          <label htmlFor="senha">Senha:</label>
-          <input type="password" id="senha" required/>
-        </div>
+          <div className="cd-form-group">
+            <label htmlFor="senha">Senha:</label>
+            <input type="password" id="senha" ref={senhaRef} required />
+          </div>
 
-        <div className="cd-modal-actions">
-          <button className="cd-btn cd-btn-ghost" onClick={fecharModal}>
-            Fechar
-          </button>
-          <input
-            className="cd-btn cd-btn-primary"
-            type="submit"
-            value="Adicionar"
-          />
-        </div>
+          {erro && <p className="cd-form-erro">{erro}</p>}
+
+          <div className="cd-modal-actions">
+            <button
+              type="button"
+              className="cd-btn cd-btn-ghost"
+              onClick={fecharModal}
+            >
+              Fechar
+            </button>
+            <input
+              className="cd-btn cd-btn-primary"
+              type="submit"
+              value={enviando ? "Adicionando..." : "Adicionar"}
+              disabled={enviando}
+            />
+          </div>
+        </form>
       </dialog>
+      
     </div>
   );
 };
