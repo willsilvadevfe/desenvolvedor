@@ -1,14 +1,42 @@
 import "./AprovacaoPrint.css";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const AprovacaoPrint = () => {
   const [caracteristica, setCaracteristica] = useState("");
+  const [comprimento, setComprimento] = useState("");
   const [esquadro, setEsquadro] = useState("");
   const [deformacao, setDeformacao] = useState("");
   const [observacao, setObservacai] = useState("");
 
   function Aprovar() {
-    alert(deformacao);
+    if (!caracteristica || !comprimento || !esquadro) {
+      Swal.fire({
+        title: "Atenção!",
+        html: `<h3>Preencha todos os campos obrigatórios</h3><br>
+              <p>Caracteristica de comprimento,</p>
+              <p>Valor de comprimento e</p>
+              <p>Esquadro do topo.</p><br>
+              <h4>São campos obrigatórios!</h4>
+              `,
+        icon: "error",
+        iconColor: "#ef4444",
+        confirmButtonText: "Tentar novamente",
+        confirmButtonColor: "#2563eb",
+
+        customClass: {
+          popup: "meu-swal",
+          title: "meu-swal-title",
+          htmlContainer: "meu-swal-text",
+        },
+      });
+    } else {
+      alert("Tudo certo!");
+    }
+  }
+
+  function Rejeitar() {
+    alert("Funcionando!");
   }
 
   return (
@@ -39,7 +67,20 @@ const AprovacaoPrint = () => {
                 </option>
               </select>
             </label>
-           
+
+            <label htmlFor="comprimento">
+              Valor do comprimento
+              <input
+                type="text"
+                placeholder="Ex.: -0,03"
+                name="comprimento"
+                id="comprimento"
+                value={comprimento}
+                onChange={(e) => setComprimento(e.target.value)}
+                required
+              />
+            </label>
+
             <label htmlFor="esquadro">
               Esquadro do topo
               <input
@@ -75,7 +116,7 @@ const AprovacaoPrint = () => {
               ></textarea>
             </label>
             <input type="submit" onClick={Aprovar} />
-            <button>Rejeitar</button>
+            <button onClick={Rejeitar}>Rejeitar</button>
           </div>
         </div>
         <div class="parent">
@@ -100,7 +141,7 @@ const AprovacaoPrint = () => {
             <div className="Aprovalues">
               <span className="caracter-number">1</span>
               <span>{caracteristica}</span>
-              <p>-0,05</p>
+              <p>{comprimento}</p>
             </div>
             <div className="Aprovalues">
               <span className="caracter-number">2</span>
@@ -110,7 +151,7 @@ const AprovacaoPrint = () => {
             <div className="Aprovalues">
               <span className="caracter-number">3</span>
               <span>Deformação do topo:</span>
-              <p>0,03</p>
+              <p>{deformacao}</p>
             </div>
             <div className="visual">
               <span>Visual:</span> OK (&nbsp;X&nbsp;) NOK
