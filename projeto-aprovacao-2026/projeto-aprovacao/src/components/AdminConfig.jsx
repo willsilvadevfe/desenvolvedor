@@ -265,6 +265,7 @@ const AdminConfig = () => {
           <h3>Download do banco de dados CSV</h3>
           <p>Clique no ícone abaixo para iniciar o download do arquivo</p>
           <svg
+            onClick={handleExportarCsv}
             xmlns="http://www.w3.org/2000/svg"
             height="40px"
             viewBox="0 -960 960 960"
@@ -273,11 +274,17 @@ const AdminConfig = () => {
           >
             <path d="M480-315.33 284.67-510.67l47.33-48L446.67-444v-356h66.66v356L628-558.67l47.33 48L480-315.33ZM226.67-160q-27 0-46.84-19.83Q160-199.67 160-226.67V-362h66.67v135.33h506.66V-362H800v135.33q0 27-19.83 46.84Q760.33-160 733.33-160H226.67Z" />
           </svg>
+          <small>
+            O arquivo será baixado em formato CSV. Após o download, abra o
+            Excel,
+            <br /> acesse a aba <strong>Dados</strong>, selecione{" "}
+            <strong>Carregar Dados</strong> e importe o arquivo baixado.
+          </small>
         </div>
         <div className="location-db">
           <h3>Armazenamento de aprovações (PDF)</h3>
           <p>Clique no ícone abaixo para modificar a pasta de destino</p>
-          <svg onClick={handleExportarCsv}
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             height="40px"
             viewBox="0 -960 960 960"
@@ -286,7 +293,12 @@ const AdminConfig = () => {
           >
             <path d="M358.67-185.33q-81-32-133.81-100.5-52.8-68.5-63.86-155.5h67q9 59 43.67 106.66 34.66 47.67 87 76v73.34ZM496.67-80q-20.84 0-35.42-14.58-14.58-14.59-14.58-35.42v-252q0-20.83 14.58-35.42Q475.83-432 496.67-432H592q12.6 0 23.94 5.79 11.34 5.79 18.06 16.54l25.33 39H830q20.83 0 35.42 14.59Q880-341.5 880-320.67V-130q0 20.83-14.58 35.42Q850.83-80 830-80H496.67ZM130-528q-20.83 0-35.42-14.58Q80-557.17 80-578v-252q0-20.83 14.58-35.42Q109.17-880 130-880h95.33q12.6 0 23.94 5.79 11.34 5.79 18.06 16.54l25.34 39h170.66q20.84 0 35.42 14.59 14.58 14.58 14.58 35.41V-578q0 20.83-14.58 35.42Q484.17-528 463.33-528H130Zm603.33 48q0-69.67-36-128.5T600-700v-73.33q91 36.66 145.5 116.44Q800-577.12 800-480h-66.67Zm-220 333.33h300V-304H623.67L583-365.33h-69.67v218.66Zm-366.66-448h300V-752H257l-40.67-61.33h-69.66v218.66Zm366.66 448v-218.66V-146.67Zm-366.66-448v-218.66V-594.67Z" />
           </svg>
-          <small>O arquivo vem em formato CSV, após o download abra o Excel<br></br> e em dados carregue o arquivo baixado e clique em carregar.</small>
+          <small>
+            {" "}
+            Evite alterar o caminho onde as aprovações
+            de setup são armazenadas. Isso<br/> pode comprometer
+            a organização e o correto armazenamento dos arquivos.
+          </small>
         </div>
       </div>
     </div>

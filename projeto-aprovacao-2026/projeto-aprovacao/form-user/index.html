@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Setup</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
+    <link rel="stylesheet" href="src/css/style.css" />
+  </head>
+  <body>
+    <button
+      id="theme-toggle"
+      class="theme-toggle"
+      type="button"
+      aria-label="Alternar modo escuro"
+    >
+      <svg class="icon-sun" viewBox="0 -960 960 960" width="20" height="20">
+        <path
+          fill="currentColor"
+          d="M480-336q60 0 102-42t42-102q0-60-42-102t-102-42q-60 0-102 42t-42 102q0 60 42 102t102 42Zm0 72q-90 0-153-63t-63-153q0-90 63-153t153-63q90 0 153 63t63 153q0 90-63 153t-153 63ZM80-444v-72h160v72H80Zm640 0v-72h160v72H720ZM444-720v-160h72v160h-72Zm0 640v-160h72v160h-72ZM243-663l-92-91 51-52 90 91-49 52Zm527 527-90-91 49-51 92 91-51 51ZM243-297l-91 92-51-51 91-92 51 51Zm527-527-91 92-51-51 91-92 51 51Z"
+        />
+      </svg>
+      <svg class="icon-moon" viewBox="0 -960 960 960" width="20" height="20">
+        <path
+          fill="currentColor"
+          d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"
+        />
+      </svg>
+    </button>
+
+    <main class="page">
+      <div class="container">
+        <header class="card-header">
+          <div class="card-header__content">
+            <svg
+              class="header-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              height="40px"
+              viewBox="0 -960 960 960"
+              width="40px"
+            >
+              <path
+                fill="currentColor"
+                d="M344.5-135.5Q288-192 288-271t56.5-135.5Q401-463 480-463t135.5 56.5Q672-350 672-271t-56.5 135.5Q559-79 480-79t-135.5-56.5Zm229-42Q612-216 612-271t-38.5-93.5Q535-403 480-403t-93.5 38.5Q348-326 348-271t38.5 93.5Q425-139 480-139t93.5-38.5ZM263-491 80-674q81-74 184-120t216-46q113 0 216 46t184 120L697-491q-45-41-99.5-65T480-580q-63 0-117.5 24T263-491Zm3-82q51-32 104-49.5T480-640q57 0 111 16t103 51l97-97q-66-51-146.5-80.5T480-780q-84 0-164 29.5T169-670l97 97Zm214-67Zm0 369Z"
+              />
+            </svg>
+            <h1>Registro de Setup</h1>
+            <p class="subtitle">
+              Preencha os campos abaixo para solicitar aprovação de equipamento.
+            </p>
+          </div>
+        </header>
+
+        <form id="setup-form" class="form">
+          <div class="field">
+            <label for="tipo">Tipo</label>
+            <select name="tipo" id="tipo">
+              <option value="">Selecione...</option>
+              <option value="V">V</option>
+              <option value="VS">VS</option>
+              <option value="XV">XV</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="partnumber">PN</label>
+            <input
+              class="mono"
+              type="number"
+              name="partnumber"
+              id="partnumber"
+              placeholder="Ex: 6131"
+              inputmode="numeric"
+            />
+          </div>
+
+          <div class="field">
+            <label for="linha">Linha</label>
+            <select name="linha" id="linha">
+              <option value="">Selecione...</option>
+              <option value="Linha 01">Linha 01</option>
+              <option value="Linha 02">Linha 02</option>
+              <option value="Linha 03">Linha 03</option>
+              <option value="Linha 04">Linha 04</option>
+              <option value="Linha 05">Linha 05</option>
+              <option value="Linha 06">Linha 06</option>
+              <option value="Linha 07">Linha 07</option>
+              <option value="Linha 08">Linha 08</option>
+              <option value="Linha 09">Linha 09</option>
+              <option value="Linha 10">Linha 10</option>
+              <option value="Linha 11">Linha 11</option>
+              <option value="Linha 12">Linha 12</option>
+              <option value="Linha 13">Linha 13</option>
+              <option value="Linha 14">Linha 14</option>
+              <option value="BV(1)">BV(1)</option>
+              <option value="BV(2)">BV(2)</option>
+              <option value="AFTM (1)">AFTM (1)</option>
+              <option value="AFTM (2)">AFTM (2)</option>
+              <option value="AFTM (3)">AFTM (3)</option>
+              <option value="Hollow Valve">Hollow Valve</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="equipamento">Equipamento</label>
+            <select name="equipamento" id="equipamento">
+              <option value="">Selecione...</option>
+              <option value="Borazon">Borazon</option>
+              <option value="Borazon (01HV)">Borazon (01HV)</option>
+              <option value="Borazon (02HV)">Borazon (02HV)</option>
+              <option value="15G">15G</option>
+              <option value="15GS">15GS</option>
+              <option value="15S">15S</option>
+              <option value="15A">15A</option>
+              <option value="15AC">15AC</option>
+              <option value="15AN">15AN</option>
+              <option value="15AP">15AP</option>
+              <option value="15P">15P</option>
+              <option value="18D">18D</option>
+              <option value="18DS">18DS</option>
+              <option value="18F">18F</option>
+              <option value="30F">30F</option>
+              <option value="HSG">HSG</option>
+              <option value="EMB">EMB</option>
+              <option value="HSF">HSF</option>
+              <option value="OM2">OM2</option>
+              <option value="OMC">OMC</option>
+              <option value="Tempera de ponta">Tempera de ponta</option>
+              <option value="Lixar haste">Lixar haste</option>
+              <option value="CNC (1)">CNC (1)</option>
+              <option value="CNC (2)">CNC (2)</option>
+              <option value="15PC">15PC</option>
+              <option value="21A">21A</option>
+              <option value="OP25 (1)">OP25 (1)</option>
+              <option value="OP25 (2)">OP25 (2)</option>
+              <option value="TBT">TBT</option>
+              <option value="Carimbo Laser">Carimbo Laser</option>
+              <option value="Carimbo Estencil">Carimbo Estencil</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="ecnumber">E/C Number</label>
+            <input
+              class="mono"
+              type="number"
+              id="ecnumber"
+              name="ecnumber"
+              placeholder="E-Number"
+              inputmode="numeric"
+            />
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn btn--primary">
+              Enviar solicitação
+            </button>
+            <button type="button" id="btn-limpar" class="btn btn--ghost">
+              Limpar
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="src/js/script.js"></script>
+    <script src="src/js/darkmodel.js"></script>
+  </body>
+</html>

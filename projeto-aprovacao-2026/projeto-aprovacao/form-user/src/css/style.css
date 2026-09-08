@@ -1,0 +1,315 @@
+:root {
+  --color-bg: #ffffff;
+  --color-panel: #ffffff;
+  --color-text: #0a0a0a;
+  --color-text-muted: #545b62;
+  --color-border: #d8dbde;
+  --color-border-strong: #9aa1a6;
+  --color-accent: #1d4ed8;
+  --color-accent-strong: #1741b0;
+  --color-accent-contrast: #ffffff;
+  --color-danger: #b3432f;
+  --color-focus-ring: rgba(29, 78, 216, 0.3);
+
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius-sm: 3px;
+  --radius-md: 4px;
+
+  --shadow-panel:
+    0 1px 0 rgba(10, 10, 10, 0.04), 0 12px 28px rgba(10, 10, 10, 0.08);
+
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  --color-bg: #0a0a0a;
+  --color-panel: #121417;
+  --color-text: #f5f6f7;
+  --color-text-muted: #9aa1a6;
+  --color-border: #262b30;
+  --color-border-strong: #3a4046;
+  --color-accent: #3b82f6;
+  --color-accent-strong: #60a5fa;
+  --color-accent-contrast: #05070a;
+  --color-danger: #d97a63;
+  --color-focus-ring: rgba(59, 130, 246, 0.35);
+
+  --shadow-panel: 0 1px 0 rgba(0, 0, 0, 0.3), 0 20px 40px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-display);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+h1,
+p,
+label {
+  margin: 0;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px 64px;
+}
+
+.container {
+  width: 100%;
+  max-width: 460px;
+}
+
+/* ==========================================================================
+   Header / ruler strip
+   ========================================================================== */
+
+.card-header {
+  background-color: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-panel);
+}
+
+.card-header__content {
+  padding: 28px 28px 24px;
+}
+
+.header-icon {
+  color: var(--color-accent);
+  display: block;
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  margin-top: 6px;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 34ch;
+}
+
+/* ==========================================================================
+   Form
+   ========================================================================== */
+
+.form {
+  background-color: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: var(--shadow-panel);
+  padding: 24px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.field select,
+.field input {
+  appearance: none;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 14px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.field select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-text-muted) 50%),
+    linear-gradient(135deg, var(--color-text-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) center,
+    calc(100% - 15px) center;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+}
+
+.field input.mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.field select:focus,
+.field input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-focus-ring);
+}
+
+.field select:invalid {
+  color: var(--color-text-muted);
+}
+
+/* Remove native number spinners for a cleaner touch target */
+.field input[type="number"]::-webkit-outer-spin-button,
+.field input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Actions
+   ========================================================================== */
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn {
+  min-height: 52px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.05s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--primary {
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  border: 1px solid var(--color-accent-strong);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-accent-strong);
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.btn--ghost:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+/* ==========================================================================
+   Theme toggle
+   ========================================================================== */
+
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-panel);
+  color: var(--color-text);
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: var(--shadow-panel);
+}
+
+.icon-moon {
+  display: none;
+}
+
+html[data-theme="dark"] .icon-sun {
+  display: none;
+}
+
+html[data-theme="dark"] .icon-moon {
+  display: block;
+}
+
+/* ==========================================================================
+   Responsive — small phones
+   ========================================================================== */
+
+@media (max-width: 380px) {
+  .page {
+    padding: 24px 12px 48px;
+  }
+
+  .card-header__content,
+  .form {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+  }
+}
+
+/* ==========================================================================
+   Wider screens — a touch more breathing room
+   ========================================================================== */
+
+@media (min-width: 640px) {
+  .page {
+    padding-top: 56px;
+  }
+
+  .card-header__content {
+    padding: 34px 36px 28px;
+  }
+
+  .form {
+    padding: 28px 36px 32px;
+  }
+}
