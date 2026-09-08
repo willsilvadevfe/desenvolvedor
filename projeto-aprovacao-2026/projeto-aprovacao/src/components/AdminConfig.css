@@ -22,7 +22,6 @@
 
 .admin-config-title-sub {
   text-align: center;
-  line-height: 10px;
 }
 
 .admin-config-title-sub h1 {
@@ -238,4 +237,40 @@
   padding: 24px 16px;
   color: #9ca3af;
   font-style: italic;
+}
+
+.down-sqlite {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 50px;
+  margin-top: 30px;
+}
+
+.download-db,
+.location-db {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #9ca3af6b;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: 0.4s ease;
+}
+
+.download-db:hover,
+.location-db:hover {
+  transform: translateY(-2px);
+}
+
+.download-db p,
+.location-db p {
+  color: #9ca3af;
+}
+
+.download-db svg,
+.location-db svg {
+  cursor: pointer;
 }

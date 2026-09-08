@@ -108,8 +108,6 @@ const AprovacaoPrint = () => {
               <textarea
                 name="observacao"
                 id="observacao"
-                rows={5}
-                cols={40}
                 placeholder="Adicione aqui uma observação caso necessário."
                 value={observacao}
                 onChange={(e) => setObservacao(e.target.value)}

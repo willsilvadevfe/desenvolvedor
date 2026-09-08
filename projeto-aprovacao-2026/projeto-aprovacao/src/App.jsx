@@ -6,13 +6,13 @@ import AprovacaoPrint from "./components/AprovacaoPrint";
 
 function App() {
   return (
-    <AprovacaoPrint/>
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/" element={<LoginUser />} />
-    //     <Route path="/admin-config" element={<AdminConfig />} />
-    //   </Routes>
-    // </BrowserRouter>
+    // <AprovacaoPrint/>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginUser />} />
+        <Route path="/admin-config" element={<AdminConfig />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
