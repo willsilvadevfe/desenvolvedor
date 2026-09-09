@@ -1,0 +1,348 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap");
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* ==========================================================================
+   Tokens
+   ========================================================================== */
+
+.menu-form {
+  --color-bg: #f4f6f8;
+  --color-panel: #ffffff;
+  --color-text: #0a0a0a;
+  --color-text-muted: #5b6570;
+  --color-border: #e1e5e9;
+  --color-border-strong: #c7ccd1;
+  --color-accent: #1d4ed8;
+  --color-accent-strong: #1741b0;
+  --color-accent-soft: #eaf0fe;
+  --color-danger: #c0362c;
+  --color-danger-strong: #9c2b23;
+  --color-danger-soft: #fbeae9;
+  --color-success-soft: #e7f5ee;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-panel: 0 1px 0 rgba(10, 10, 10, 0.03), 0 12px 32px rgba(10, 10, 10, 0.06);
+
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.menu-form * {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.menu-form__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 32px;
+  background-color: var(--color-panel);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header-title h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.header-title small {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-panel);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.icon-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* ==========================================================================
+   Main / panel
+   ========================================================================== */
+
+.menu-form__main {
+  padding: 32px;
+}
+
+.table-form-supabase {
+  background-color: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+  overflow: hidden;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+/* ==========================================================================
+   Table
+   ========================================================================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+thead th {
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  background-color: #fafbfc;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.92rem;
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr {
+  transition: background-color 0.12s ease;
+}
+
+tbody tr:hover {
+  background-color: var(--color-accent-soft);
+}
+
+.mono {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.badge-tipo {
+  display: inline-block;
+  min-width: 34px;
+  text-align: center;
+  padding: 4px 8px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+.col-acoes {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.tabela-vazia {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   Botões de ação
+   ========================================================================== */
+
+.acoes {
+  display: inline-flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+  user-select: none;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-aprovar {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+.btn-aprovar:hover {
+  background-color: var(--color-accent-strong);
+}
+
+.btn-rejeitar {
+  background-color: var(--color-panel);
+  color: var(--color-danger);
+  border-color: var(--color-border-strong);
+}
+
+.btn-rejeitar:hover {
+  background-color: var(--color-danger-soft);
+  border-color: var(--color-danger);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border-color: var(--color-border-strong);
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
+
+.btn-confirmar-rejeicao {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+.btn-confirmar-rejeicao:hover {
+  background-color: var(--color-danger-strong);
+}
+
+/* ==========================================================================
+   Modal em CSS puro (checkbox hack, sem JS)
+   ========================================================================== */
+
+.modal-toggle {
+  display: none;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(10, 10, 10, 0.45);
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal-toggle:checked ~ .modal-overlay {
+  display: flex;
+}
+
+.modal {
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--color-panel);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: 0 24px 60px rgba(10, 10, 10, 0.25);
+}
+
+.modal h2 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.modal p {
+  margin: 0 0 16px;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.modal-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.modal textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 80px;
+  padding: 10px 12px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.modal textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-accent-soft);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+/* ==========================================================================
+   Responsivo
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .menu-form__header {
+    padding: 18px 20px;
+  }
+
+  .header-title h1 {
+    font-size: 1.05rem;
+  }
+
+  .menu-form__main {
+    padding: 16px;
+  }
+
+  .btn {
+    padding: 8px 10px;
+  }
+
+  .btn span {
+    display: none;
+  }
+}
