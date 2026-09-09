@@ -1,7 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 // TODO: troque pelos valores do seu projeto (Supabase > Settings > API)
-const SUPABASE_URL = "https://sqdxhjlqsjqrrvhhjjzz.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://sqdxhjlqsjqrrvhhjjzz.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxZHhoamxxc2pxcnJ2aGhqanp6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg5MDgyMjksImV4cCI6MjEwNDQ4NDIyOX0.Jxy4wH449iv1aRGhYmVqFpEkrlRbDS7KXeb0iINQU30";
 
