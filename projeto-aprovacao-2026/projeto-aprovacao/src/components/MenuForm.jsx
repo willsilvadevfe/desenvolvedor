@@ -1,41 +1,45 @@
+import { useEffect, useState } from "react";
 import "./MenuForm.css";
-
-// Dados de exemplo — depois substitua por: const [registros, setRegistros] = useState([])
-// e preencha via supabase.from('formularios').select('*')
-const registros = [
-  {
-    id: 1,
-    tipo: "V",
-    partnumber: 6131,
-    linha: "Linha 01",
-    equipamento: "15PC",
-    registro: 9960024,
-  },
-  {
-    id: 2,
-    tipo: "VS",
-    partnumber: 4820,
-    linha: "Linha 07",
-    equipamento: "Borazon",
-    registro: 9960031,
-  },
-  {
-    id: 3,
-    tipo: "XV",
-    partnumber: 7302,
-    linha: "AFTM (1)",
-    equipamento: "CNC (1)",
-    registro: 9960045,
-  },
-];
+import { supabase } from "../supabaseClient";
 
 const MenuForm = () => {
+  const [registros, setRegistros] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState(null);
+
+  useEffect(() => {
+    async function buscarRegistros() {
+      setCarregando(true);
+      setErro(null);
+
+      const { data, error } = await supabase
+        .from("formularios")
+        .select("*")
+        .order("created_at", { ascending: true });
+
+      if (error) {
+        console.error(error);
+        setErro(
+          "Não foi possível carregar as solicitações. Verifique sua conexão.",
+        );
+      } else {
+        setRegistros(data);
+      }
+
+      setCarregando(false);
+    }
+
+    buscarRegistros();
+  }, []);
+
   return (
     <div className="menu-form">
       <header className="menu-form__header">
         <div className="header-title">
           <h1>Sistema de Aprovação de Setup</h1>
-          <small>Painel para gerenciamento de Setups — Auditor de Qualidade</small>
+          <small>
+            Painel para gerenciamento de Setups — Auditor de Qualidade
+          </small>
         </div>
         <button className="icon-btn" type="button" aria-label="Configurações">
           <svg
@@ -54,108 +58,139 @@ const MenuForm = () => {
 
       <main className="menu-form__main">
         <div className="table-form-supabase">
-          <div className="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Tipo</th>
-                  <th>PartNumber</th>
-                  <th>Linha</th>
-                  <th>Equipamento</th>
-                  <th>Registro</th>
-                  <th className="col-acoes">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {registros.map((item) => (
-                  <tr key={item.id}>
-                    <td className="mono">{item.id}</td>
-                    <td>
-                      <span className="badge-tipo">{item.tipo}</span>
-                    </td>
-                    <td className="mono">{item.partnumber}</td>
-                    <td>{item.linha}</td>
-                    <td>{item.equipamento}</td>
-                    <td className="mono">{item.registro}</td>
-                    <td className="col-acoes">
-                      <div className="acoes">
-                        {/* TODO: trocar por navegação real (react-router) quando a página de aprovação existir */}
-                        <button className="btn btn-aprovar" type="button">
-                          <svg viewBox="0 -960 960 960" width="16" height="16">
-                            <path
-                              fill="currentColor"
-                              d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
-                            />
-                          </svg>
-                          Aprovar
-                        </button>
+          {carregando && (
+            <p className="tabela-status">Carregando solicitações...</p>
+          )}
 
-                        <label
-                          className="btn btn-rejeitar"
-                          htmlFor={`modal-rejeitar-${item.id}`}
-                        >
-                          <svg viewBox="0 -960 960 960" width="16" height="16">
-                            <path
-                              fill="currentColor"
-                              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
-                            />
-                          </svg>
-                          Rejeitar
-                        </label>
+          {!carregando && erro && (
+            <p className="tabela-status tabela-status--erro">{erro}</p>
+          )}
 
-                        {/* Modal em CSS puro — controlado pelo checkbox escondido abaixo, sem JS */}
-                        <input
-                          type="checkbox"
-                          id={`modal-rejeitar-${item.id}`}
-                          className="modal-toggle"
-                        />
-                        <div className="modal-overlay">
-                          <div className="modal" role="dialog" aria-modal="true">
-                            <h2>Rejeitar solicitação #{item.id}</h2>
-                            <p>
-                              Informe o motivo da rejeição do setup{" "}
-                              <strong>
-                                {item.tipo} · PN {item.partnumber}
-                              </strong>
-                              .
-                            </p>
+          {!carregando && !erro && (
+            <div className="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>PartNumber</th>
+                    <th>Linha</th>
+                    <th>Equipamento</th>
+                    <th>Registro</th>
+                    <th className="col-acoes">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {registros.map((item, index) => (
+                    <tr key={item.id}>
+                      <td className="mono">{index + 1}</td>
+                      <td>
+                        <span className="badge-tipo">{item.tipo}</span>
+                      </td>
+                      <td className="mono">{item.partnumber}</td>
+                      <td>{item.linha}</td>
+                      <td>{item.equipamento}</td>
+                      <td className="mono">{item.ecnumber}</td>
+                      <td className="col-acoes">
+                        <div className="acoes">
+                          {/* TODO: trocar por navegação real (react-router) quando a página de aprovação existir */}
+                          <button className="btn btn-aprovar" type="button">
+                            <svg
+                              viewBox="0 -960 960 960"
+                              width="16"
+                              height="16"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
+                              />
+                            </svg>
+                            Aprovar
+                          </button>
 
-                            <label htmlFor={`motivo-${item.id}`} className="modal-label">
-                              Motivo
-                            </label>
-                            <textarea
-                              id={`motivo-${item.id}`}
-                              name={`motivo-${item.id}`}
-                              rows={3}
-                              placeholder="Descreva o motivo da rejeição..."
-                            />
+                          <label
+                            className="btn btn-rejeitar"
+                            htmlFor={`modal-rejeitar-${item.id}`}
+                          >
+                            <svg
+                              viewBox="0 -960 960 960"
+                              width="16"
+                              height="16"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                              />
+                            </svg>
+                            Rejeitar
+                          </label>
 
-                            <div className="modal-actions">
+                          {/* Modal em CSS puro — controlado pelo checkbox escondido abaixo, sem JS */}
+                          <input
+                            type="checkbox"
+                            id={`modal-rejeitar-${item.id}`}
+                            className="modal-toggle"
+                          />
+                          <div className="modal-overlay">
+                            <div
+                              className="modal"
+                              role="dialog"
+                              aria-modal="true"
+                            >
+                              <h2>Rejeitar solicitação</h2>
+                              <p>
+                                Informe o motivo da rejeição do setup{" "}
+                                <strong>
+                                  {item.tipo}
+                                  {item.partnumber}
+                                </strong>
+                                .
+                              </p>
+
                               <label
-                                htmlFor={`modal-rejeitar-${item.id}`}
-                                className="btn btn-ghost"
+                                htmlFor={`motivo-${item.id}`}
+                                className="modal-label"
                               >
-                                Cancelar
+                                Motivo
                               </label>
-                              {/* TODO: implementar envio/gravação do motivo e delete no Supabase */}
-                              <button type="button" className="btn btn-confirmar-rejeicao">
-                                Confirmar rejeição
-                              </button>
+                              <textarea
+                                id={`motivo-${item.id}`}
+                                name={`motivo-${item.id}`}
+                                rows={3}
+                                placeholder="Descreva o motivo da rejeição..."
+                              />
+
+                              <div className="modal-actions">
+                                <label
+                                  htmlFor={`modal-rejeitar-${item.id}`}
+                                  className="btn btn-ghost"
+                                >
+                                  Cancelar
+                                </label>
+                                {/* TODO: implementar envio/gravação do motivo e delete no Supabase */}
+                                <button
+                                  type="button"
+                                  className="btn btn-confirmar-rejeicao"
+                                >
+                                  Confirmar rejeição
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
 
-            {registros.length === 0 && (
-              <p className="tabela-vazia">Nenhuma solicitação pendente no momento.</p>
-            )}
-          </div>
+              {registros.length === 0 && (
+                <p className="tabela-vazia">
+                  Nenhuma solicitação pendente no momento.
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </main>
     </div>
