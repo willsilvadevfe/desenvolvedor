@@ -8,11 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
-    />
-    <link rel="stylesheet" href="src/css/style.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <button
@@ -61,7 +57,7 @@
         <form id="setup-form" class="form">
           <div class="field">
             <label for="tipo">Tipo</label>
-            <select name="tipo" id="tipo">
+            <select name="tipo" id="tipo" required>
               <option value="">Selecione...</option>
               <option value="V">V</option>
               <option value="VS">VS</option>
@@ -78,12 +74,13 @@
               id="partnumber"
               placeholder="Ex: 6131"
               inputmode="numeric"
+              required
             />
           </div>
 
           <div class="field">
             <label for="linha">Linha</label>
-            <select name="linha" id="linha">
+            <select name="linha" id="linha" required>
               <option value="">Selecione...</option>
               <option value="Linha 01">Linha 01</option>
               <option value="Linha 02">Linha 02</option>
@@ -155,6 +152,7 @@
               name="ecnumber"
               placeholder="E-Number"
               inputmode="numeric"
+              required
             />
           </div>
 
@@ -169,8 +167,8 @@
         </form>
       </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="src/js/script.js"></script>
-    <script src="src/js/darkmodel.js"></script>
+
+    <script defer src="script.js"></script>
+    <script type="module" src="client.js"></script>
   </body>
 </html>
