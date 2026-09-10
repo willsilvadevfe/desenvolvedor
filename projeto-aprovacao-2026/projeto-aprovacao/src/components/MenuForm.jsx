@@ -1,11 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./MenuForm.css";
 import { supabase } from "../supabaseClient";
+import { formatarTempoEspera, getStatusEspera } from "../utils/tempoEspera";
+import { useTick } from "../hooks/useTick";
+
+const CORES_STATUS = {
+  verde: "#28a745",
+  amarela: "#ffc107",
+  vermelha: "#dc3545",
+};
 
 const MenuForm = () => {
   const [registros, setRegistros] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
+  const [motivos, setMotivos] = useState({});
+  const [enviando, setEnviando] = useState({});
+
+  const checkboxRefs = useRef({});
+
+  useTick(15000); // re-renderiza a cada 15s pra atualizar bolinha/tempo
 
   useEffect(() => {
     async function buscarRegistros() {
@@ -31,6 +45,56 @@ const MenuForm = () => {
 
     buscarRegistros();
   }, []);
+
+  async function handleRejeitar(item) {
+    const motivo = (motivos[item.id] || "").trim();
+
+    if (!motivo) {
+      alert("Informe o motivo da rejeição antes de confirmar.");
+      return;
+    }
+
+    setEnviando((prev) => ({ ...prev, [item.id]: true }));
+
+    try {
+      // 1. grava no banco local (sqlite via Electron)
+      await window.api.criarRejeicao({
+        tipo: item.tipo,
+        partnumber: item.partnumber,
+        linha: item.linha,
+        equipamento: item.equipamento,
+        registro: item.ecnumber,
+        motivo,
+      });
+
+      // 2. remove do Supabase
+      const { error } = await supabase
+        .from("formularios")
+        .delete()
+        .eq("id", item.id);
+
+      if (error) throw error;
+
+      // 3. atualiza a lista local (some da tabela sem precisar recarregar)
+      setRegistros((prev) => prev.filter((r) => r.id !== item.id));
+
+      // 4. limpa o motivo guardado e fecha o modal
+      setMotivos((prev) => {
+        const novo = { ...prev };
+        delete novo[item.id];
+        return novo;
+      });
+
+      if (checkboxRefs.current[item.id]) {
+        checkboxRefs.current[item.id].checked = false;
+      }
+    } catch (err) {
+      console.error("Erro ao rejeitar solicitação:", err);
+      alert("Não foi possível concluir a rejeição. Tente novamente.");
+    } finally {
+      setEnviando((prev) => ({ ...prev, [item.id]: false }));
+    }
+  }
 
   return (
     <div className="menu-form">
@@ -77,110 +141,143 @@ const MenuForm = () => {
                     <th>Linha</th>
                     <th>Equipamento</th>
                     <th>Registro</th>
+                    <th>Aguardando</th>
                     <th className="col-acoes">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {registros.map((item, index) => (
-                    <tr key={item.id}>
-                      <td className="mono">{index + 1}</td>
-                      <td>
-                        <span className="badge-tipo">{item.tipo}</span>
-                      </td>
-                      <td className="mono">{item.partnumber}</td>
-                      <td>{item.linha}</td>
-                      <td>{item.equipamento}</td>
-                      <td className="mono">{item.ecnumber}</td>
-                      <td className="col-acoes">
-                        <div className="acoes">
-                          {/* TODO: trocar por navegação real (react-router) quando a página de aprovação existir */}
-                          <button className="btn btn-aprovar" type="button">
-                            <svg
-                              viewBox="0 -960 960 960"
-                              width="16"
-                              height="16"
-                            >
-                              <path
-                                fill="currentColor"
-                                d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
-                              />
-                            </svg>
-                            Aprovar
-                          </button>
-
-                          <label
-                            className="btn btn-rejeitar"
-                            htmlFor={`modal-rejeitar-${item.id}`}
-                          >
-                            <svg
-                              viewBox="0 -960 960 960"
-                              width="16"
-                              height="16"
-                            >
-                              <path
-                                fill="currentColor"
-                                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
-                              />
-                            </svg>
-                            Rejeitar
-                          </label>
-
-                          {/* Modal em CSS puro — controlado pelo checkbox escondido abaixo, sem JS */}
-                          <input
-                            type="checkbox"
-                            id={`modal-rejeitar-${item.id}`}
-                            className="modal-toggle"
-                          />
-                          <div className="modal-overlay">
-                            <div
-                              className="modal"
-                              role="dialog"
-                              aria-modal="true"
-                            >
-                              <h2>Rejeitar solicitação</h2>
-                              <p>
-                                Informe o motivo da rejeição do setup{" "}
-                                <strong>
-                                  {item.tipo}
-                                  {item.partnumber}
-                                </strong>
-                                .
-                              </p>
-
-                              <label
-                                htmlFor={`motivo-${item.id}`}
-                                className="modal-label"
+                  {registros.map((item, index) => {
+                    const status = getStatusEspera(item.created_at);
+                    return (
+                      <tr key={item.id}>
+                        <td className="mono">{index + 1}</td>
+                        <td>
+                          <span className="badge-tipo">{item.tipo}</span>
+                        </td>
+                        <td className="mono">{item.partnumber}</td>
+                        <td>{item.linha}</td>
+                        <td>{item.equipamento}</td>
+                        <td className="mono">{item.ecnumber}</td>
+                        <td>
+                          <div className="status-espera">
+                            <span
+                              className="bolinha-status"
+                              style={{
+                                display: "inline-block",
+                                width: 10,
+                                height: 10,
+                                borderRadius: "50%",
+                                backgroundColor: CORES_STATUS[status],
+                                marginRight: 6,
+                              }}
+                              title={new Date(item.created_at).toLocaleString(
+                                "pt-BR",
+                              )}
+                            />
+                            {formatarTempoEspera(item.created_at)}
+                          </div>
+                        </td>
+                        <td className="col-acoes">
+                          <div className="acoes">
+                            {/* TODO: trocar por navegação real (react-router) quando a página de aprovação existir */}
+                            <button className="btn btn-aprovar" type="button">
+                              <svg
+                                viewBox="0 -960 960 960"
+                                width="16"
+                                height="16"
                               >
-                                Motivo
-                              </label>
-                              <textarea
-                                id={`motivo-${item.id}`}
-                                name={`motivo-${item.id}`}
-                                rows={3}
-                                placeholder="Descreva o motivo da rejeição..."
-                              />
+                                <path
+                                  fill="currentColor"
+                                  d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
+                                />
+                              </svg>
+                              Aprovar
+                            </button>
 
-                              <div className="modal-actions">
+                            <label
+                              className="btn btn-rejeitar"
+                              htmlFor={`modal-rejeitar-${item.id}`}
+                            >
+                              <svg
+                                viewBox="0 -960 960 960"
+                                width="16"
+                                height="16"
+                              >
+                                <path
+                                  fill="currentColor"
+                                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                                />
+                              </svg>
+                              Rejeitar
+                            </label>
+
+                            <input
+                              type="checkbox"
+                              id={`modal-rejeitar-${item.id}`}
+                              className="modal-toggle"
+                              ref={(el) => (checkboxRefs.current[item.id] = el)}
+                            />
+                            <div className="modal-overlay">
+                              <div
+                                className="modal"
+                                role="dialog"
+                                aria-modal="true"
+                              >
+                                <h2>Rejeitar solicitação</h2>
+                                <p>
+                                  Informe o motivo da rejeição do setup{" "}
+                                  <strong>
+                                    {item.tipo}
+                                    {item.partnumber}
+                                  </strong>
+                                  .
+                                </p>
+
                                 <label
-                                  htmlFor={`modal-rejeitar-${item.id}`}
-                                  className="btn btn-ghost"
+                                  htmlFor={`motivo-${item.id}`}
+                                  className="modal-label"
                                 >
-                                  Cancelar
+                                  Motivo
                                 </label>
-                                {/* TODO: implementar envio/gravação do motivo e delete no Supabase */}
-                                <button
-                                  type="button"
-                                  className="btn btn-confirmar-rejeicao"
-                                >
-                                  Confirmar rejeição
-                                </button>
+                                <textarea
+                                  id={`motivo-${item.id}`}
+                                  name={`motivo-${item.id}`}
+                                  rows={3}
+                                  placeholder="Descreva o motivo da rejeição..."
+                                  value={motivos[item.id] || ""}
+                                  onChange={(e) =>
+                                    setMotivos((prev) => ({
+                                      ...prev,
+                                      [item.id]: e.target.value,
+                                    }))
+                                  }
+                                />
+
+                                <div className="modal-actions">
+                                  <label
+                                    htmlFor={`modal-rejeitar-${item.id}`}
+                                    className="btn btn-ghost"
+                                  >
+                                    Cancelar
+                                  </label>
+                                  <button
+                                    type="button"
+                                    className="btn btn-confirmar-rejeicao"
+                                    onClick={() => handleRejeitar(item)}
+                                    disabled={enviando[item.id]}
+                                  >
+                                    {enviando[item.id]
+                                      ? "Enviando..."
+                                      : "Confirmar rejeição"}
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
 

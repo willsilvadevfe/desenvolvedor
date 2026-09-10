@@ -2,7 +2,14 @@ import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { inserirUsuario, listarUsuarios, deletarUsuario } from "./database.cjs"; // <- deletarUsuario aqui
+import {
+  inserirUsuario,
+  listarUsuarios,
+  deletarUsuario,
+  criarTabelaRejeicoes,
+  inserirRejeicao,
+  listarRejeicoes,
+} from "./database.cjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,7 +26,10 @@ function createWindow() {
   win.loadURL("http://localhost:5173");
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+  criarTabelaRejeicoes(); // <- garante que a tabela existe antes de qualquer insert/select
+});
 
 ipcMain.handle("usuario:criar", async (event, { nome, registro, senha }) => {
   return await inserirUsuario(nome, registro, senha);
@@ -30,8 +40,15 @@ ipcMain.handle("usuario:listar", async () => {
 });
 
 ipcMain.handle("usuario:deletar", async (event, { registro }) => {
-  // <- esse aqui
   return await deletarUsuario(registro);
+});
+
+ipcMain.handle("rejeicao:criar", async (event, dadosRejeicao) => {
+  return await inserirRejeicao(dadosRejeicao);
+});
+
+ipcMain.handle("rejeicao:listar", async () => {
+  return await listarRejeicoes();
 });
 
 ipcMain.handle("db:baixar", async () => {
@@ -49,24 +66,24 @@ ipcMain.handle("db:baixar", async () => {
   return { sucesso: true, caminho: resultado.filePath };
 });
 
-ipcMain.handle('db:exportarCsv', async () => {
+ipcMain.handle("db:exportarCsv", async () => {
   const usuarios = await listarUsuarios();
 
   const resultado = await dialog.showSaveDialog({
-    defaultPath: 'usuarios.csv',
-    filters: [{ name: 'CSV', extensions: ['csv'] }],
+    defaultPath: "usuarios.csv",
+    filters: [{ name: "CSV", extensions: ["csv"] }],
   });
 
   if (resultado.canceled) return { sucesso: false };
 
-  const cabecalho = 'id,nome,registro';
-  const linhas = usuarios.map(u =>
-    `${u.id},"${u.nome.replace(/"/g, '""')}","${u.registro}"`
+  const cabecalho = "id,nome,registro";
+  const linhas = usuarios.map(
+    (u) => `${u.id},"${u.nome.replace(/"/g, '""')}","${u.registro}"`,
   );
-  const conteudoCsv = [cabecalho, ...linhas].join('\r\n');
+  const conteudoCsv = [cabecalho, ...linhas].join("\r\n");
 
   // BOM no início evita que acentos fiquem quebrados ao abrir no Excel
-  fs.writeFileSync(resultado.filePath, '\uFEFF' + conteudoCsv, 'utf-8');
+  fs.writeFileSync(resultado.filePath, "\uFEFF" + conteudoCsv, "utf-8");
 
   return { sucesso: true, caminho: resultado.filePath };
 });

@@ -77,5 +77,41 @@ function deletarUsuario(registro) {
   });
 }
 
-module.exports = { inserirUsuario, listarUsuarios, deletarUsuario };
+function criarTabelaRejeicoes() {
+  db.run(`CREATE TABLE IF NOT EXISTS rejeicoes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tipo TEXT,
+    partnumber TEXT,
+    linha TEXT,
+    equipamento TEXT,
+    registro TEXT,
+    motivo TEXT,
+    data_rejeicao TEXT DEFAULT (datetime('now','localtime'))
+  )`);
+}
+
+function inserirRejeicao({ tipo, partnumber, linha, equipamento, registro, motivo }) {
+  return new Promise((resolve, reject) => {
+    db.run(
+      `INSERT INTO rejeicoes (tipo, partnumber, linha, equipamento, registro, motivo)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [tipo, partnumber, linha, equipamento, registro, motivo],
+      function (err) {
+        if (err) reject(err);
+        else resolve({ id: this.lastID });
+      }
+    );
+  });
+}
+
+function listarRejeicoes() {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT * FROM rejeicoes ORDER BY data_rejeicao DESC`, [], (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
+    });
+  });
+}
+
+module.exports = { inserirUsuario, listarUsuarios, deletarUsuario, criarTabelaRejeicoes, inserirRejeicao, listarRejeicoes };
 
