@@ -42,7 +42,19 @@ const AprovacaoPrint = () => {
   return (
     <div>
       <div className="container">
+        <a className="exit-icon" href="/">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="48px"
+              viewBox="0 -960 960 960"
+              width="48px"
+              fill="#000000"
+            >
+              <path d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h299v60H180v600h299v60H180Zm486-185-43-43 102-102H360v-60h363L621-612l43-43 176 176-174 174Z" />
+            </svg>
+          </a>
         <div className="form">
+          
           <h2>Formulário para aprovação</h2>
           <small>FIP021 - Borazon - Corte de comprimento</small>
           <div className="input-form">

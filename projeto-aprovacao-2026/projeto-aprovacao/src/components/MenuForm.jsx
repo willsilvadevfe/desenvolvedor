@@ -3,6 +3,8 @@ import "./MenuForm.css";
 import { supabase } from "../supabaseClient";
 import { formatarTempoEspera, getStatusEspera } from "../utils/tempoEspera";
 import { useTick } from "../hooks/useTick";
+import LoginUser from "./LoginUser";
+import { useNavigate } from "react-router-dom";
 
 const CORES_STATUS = {
   verde: "#28a745",
@@ -11,6 +13,8 @@ const CORES_STATUS = {
 };
 
 const MenuForm = () => {
+  const navigate = useNavigate();
+
   const [registros, setRegistros] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
@@ -105,7 +109,12 @@ const MenuForm = () => {
             Painel para gerenciamento de Setups — Auditor de Qualidade
           </small>
         </div>
-        <button className="icon-btn" type="button" aria-label="Configurações">
+        <button
+          className="icon-btn"
+          type="button"
+          aria-label="Configurações"
+          onClick={() => navigate("/LoginUser")}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="26px"
@@ -180,7 +189,11 @@ const MenuForm = () => {
                         <td className="col-acoes">
                           <div className="acoes">
                             {/* TODO: trocar por navegação real (react-router) quando a página de aprovação existir */}
-                            <button className="btn btn-aprovar" type="button">
+                            <button
+                              className="btn btn-aprovar"
+                              type="button"
+                              onClick={() => navigate("/AprovacaoPrint")}
+                            >
                               <svg
                                 viewBox="0 -960 960 960"
                                 width="16"
