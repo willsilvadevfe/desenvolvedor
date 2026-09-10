@@ -5,6 +5,7 @@ import { formatarTempoEspera, getStatusEspera } from "../utils/tempoEspera";
 import { useTick } from "../hooks/useTick";
 import LoginUser from "./LoginUser";
 import { useNavigate } from "react-router-dom";
+import { normalizarId } from "../utils/normalizar";
 
 const CORES_STATUS = {
   verde: "#28a745",
@@ -24,6 +25,12 @@ const MenuForm = () => {
   const checkboxRefs = useRef({});
 
   useTick(15000); // re-renderiza a cada 15s pra atualizar bolinha/tempo
+
+  function handleAprovar(item) {
+    navigate(`/aprovacao/${normalizarId(item.equipamento)}`, {
+      state: { item },
+    });
+  }
 
   useEffect(() => {
     async function buscarRegistros() {
@@ -192,7 +199,7 @@ const MenuForm = () => {
                             <button
                               className="btn btn-aprovar"
                               type="button"
-                              onClick={() => navigate("/AprovacaoPrint")}
+                              onClick={() => handleAprovar(item)}
                             >
                               <svg
                                 viewBox="0 -960 960 960"
