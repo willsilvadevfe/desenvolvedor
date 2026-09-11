@@ -46,14 +46,57 @@ export const caracteristicasEquipamento = {
     ],
   },
 
-  torno01: {
-    titulo: "FIP0XX - Torno 01 - ...",
-    operacao: "Torno 01",
-    docRef: "0XX",
-    imagem: imgTorno01,
-    imagemAlt: "Desenho técnico - Torno 01",
+  //15G Retifica da haste semi-acabada
+
+  "15g": {
+    titulo: "FIP010 - 15G - Retífica da haste semi acabada",
+    operacao: "15G",
+    docRef: "010",
+    imagem: imgBorazon,
+    imagemAlt: "Desenho técnico de retífica da haste semi acabada - 15G",
     campos: [
-      // campos específicos desse equipamento
+      {
+        id: "diametro-pe",
+        tipo: "texto",
+        label: "Diâmetro da haste pé",
+        placeholder: "Ex.: -0,003",
+        obrigatorio: true,
+      },
+      {
+        id: "diametro-meio",
+        tipo: "texto",
+        label: "Diâmetro da haste meio",
+        placeholder: "Ex.: 0,002",
+        obrigatorio: true,
+      },
+      {
+        id: "diametro-ponta",
+        tipo: "texto",
+        label: "Diâmetro da haste ponta",
+        placeholder: "Ex.: 0,005",
+        obrigatorio: true,
+      },
+      {
+        id: "diametro-solda",
+        tipo: "texto",
+        label: "Diâmetro da haste solda",
+        placeholder: "Ex.: 0,000",
+        obrigatorio: false,
+      },
+      {
+        id: "ovalizacao",
+        tipo: "texto",
+        label: "Ovalização da haste",
+        placeholder: "Ex.: 0,002",
+        obrigatorio: true,
+      },
+      {
+        id: "paralelo",
+        tipo: "texto",
+        label: "Comprimento do paralelo",
+        placeholder: "Ex.: 25,35",
+        obrigatorio: true,
+      },
     ],
   },
 
