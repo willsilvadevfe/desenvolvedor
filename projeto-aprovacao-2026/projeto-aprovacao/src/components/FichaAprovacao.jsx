@@ -130,10 +130,7 @@ const FichaAprovacao = () => {
             </label>
 
             <div className="form-actions">
-              <input type="submit" value="Aprovar" onClick={handleAprovar} />
-              <button type="button" onClick={handleRejeitar}>
-                Rejeitar
-              </button>
+              <input type="submit" value="Enviar" onClick={handleAprovar} />
             </div>
           </div>
         </div>
