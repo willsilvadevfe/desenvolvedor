@@ -20,7 +20,9 @@ const FichaAprovacao = () => {
   }
 
   if (!item) {
-    return <p>Nenhuma solicitação selecionada. Volte ao menu e escolha novamente.</p>;
+    return (
+      <p>Nenhuma solicitação selecionada. Volte ao menu e escolha novamente.</p>
+    );
   }
 
   const [valores, setValores] = useState(() => valoresIniciais(config.campos));
@@ -84,72 +86,111 @@ const FichaAprovacao = () => {
         <small>{config.titulo}</small>
 
         <div className="input-form">
-          {config.campos.map((campo) => (
-            <label key={campo.id} htmlFor={campo.id}>
-              {campo.label}
-              {campo.tipo === "select" ? (
-                <select
-                  id={campo.id}
-                  value={valores[campo.id]}
-                  onChange={(e) => atualizarCampo(campo.id, e.target.value)}
-                  required={campo.obrigatorio}
-                >
-                  <option value="">Selecione...</option>
-                  {campo.opcoes.map((op) => (
-                    <option key={op} value={op}>
-                      {op}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <input
-                  type="text"
-                  id={campo.id}
-                  placeholder={campo.placeholder}
-                  value={valores[campo.id]}
-                  onChange={(e) => atualizarCampo(campo.id, e.target.value)}
-                  required={campo.obrigatorio}
-                />
-              )}
+          <div className="linha-principal">
+            {config.campos.map((campo) => (
+              <label key={campo.id} htmlFor={campo.id}>
+                {campo.tipo === "select" ? (
+                  <select
+                    id={campo.id}
+                    value={valores[campo.id]}
+                    onChange={(e) => atualizarCampo(campo.id, e.target.value)}
+                    required={campo.obrigatorio}
+                  >
+                    <option value="">Selecione...</option>
+                    {campo.opcoes.map((op) => (
+                      <option key={op} value={op}>
+                        {op}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    id={campo.id}
+                    placeholder={campo.placeholder}
+                    value={valores[campo.id]}
+                    onChange={(e) => atualizarCampo(campo.id, e.target.value)}
+                    required={campo.obrigatorio}
+                  />
+                )}
+                {campo.label}
+              </label>
+            ))}
+          </div>
+
+          <div className="linha-inferior">
+            <label htmlFor="observacao" className="campo-observacao">
+              Observação
+              <textarea
+                id="observacao"
+                placeholder="Adicione aqui uma observação caso necessário."
+                value={observacao}
+                onChange={(e) => setObservacao(e.target.value)}
+              />
             </label>
-          ))}
 
-          <label htmlFor="observacao">
-            Observação
-            <textarea
-              id="observacao"
-              placeholder="Adicione aqui uma observação caso necessário."
-              value={observacao}
-              onChange={(e) => setObservacao(e.target.value)}
-            />
-          </label>
-
-          <input type="submit" value="Aprovar" onClick={handleAprovar} />
-          <button type="button" onClick={handleRejeitar}>
-            Rejeitar
-          </button>
+            <div className="form-actions">
+              <input type="submit" value="Aprovar" onClick={handleAprovar} />
+              <button type="button" onClick={handleRejeitar}>
+                Rejeitar
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* área que vira o PDF */}
       <div className="parent" id="area-impressao">
         <div className="div1">
-          <span>Operação</span>
-          <p>{config.operacao}</p>
-          <span>Válvula</span>
-          <p>{item.partnumber}</p>
-          <span>Linha</span>
-          <p>{item.linha}</p>
-          <span>Data</span>
-          <p>{new Date().toLocaleDateString("pt-BR")}</p>
-          <span>Hora</span>
-          <p>{new Date().toLocaleTimeString("pt-BR").slice(0, 5)}</p>
-          <span>Auditor</span>
-          <p>Willian Silva</p>
-          <span>DOC. REF. FIP</span>
-          <p>{config.docRef}</p>
-        </div>
+          <div className="linha-setup">
+            <span>Operação</span>
+          </div>
+          <div className="linha-setup">
+            <p>{config.operacao}</p>
+          </div>
 
+          <div className="linha-setup">
+            <span>Válvula</span>
+          </div>
+          <div className="linha-setup">
+            <p>{item.partnumber}</p>
+          </div>
+
+          <div className="linha-setup">
+            <span>Linha</span>
+          </div>
+          <div className="linha-setup">
+            <p>{item.linha}</p>
+          </div>
+
+          <div className="linha-setup">
+            <span>Data</span>
+          </div>
+          <div className="linha-setup">
+            <p>{new Date().toLocaleDateString("pt-BR")}</p>
+          </div>
+
+          <div className="linha-setup">
+            <span>Hora</span>
+          </div>
+          <div className="linha-setup">
+            <p>{new Date().toLocaleTimeString("pt-BR").slice(0, 5)}</p>
+          </div>
+
+          <div className="linha-setup">
+            <span>Auditor</span>
+          </div>
+          <div className="linha-setup">
+            <p>Willian Silva</p>
+          </div>
+
+          <div className="linha-setup">
+            <span>DOC. REF. FIP</span>
+          </div>
+          <div className="linha-setup">
+            <p>{config.docRef}</p>
+          </div>
+        </div>
         <div className="div2">
           <img
             src={config.imagem}
