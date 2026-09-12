@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD</title>
+  </head>
+  <body>
+    <div class="container">
+      <label for="fruit"
+        >Fruit
+        <input type="text" placeholder="Fruit" name="fruit" id="fruit" />
+      </label>
+      <button id="add-fruit">Add Fruit</button>
+      <button id="delete-fruit">Delete Fruit</button>
+      <div class="res" id="res"></div>
+    </div>
+    <script>
+      const fruit = document.getElementById("fruit");
+      const btnAddFruit = document.getElementById("add-fruit");
+      const btnDeleteFruit = document.getElementById("delete-fruit");
+      const res = document.getElementById("res");
+
+      let fruits = [];
+
+      btnAddFruit.addEventListener("click", () => {
+        if (fruit.value == "") {
+          alert("Digite uma fruta.");
+          return;
+        } else {
+          fruits.push(document.getElementById("fruit").value);
+          console.log(fruits);
+          res.innerHTML += `<li> ${fruits[fruits.length - 1]} </li>`;
+          document.getElementById("fruit").value = "";
+          document.getElementById("fruit").focus();
+        }
+      });
+
+      btnDeleteFruit.addEventListener("click", () => {
+        fruits.pop();
+        console.log(fruits);
+        res.innerHTML = "";
+        res.innerHTML += `<li> ${fruits} </li>`;
+      });
+    </script>
+  </body>
+</html>

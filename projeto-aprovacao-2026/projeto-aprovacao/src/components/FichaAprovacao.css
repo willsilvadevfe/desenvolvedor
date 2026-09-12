@@ -16,6 +16,7 @@
   background: #ffffff;
   border-radius: 12px;
   padding: 24px;
+  margin-top: 50px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
 }
@@ -180,8 +181,6 @@
   border: 1px solid #000; /* borda nos 4 lados de cada linha */
   box-sizing: border-box;
   margin-top: -1px; /* evita dobrar a borda entre linhas vizinhas */
-  
-  
 }
 
 .linha-setup:first-child {
@@ -214,7 +213,7 @@
   background-color: #71737536;
 }
 
-.linha-setup:last-child{
+.linha-setup:last-child {
   border-radius: 0px 0px 4px 4px;
 }
 
@@ -223,13 +222,11 @@
   color: #374151;
   margin: 0 auto;
   text-transform: uppercase;
-  
 }
 
 .linha-setup p {
   margin: 0 auto;
   color: #111827;
-
 }
 
 /* ---------- DIV2: coluna grande da imagem ---------- */
@@ -275,7 +272,6 @@
   color: #4b5563;
   white-space: pre-wrap;
   font-size: 12px;
-  
 }
 
 /* ---------- DIV3: linha inferior (div2 + div4) ---------- */
@@ -294,7 +290,7 @@
   overflow: hidden;
 }
 
-.div3 .visual{
+.div3 .visual {
   position: absolute;
   bottom: 5px;
   right: 5px;
@@ -365,4 +361,68 @@
     width: 90%;
     height: 45vh;
   }
+}
+
+/* SweetAlert FichaAprovacao */
+
+/* Caixa principal */
+.swal-popup {
+  border-radius: 16px !important;
+  padding: 32px !important;
+  font-family: "Inter", sans-serif !important;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2) !important;
+}
+
+/* Título */
+.swal-title {
+  font-family: "Inter", sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  margin-bottom: 8px !important;
+}
+
+/* Texto */
+.swal-text {
+  font-family: "Inter", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+  color: #64748b !important;
+  margin-top: 0 !important;
+}
+
+.swal-text p {
+  margin: 0 !important;
+}
+
+/* Botão */
+.swal-confirm-button {
+  font-family: "Inter", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+
+  border-radius: 8px !important;
+  padding: 11px 20px !important;
+
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2) !important;
+
+  transition: all 0.2s ease !important;
+}
+
+/* Hover do botão */
+.swal-confirm-button:hover {
+  background-color: #1d4ed8 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* Ícone de erro */
+.swal2-icon.swal2-error {
+  margin: 0 auto 10px !important;
+}
+
+/* Fundo atrás do alerta */
+.swal2-container.swal2-backdrop-show {
+  background: rgba(15, 23, 42, 0.65) !important;
 }
