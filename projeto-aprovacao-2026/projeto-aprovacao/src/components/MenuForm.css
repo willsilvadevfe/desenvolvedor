@@ -20,7 +20,8 @@
   --color-success-soft: #e7f5ee;
   --radius-sm: 4px;
   --radius-md: 8px;
-  --shadow-panel: 0 1px 0 rgba(10, 10, 10, 0.03), 0 12px 32px rgba(10, 10, 10, 0.06);
+  --shadow-panel:
+    0 1px 0 rgba(10, 10, 10, 0.03), 0 12px 32px rgba(10, 10, 10, 0.06);
 
   min-height: 100vh;
   background-color: var(--color-bg);
@@ -58,6 +59,12 @@
   font-size: 0.85rem;
 }
 
+.btn-header {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
 .icon-btn {
   display: grid;
   place-items: center;
@@ -68,13 +75,26 @@
   background-color: var(--color-panel);
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
   flex-shrink: 0;
+}
+
+.btn-reload {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: 0.4s;
 }
 
 .icon-btn:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
+}
+
+.btn-reload:hover {
+  transform: rotate(360deg);
 }
 
 /* ==========================================================================
@@ -203,7 +223,10 @@ tbody tr:hover {
   border: 1px solid transparent;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.05s ease;
   user-select: none;
 }
 
