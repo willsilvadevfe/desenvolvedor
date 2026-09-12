@@ -354,6 +354,60 @@ tbody tr:hover {
   margin-top: 18px;
 }
 
+/* SweetAlert2 (Peça rejeitada com sucesso!)
+/* Alert de peça rejeitada */
+.swal-rejeicao-popup {
+  width: 420px !important;
+  border-radius: 16px !important;
+  padding: 30px !important;
+  font-family: "Inter", sans-serif !important;
+
+  border: 1px solid #e2e8f0 !important;
+
+  box-shadow:
+    0 20px 40px rgba(15, 23, 42, 0.15),
+    0 4px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Título */
+.swal-rejeicao-title {
+  margin-top: 10px !important;
+  margin-bottom: 8px !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 23px !important;
+  font-weight: 700 !important;
+
+  color: #1e293b !important;
+}
+
+/* Texto */
+.swal-rejeicao-html {
+  margin: 0 !important;
+  padding: 0 !important;
+
+  font-family: "Inter", sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+
+  color: #64748b !important;
+}
+
+.swal-rejeicao-texto {
+  margin: 0 !important;
+}
+
+.swal-rejeicao-texto strong {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+/* Barra de progresso */
+.swal-rejeicao-progress {
+  height: 4px !important;
+  background: #166132 !important;
+}
+
 /* ==========================================================================
    Responsivo
    ========================================================================== */

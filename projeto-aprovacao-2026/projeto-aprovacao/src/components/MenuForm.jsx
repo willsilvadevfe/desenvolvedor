@@ -121,6 +121,32 @@ const MenuForm = () => {
       if (checkboxRefs.current[item.id]) {
         checkboxRefs.current[item.id].checked = false;
       }
+
+      Swal.fire({
+        title: "Tudo certo!",
+        html: `
+    <p class="swal-rejeicao-texto">
+      Válvula rejeitada com sucesso e gravada no banco de dados.
+    </p>
+  `,
+        icon: "success",
+        iconColor: "#166132",
+
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+
+        customClass: {
+          popup: "swal-rejeicao-popup",
+          title: "swal-rejeicao-title",
+          htmlContainer: "swal-rejeicao-html",
+          timerProgressBar: "swal-rejeicao-progress",
+        },
+
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
     } catch (err) {
       console.error("Erro ao rejeitar solicitação:", err);
       alert("Não foi possível concluir a rejeição. Tente novamente.");
