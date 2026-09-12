@@ -160,7 +160,10 @@ const FichaAprovacao = () => {
             <span>Válvula</span>
           </div>
           <div className="linha-setup">
-            <p>{item.partnumber}</p>
+            <p>
+              {item.tipo}
+              {item.partnumber}
+            </p>
           </div>
 
           <div className="linha-setup">

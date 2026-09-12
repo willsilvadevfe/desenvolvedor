@@ -6,6 +6,7 @@ import { useTick } from "../hooks/useTick";
 import LoginUser from "./LoginUser";
 import { useNavigate } from "react-router-dom";
 import { normalizarId } from "../utils/normalizar";
+import Swal from "sweetalert2";
 
 const CORES_STATUS = {
   verde: "#28a745",
@@ -61,7 +62,24 @@ const MenuForm = () => {
     const motivo = (motivos[item.id] || "").trim();
 
     if (!motivo) {
-      alert("Informe o motivo da rejeição antes de confirmar.");
+      Swal.fire({
+        title: "Erro ao rejeitar!",
+        html: "<p>Preencha o <strong>motivo da rejeição</strong>, campo obrigatório.</p>",
+        icon: "warning",
+        iconColor: "#f36d00",
+
+        confirmButtonText: "Tentar novamente",
+        confirmButtonColor: "#2563eb",
+
+        customClass: {
+          popup: "swal-popup",
+          title: "swal-title",
+          htmlContainer: "swal-text",
+          confirmButton: "swal-confirm-button",
+        },
+
+        buttonsStyling: true,
+      });
       return;
     }
 
