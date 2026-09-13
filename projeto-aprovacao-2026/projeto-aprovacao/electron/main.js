@@ -9,6 +9,7 @@ import {
   criarTabelaRejeicoes,
   inserirRejeicao,
   listarRejeicoes,
+  verificarUsuario,
 } from "./database.cjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -51,6 +52,17 @@ ipcMain.handle("rejeicao:listar", async () => {
   return await listarRejeicoes();
 });
 
+console.log("verificarUsuario é:", typeof verificarUsuario);
+ipcMain.handle("usuario:verificarLogin", async (event, registro, senha) => {
+  try {
+    const usuario = await verificarUsuario(registro, senha);
+    return usuario;
+  } catch {
+    console.error("Erro ao verificar login:", error);
+    return null;
+  }
+});
+
 ipcMain.handle("db:baixar", async () => {
   const caminhoOrigem = path.join(app.getPath("userData"), "usuario.db");
   // ajuste para onde seu .db realmente está salvo
@@ -65,6 +77,30 @@ ipcMain.handle("db:baixar", async () => {
   fs.copyFileSync(caminhoOrigem, resultado.filePath);
   return { sucesso: true, caminho: resultado.filePath };
 });
+
+ipcMain.handle("pdf:salvar", async (event, { nomeArquivo, pdfBase64 }) => {
+  try {
+    // por enquanto salva na pasta Documentos do usuário;
+    // depois vocês trocam por config.diretorioPdf quando o AdminConfig estiver pronto
+    const pastaDestino = app.getPath("documents");
+    const caminhoCompleto = path.join(pastaDestino, nomeArquivo);
+
+    const base64Limpo = pdfBase64.replace(
+      /^data:application\/pdf;filename=generated\.pdf;base64,/,
+      "",
+    );
+    const buffer = Buffer.from(base64Limpo, "base64");
+
+    fs.writeFileSync(caminhoCompleto, buffer);
+
+    return { sucesso: true, caminho: caminhoCompleto };
+  } catch (erro) {
+    console.error("Erro ao salvar PDF:", erro);
+    return { sucesso: false };
+  }
+});
+
+console.log("Handler pdf:salvar registrado");
 
 ipcMain.handle("db:exportarCsv", async () => {
   const usuarios = await listarUsuarios();

@@ -9,4 +9,6 @@ contextBridge.exposeInMainWorld("api", {
   exportarUsuariosCsv: () => ipcRenderer.invoke("db:exportarCsv"),
   criarRejeicao: (dados) => ipcRenderer.invoke("rejeicao:criar", dados),
   listarRejeicoes: () => ipcRenderer.invoke("rejeicao:listar"),
+  verificarLogin: (registro, senha) => ipcRenderer.invoke("usuario:verificarLogin", registro, senha),
+  salvarPdfAprovacao: (payload) => ipcRenderer.invoke("pdf:salvar", payload),
 });

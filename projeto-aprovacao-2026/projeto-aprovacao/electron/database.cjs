@@ -42,6 +42,23 @@ function inserirUsuario(nome, registro, senha) {
   });
 }
 
+// database.cjs
+
+function verificarUsuario(registro, senha) {
+  return new Promise((resolve, reject) => {
+    const sql =
+      "SELECT id, nome, registro FROM usuario WHERE registro = ? AND senha = ?";
+    db.get(sql, [registro, senha], (err, row) => {
+      if (err) {
+        reject(err);
+      } else {
+        // row será undefined se não encontrar ninguém com esse registro/senha
+        resolve(row || null);
+      }
+    });
+  });
+}
+
 function listarUsuarios() {
   return new Promise((resolve, reject) => {
     db.all("SELECT id, nome, registro FROM usuario", [], (err, rows) => {
@@ -70,9 +87,9 @@ function deletarUsuario(registro) {
           function (err) {
             if (err) return reject(err);
             resolve({ registro, deletado: true });
-          }
+          },
         );
-      }
+      },
     );
   });
 }
@@ -90,7 +107,14 @@ function criarTabelaRejeicoes() {
   )`);
 }
 
-function inserirRejeicao({ tipo, partnumber, linha, equipamento, registro, motivo }) {
+function inserirRejeicao({
+  tipo,
+  partnumber,
+  linha,
+  equipamento,
+  registro,
+  motivo,
+}) {
   return new Promise((resolve, reject) => {
     db.run(
       `INSERT INTO rejeicoes (tipo, partnumber, linha, equipamento, registro, motivo)
@@ -99,19 +123,30 @@ function inserirRejeicao({ tipo, partnumber, linha, equipamento, registro, motiv
       function (err) {
         if (err) reject(err);
         else resolve({ id: this.lastID });
-      }
+      },
     );
   });
 }
 
 function listarRejeicoes() {
   return new Promise((resolve, reject) => {
-    db.all(`SELECT * FROM rejeicoes ORDER BY data_rejeicao DESC`, [], (err, rows) => {
-      if (err) reject(err);
-      else resolve(rows);
-    });
+    db.all(
+      `SELECT * FROM rejeicoes ORDER BY data_rejeicao DESC`,
+      [],
+      (err, rows) => {
+        if (err) reject(err);
+        else resolve(rows);
+      },
+    );
   });
 }
 
-module.exports = { inserirUsuario, listarUsuarios, deletarUsuario, criarTabelaRejeicoes, inserirRejeicao, listarRejeicoes };
-
+module.exports = {
+  inserirUsuario,
+  listarUsuarios,
+  deletarUsuario,
+  criarTabelaRejeicoes,
+  inserirRejeicao,
+  listarRejeicoes,
+  verificarUsuario,
+};
