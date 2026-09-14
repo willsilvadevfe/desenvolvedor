@@ -213,6 +213,7 @@ const MenuForm = () => {
                 <thead>
                   <tr>
                     <th>ID</th>
+                    <th>Identificação</th>
                     <th>Tipo</th>
                     <th>PartNumber</th>
                     <th>Linha</th>
@@ -228,6 +229,7 @@ const MenuForm = () => {
                     return (
                       <tr key={item.id}>
                         <td className="mono">{index + 1}</td>
+                        <td className="mono">{item.identificacao}</td>
                         <td>
                           <span className="badge-tipo">{item.tipo}</span>
                         </td>
