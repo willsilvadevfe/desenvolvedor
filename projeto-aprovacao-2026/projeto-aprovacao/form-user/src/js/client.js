@@ -7,6 +7,8 @@ const SUPABASE_ANON_KEY =
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+console.log(dados);
+
 const form = document.getElementById("setup-form");
 const submitBtn = form.querySelector('button[type="submit"]');
 

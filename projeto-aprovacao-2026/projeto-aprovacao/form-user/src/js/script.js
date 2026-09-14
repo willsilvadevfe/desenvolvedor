@@ -5,12 +5,20 @@ formulario.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const tipo = document.getElementById("tipo").value;
+  const identificacao = document.getElementById("identificacao").value.trim();
   const partnumber = document.getElementById("partnumber").value.trim();
   const linha = document.getElementById("linha").value;
   const equipamento = document.getElementById("equipamento").value;
   const ecnumber = document.getElementById("ecnumber").value.trim();
 
-  if (!tipo || !partnumber || !linha || !equipamento || !ecnumber) {
+  if (
+    !tipo ||
+    !identificacao ||
+    !partnumber ||
+    !linha ||
+    !equipamento ||
+    !ecnumber
+  ) {
     return;
   } else {
     console.log("Enviado com sucesso..");
