@@ -10,6 +10,9 @@ import {
   inserirRejeicao,
   listarRejeicoes,
   verificarUsuario,
+  inserirAprovacao,
+  listarAprovacoes,
+  criarTabelaAprovacoes,
 } from "./database.cjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -29,7 +32,8 @@ function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
-  criarTabelaRejeicoes(); // <- garante que a tabela existe antes de qualquer insert/select
+  criarTabelaRejeicoes();
+  criarTabelaAprovacoes(); // <- garante que a tabela existe antes de qualquer insert/select
 });
 
 ipcMain.handle("usuario:criar", async (event, { nome, registro, senha }) => {
@@ -52,6 +56,13 @@ ipcMain.handle("rejeicao:listar", async () => {
   return await listarRejeicoes();
 });
 
+ipcMain.handle("aprovacao:criar", async (event, dadosAprovacao) => {
+  return await inserirAprovacao(dadosAprovacao);
+});
+
+ipcMain.handle("aprovacao:listar", async () => {
+  return await listarAprovacoes();
+});
 console.log("verificarUsuario é:", typeof verificarUsuario);
 ipcMain.handle("usuario:verificarLogin", async (event, registro, senha) => {
   try {

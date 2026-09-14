@@ -141,6 +141,41 @@ function listarRejeicoes() {
   });
 }
 
+function criarTabelaAprovacoes() {
+  db.run(`CREATE TABLE IF NOT EXISTS aprovacoes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    operacao TEXT,
+    valvula TEXT,
+    linha TEXT,
+    data TEXT,
+    hora TEXT,
+    auditor TEXT
+  )`);
+}
+
+function inserirAprovacao({ operacao, valvula, linha, data, hora, auditor }) {
+  return new Promise((resolve, reject) => {
+    db.run(
+      `INSERT INTO aprovacoes (operacao, valvula, linha, data, hora, auditor)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [operacao, valvula, linha, data, hora, auditor],
+      function (err) {
+        if (err) reject(err);
+        else resolve({ id: this.lastID });
+      },
+    );
+  });
+}
+
+function listarAprovacoes() {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT * FROM aprovacoes ORDER BY id DESC`, [], (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
+    });
+  });
+}
+
 module.exports = {
   inserirUsuario,
   listarUsuarios,
@@ -149,4 +184,7 @@ module.exports = {
   inserirRejeicao,
   listarRejeicoes,
   verificarUsuario,
+  criarTabelaAprovacoes,
+  inserirAprovacao,
+  listarAprovacoes,
 };

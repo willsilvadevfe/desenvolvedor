@@ -9,6 +9,9 @@ contextBridge.exposeInMainWorld("api", {
   exportarUsuariosCsv: () => ipcRenderer.invoke("db:exportarCsv"),
   criarRejeicao: (dados) => ipcRenderer.invoke("rejeicao:criar", dados),
   listarRejeicoes: () => ipcRenderer.invoke("rejeicao:listar"),
-  verificarLogin: (registro, senha) => ipcRenderer.invoke("usuario:verificarLogin", registro, senha),
+  verificarLogin: (registro, senha) =>
+    ipcRenderer.invoke("usuario:verificarLogin", registro, senha),
   salvarPdfAprovacao: (payload) => ipcRenderer.invoke("pdf:salvar", payload),
+  criarAprovacao: (dados) => ipcRenderer.invoke("aprovacao:criar", dados),
+  listarAprovacao: () => ipcRenderer.invoke("aprovacao:listar"),
 });

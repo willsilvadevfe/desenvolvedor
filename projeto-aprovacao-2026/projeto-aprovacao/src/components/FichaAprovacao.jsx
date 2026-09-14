@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { caracteristicasEquipamento } from "../configs/CaracteristicaEquipamento";
+import { supabase } from "../supabaseClient";
 import "./FichaAprovacao.css";
 
 function valoresIniciais(campos) {
@@ -65,114 +66,136 @@ const FichaAprovacao = () => {
     }
 
     const listaHtml = config.campos
-    .map((campo) => `<p><strong>${campo.label}:</strong> ${valores[campo.id] || "-"}</p>`)
-    .join("");
+      .map(
+        (campo) =>
+          `<p><strong>${campo.label}:</strong> ${valores[campo.id] || "-"}</p>`,
+      )
+      .join("");
 
     const revisao = await Swal.fire({
-    title: "Verifique as informações da aprovação",
-    html: `<div style="text-align:left">${listaHtml}<p><strong>Observação:</strong> ${observacao || "-"}</p></div>`,
-    icon: "info",
-    showCancelButton: true,
-    confirmButtonText: "Aprovar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#2563eb",
-    cancelButtonColor: "#dc2626",
-    customClass: {
-      popup: "swal-popup",
-      title: "swal-title",
-      htmlContainer: "swal-text",
-      confirmButton: "swal-confirm-button",
-      cancelButton: "swal-cancel-button",
-    },
-  });
+      title: "Verifique as informações da aprovação",
+      html: `<div style="text-align:left">${listaHtml}<p><strong>Observação:</strong> ${observacao || "-"}</p></div>`,
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "Aprovar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#2563eb",
+      cancelButtonColor: "#dc2626",
+      customClass: {
+        popup: "swal-popup",
+        title: "swal-title",
+        htmlContainer: "swal-text",
+        confirmButton: "swal-confirm-button",
+        cancelButton: "swal-cancel-button",
+      },
+    });
 
-  if (!revisao.isConfirmed) {
-    return; // usuário clicou Cancelar
-  }
+    if (!revisao.isConfirmed) {
+      return; // usuário clicou Cancelar
+    }
 
-   // --- Swal 2: login e senha ---
-  const login = await Swal.fire({
-    title: "Confirme sua identidade",
-    html: `
+    // --- Swal 2: login e senha ---
+    const login = await Swal.fire({
+      title: "Confirme sua identidade",
+      html: `
       <input id="swal-registro" class="swal2-input" placeholder="Registro">
       <input id="swal-senha" type="password" class="swal2-input" placeholder="Senha">
     `,
-    focusConfirm: false,
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    preConfirm: () => {
-      const registro = document.getElementById("swal-registro").value.trim();
-      const senha = document.getElementById("swal-senha").value.trim();
-      if (!registro || !senha) {
-        Swal.showValidationMessage("Preencha registro e senha.");
-        return false;
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+      preConfirm: () => {
+        const registro = document.getElementById("swal-registro").value.trim();
+        const senha = document.getElementById("swal-senha").value.trim();
+        if (!registro || !senha) {
+          Swal.showValidationMessage("Preencha registro e senha.");
+          return false;
+        }
+        return { registro, senha };
+      },
+    });
+
+    if (!login.isConfirmed) {
+      return; // cancelou o login
+    }
+
+    const { registro, senha } = login.value;
+    const usuario = await window.api.verificarLogin(registro, senha);
+
+    if (!usuario) {
+      Swal.fire("Erro", "Registro ou senha inválidos.", "error");
+      return;
+    }
+
+    // login válido: guarda o nome vindo do banco
+    setAuditorNome(usuario.nome);
+
+    const pdfBase64 = await gerarPdfBase64();
+
+    const nomeArquivo = `${config.operacao}_${item.tipo}${item.partnumber}_${Date.now()}.pdf`;
+
+    const resultado = await window.api.salvarPdfAprovacao({
+      nomeArquivo,
+      pdfBase64,
+    });
+
+    if (resultado?.sucesso) {
+      try {
+        await window.api.criarAprovacao({
+          operacao: config.operacao,
+          valvula: `${item.tipo}${item.partnumber}`,
+          linha: item.linha,
+          data: new Date().toLocaleDateString("pt-BR"),
+          hora: new Date().toLocaleTimeString("pt-BR").slice(0, 5),
+          auditor: usuario.nome,
+        });
+
+        await supabase.from("formularios").delete().eq("id", item.id);
+      } catch (err) {
+        console.error("Erro ao registrar aprovação/apagar do Supabase:", err);
       }
-      return { registro, senha };
-    },
-  });
 
-   if (!login.isConfirmed) {
-    return; // cancelou o login
-  }
-
-  const { registro, senha } = login.value;
-  const usuario = await window.api.verificarLogin(registro, senha);
-
-  if (!usuario) {
-    Swal.fire("Erro", "Registro ou senha inválidos.", "error");
-    return;
-  }
-
-  // login válido: guarda o nome vindo do banco
-  setAuditorNome(usuario.nome);
-
- const pdfBase64 = await gerarPdfBase64();
-
-  const nomeArquivo = `${config.operacao}_${item.tipo}${item.partnumber}_${Date.now()}.pdf`;
-
-  const resultado = await window.api.salvarPdfAprovacao({
-    nomeArquivo,
-    pdfBase64,
-  });
-
-  if (resultado?.sucesso) {
-    Swal.fire("Aprovado!", "PDF salvo com sucesso.", "success");
-  } else {
-    Swal.fire("Erro", "Não foi possível salvar o PDF.", "error");
-  }}
-
-  function handleRejeitar() {
-    alert("Rejeitado (implementar handler específico se necessário)");
+      Swal.fire("Aprovado!", "PDF salvo com sucesso.", "success");
+    } else {
+      Swal.fire("Erro", "Não foi possível salvar o PDF.", "error");
+    }
   }
 
   async function gerarPdfBase64() {
-  const elemento = document.getElementById("area-impressao");
+    const elemento = document.getElementById("area-impressao");
 
-  const canvas = await html2canvas(elemento, {
-    scale: 2, // melhora a nitidez do PDF
-    useCORS: true, // ajuda a evitar problema com a imagem do equipamento (config.imagem)
-  });
+    const canvas = await html2canvas(elemento, {
+      scale: 2, // melhora a nitidez do PDF
+      useCORS: true, // ajuda a evitar problema com a imagem do equipamento (config.imagem)
+    });
 
-  const imagemBase64 = canvas.toDataURL("image/png");
+    const imagemBase64 = canvas.toDataURL("image/png");
 
-  // A4 paisagem, em milímetros: 297 x 210
-  const pdf = new jsPDF({
-    orientation: "landscape",
-    unit: "mm",
-    format: "a4",
-  });
+    // A4 paisagem, em milímetros: 297 x 210
+    const pdf = new jsPDF({
+      orientation: "landscape",
+      unit: "mm",
+      format: "a4",
+    });
 
-  const larguraPagina = pdf.internal.pageSize.getWidth();
-  const alturaPagina = pdf.internal.pageSize.getHeight();
+    const larguraPagina = pdf.internal.pageSize.getWidth();
+    const alturaPagina = pdf.internal.pageSize.getHeight();
 
-  // calcula a altura da imagem mantendo a proporção do canvas
-  const alturaImagem = (canvas.height * larguraPagina) / canvas.width;
+    // calcula a altura da imagem mantendo a proporção do canvas
+    const alturaImagem = (canvas.height * larguraPagina) / canvas.width;
 
-  pdf.addImage(imagemBase64, "PNG", 0, 0, larguraPagina, Math.min(alturaImagem, alturaPagina));
+    pdf.addImage(
+      imagemBase64,
+      "PNG",
+      0,
+      0,
+      larguraPagina,
+      Math.min(alturaImagem, alturaPagina),
+    );
 
-  return pdf.output("datauristring"); // string base64 pronta para mandar pro main
-}
+    return pdf.output("datauristring"); // string base64 pronta para mandar pro main
+  }
 
   return (
     <div className="ficha-aprovacao">
