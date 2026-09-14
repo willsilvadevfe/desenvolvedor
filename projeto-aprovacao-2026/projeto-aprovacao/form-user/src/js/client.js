@@ -15,6 +15,7 @@ form.addEventListener("submit", async (evento) => {
 
   const dados = {
     tipo: form.tipo.value,
+    identificacao: Number(form.identificacao.value),
     partnumber: Number(form.partnumber.value),
     linha: form.linha.value,
     equipamento: form.equipamento.value || null,
