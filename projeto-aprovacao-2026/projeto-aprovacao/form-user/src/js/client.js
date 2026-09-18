@@ -7,6 +7,8 @@ const SUPABASE_ANON_KEY =
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+//RETIRADO CONSOLE.LOG(DADOS)
+
 const form = document.getElementById("setup-form");
 const submitBtn = form.querySelector('button[type="submit"]');
 
