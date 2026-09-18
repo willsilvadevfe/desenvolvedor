@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+      }
+
+      .container {
+        width: 100%;
+        height: 100dvh;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .box {
+        display: flex;
+        flex-direction: column;
+        max-width: 300px;
+        gap: 10px;
+      }
+
+      .box h4 {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      #resultado {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <label for="numbers">Numeros: <input type="text" id="input-num" /></label>
+      <div class="box">
+        <h4>Manipular Dados inseridos no Input</h4>
+        <button id="add-final-array">Adicionar Número ao final do Array</button>
+        <button id="add-inicio-array">
+          Adicionar Número ao inicio do Array
+        </button>
+        <button id="deletar-ultimo-array">
+          Deletar último Número do Array
+        </button>
+        <button id="deletar-primeiro-array">
+          Deletar primeiro Número do Array
+        </button>
+        <button id="reduce">Somar todos valores do array</button>
+        <button id="deletar">Deletar todos</button>
+      </div>
+      <div id="resultado"></div>
+    </div>
+    <script src="teste.js"></script>
+  </body>
+</html>
