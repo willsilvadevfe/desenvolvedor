@@ -48,16 +48,28 @@ function obterPastaDestino() {
   return pasta;
 }
 
-function imprimirPdf(caminhoArquivo) {
+function imprimirImagem(imagemBase64) {
   return new Promise((resolve, reject) => {
-    const janelaImpressao = new BrowserWindow({
-      show: false,
-      webPreferences: { plugins: true }, // necessário pro viewer de PDF do Chromium renderizar
-    });
+    const janelaImpressao = new BrowserWindow({ show: false });
+
+    const htmlImpressao = `
+      <html>
+        <head>
+          <style>
+            @page { size: A4 landscape; margin: 10mm; }
+            html, body { margin: 0; padding: 0; }
+            img { width: 100%; height: auto; display: block; }
+          </style>
+        </head>
+        <body>
+          <img src="${imagemBase64}" />
+        </body>
+      </html>
+    `;
 
     janelaImpressao.webContents.on("did-finish-load", () => {
       janelaImpressao.webContents.print(
-        { silent: false, landscape: true },
+        { silent: false, landscape: true, color: false },
         (sucesso, motivoErro) => {
           janelaImpressao.close();
           if (!sucesso && motivoErro !== "cancelled") {
@@ -70,10 +82,14 @@ function imprimirPdf(caminhoArquivo) {
     });
 
     janelaImpressao.webContents.on("did-fail-load", (_e, _code, descricao) => {
-      reject(new Error(`Falha ao carregar PDF para impressão: ${descricao}`));
+      reject(
+        new Error(`Falha ao carregar imagem para impressão: ${descricao}`),
+      );
     });
 
-    janelaImpressao.loadURL(`file://${caminhoArquivo}`);
+    janelaImpressao.loadURL(
+      "data:text/html;charset=utf-8," + encodeURIComponent(htmlImpressao),
+    );
   });
 }
 
@@ -130,32 +146,32 @@ ipcMain.handle("db:baixar", async () => {
   return { sucesso: true, caminho: resultado.filePath };
 });
 
-ipcMain.handle("pdf:salvar", async (event, { nomeArquivo, pdfBase64 }) => {
-  try {
-    const pastaDestino = obterPastaDestino(); // C:/aprovacoes/2026/09
-    const caminhoCompleto = path.join(pastaDestino, nomeArquivo);
-
-    const base64Limpo = pdfBase64.replace(
-      /^data:application\/pdf;filename=generated\.pdf;base64,/,
-      "",
-    );
-    const buffer = Buffer.from(base64Limpo, "base64");
-
-    fs.writeFileSync(caminhoCompleto, buffer);
-
+ipcMain.handle(
+  "pdf:salvar",
+  async (event, { nomeArquivo, pdfBase64, imagemBase64 }) => {
     try {
-      await imprimirPdf(caminhoCompleto);
-    } catch (erroImpressao) {
-      // não falha o salvamento por causa de um problema na impressão
-      console.error("Erro ao abrir tela de impressão:", erroImpressao);
-    }
+      const pastaDestino = obterPastaDestino();
+      const caminhoCompleto = path.join(pastaDestino, nomeArquivo);
 
-    return { sucesso: true, caminho: caminhoCompleto };
-  } catch (erro) {
-    console.error("Erro ao salvar PDF:", erro);
-    return { sucesso: false };
-  }
-});
+      const base64Limpo = pdfBase64.replace(
+        /^data:application\/pdf;filename=generated\.pdf;base64,/,
+        "",
+      );
+      fs.writeFileSync(caminhoCompleto, Buffer.from(base64Limpo, "base64"));
+
+      try {
+        await imprimirImagem(imagemBase64);
+      } catch (erroImpressao) {
+        console.error("Erro ao abrir tela de impressão:", erroImpressao);
+      }
+
+      return { sucesso: true, caminho: caminhoCompleto };
+    } catch (erro) {
+      console.error("Erro ao salvar PDF:", erro);
+      return { sucesso: false };
+    }
+  },
+);
 
 console.log("Handler pdf:salvar registrado");
 

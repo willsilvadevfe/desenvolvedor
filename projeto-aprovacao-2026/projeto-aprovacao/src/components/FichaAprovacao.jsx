@@ -13,6 +13,7 @@ function valoresIniciais(campos) {
 
 const FichaAprovacao = () => {
   const { equipamentoId } = useParams();
+
   const { state } = useLocation();
   const item = state?.item; // dados da solicitação vindos do MenuForm (Supabase)
 
@@ -131,13 +132,14 @@ const FichaAprovacao = () => {
     // login válido: guarda o nome vindo do banco
     setAuditorNome(usuario.nome);
 
-    const pdfBase64 = await gerarPdfBase64();
+    const { pdfBase64, imagemBase64 } = await gerarPdfBase64();
 
     const nomeArquivo = `${config.operacao}_${item.tipo}${item.partnumber}_${Date.now()}.pdf`;
 
     const resultado = await window.api.salvarPdfAprovacao({
       nomeArquivo,
       pdfBase64,
+      imagemBase64, // <- novo campo enviado pro main
     });
 
     if (resultado?.sucesso) {
@@ -166,35 +168,35 @@ const FichaAprovacao = () => {
     const elemento = document.getElementById("area-impressao");
 
     const canvas = await html2canvas(elemento, {
-      scale: 2, // melhora a nitidez do PDF
-      useCORS: true, // ajuda a evitar problema com a imagem do equipamento (config.imagem)
+      scale: 2,
+      useCORS: true,
     });
 
     const imagemBase64 = canvas.toDataURL("image/png");
 
-    // A4 paisagem, em milímetros: 297 x 210
     const pdf = new jsPDF({
       orientation: "landscape",
       unit: "mm",
       format: "a4",
     });
 
+    const margemMM = 10;
     const larguraPagina = pdf.internal.pageSize.getWidth();
     const alturaPagina = pdf.internal.pageSize.getHeight();
-
-    // calcula a altura da imagem mantendo a proporção do canvas
-    const alturaImagem = (canvas.height * larguraPagina) / canvas.width;
+    const larguraUtil = larguraPagina - margemMM * 2;
+    const alturaUtil = alturaPagina - margemMM * 2;
+    const alturaImagem = (canvas.height * larguraUtil) / canvas.width;
 
     pdf.addImage(
       imagemBase64,
       "PNG",
-      0,
-      0,
-      larguraPagina,
-      Math.min(alturaImagem, alturaPagina),
+      margemMM,
+      margemMM,
+      larguraUtil,
+      Math.min(alturaImagem, alturaUtil),
     );
 
-    return pdf.output("datauristring"); // string base64 pronta para mandar pro main
+    return { pdfBase64: pdf.output("datauristring"), imagemBase64 };
   }
 
   return (
