@@ -36,6 +36,47 @@ app.whenReady().then(() => {
   criarTabelaAprovacoes(); // <- garante que a tabela existe antes de qualquer insert/select
 });
 
+const PASTA_BASE_APROVACOES = "C:/aprovacoes";
+
+function obterPastaDestino() {
+  const agora = new Date();
+  const ano = String(agora.getFullYear());
+  const mes = String(agora.getMonth() + 1).padStart(2, "0"); // 01..12
+
+  const pasta = path.join(PASTA_BASE_APROVACOES, ano, mes);
+  fs.mkdirSync(pasta, { recursive: true }); // cria ano/mês se ainda não existir
+  return pasta;
+}
+
+function imprimirPdf(caminhoArquivo) {
+  return new Promise((resolve, reject) => {
+    const janelaImpressao = new BrowserWindow({
+      show: false,
+      webPreferences: { plugins: true }, // necessário pro viewer de PDF do Chromium renderizar
+    });
+
+    janelaImpressao.webContents.on("did-finish-load", () => {
+      janelaImpressao.webContents.print(
+        { silent: false, landscape: true },
+        (sucesso, motivoErro) => {
+          janelaImpressao.close();
+          if (!sucesso && motivoErro !== "cancelled") {
+            reject(new Error(motivoErro));
+          } else {
+            resolve();
+          }
+        },
+      );
+    });
+
+    janelaImpressao.webContents.on("did-fail-load", (_e, _code, descricao) => {
+      reject(new Error(`Falha ao carregar PDF para impressão: ${descricao}`));
+    });
+
+    janelaImpressao.loadURL(`file://${caminhoArquivo}`);
+  });
+}
+
 ipcMain.handle("usuario:criar", async (event, { nome, registro, senha }) => {
   return await inserirUsuario(nome, registro, senha);
 });
@@ -91,9 +132,7 @@ ipcMain.handle("db:baixar", async () => {
 
 ipcMain.handle("pdf:salvar", async (event, { nomeArquivo, pdfBase64 }) => {
   try {
-    // por enquanto salva na pasta Documentos do usuário;
-    // depois vocês trocam por config.diretorioPdf quando o AdminConfig estiver pronto
-    const pastaDestino = app.getPath("documents");
+    const pastaDestino = obterPastaDestino(); // C:/aprovacoes/2026/09
     const caminhoCompleto = path.join(pastaDestino, nomeArquivo);
 
     const base64Limpo = pdfBase64.replace(
@@ -103,6 +142,13 @@ ipcMain.handle("pdf:salvar", async (event, { nomeArquivo, pdfBase64 }) => {
     const buffer = Buffer.from(base64Limpo, "base64");
 
     fs.writeFileSync(caminhoCompleto, buffer);
+
+    try {
+      await imprimirPdf(caminhoCompleto);
+    } catch (erroImpressao) {
+      // não falha o salvamento por causa de um problema na impressão
+      console.error("Erro ao abrir tela de impressão:", erroImpressao);
+    }
 
     return { sucesso: true, caminho: caminhoCompleto };
   } catch (erro) {
