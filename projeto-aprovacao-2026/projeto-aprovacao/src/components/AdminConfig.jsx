@@ -297,7 +297,7 @@ const AdminConfig = () => {
         {/* CAMINHO PDFS */}
         <div className="download-db">
           <h3>Alteração de armazenamento PDF'S </h3>
-          <p>Clique no ícone abaixo para alterar caminho</p>
+          <p>{pasta}</p>
           <svg
             onClick={alterarPasta}
             xmlns="http://www.w3.org/2000/svg"
