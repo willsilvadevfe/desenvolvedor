@@ -86,7 +86,6 @@ const FichaAprovacao = () => {
         popup: "swal-popup",
         title: "swal-title",
         htmlContainer: "swal-text",
-        confirmButton: "swal-confirm-button",
         cancelButton: "swal-cancel-button",
       },
     });
@@ -99,18 +98,28 @@ const FichaAprovacao = () => {
     const login = await Swal.fire({
       title: "Confirme sua identidade",
       html: `
-      <input id="swal-registro" class="swal2-input" placeholder="Registro">
+      <input id="swal-registro" class="swal2-input" placeholder="ID">
       <input id="swal-senha" type="password" class="swal2-input" placeholder="Senha">
     `,
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
+      confirmButtonColor: "#2563eb",
+      cancelButtonColor: "#dc2626",
+      customClass: {
+        popup: "swal-popup",
+        title: "swal-title",
+        htmlContainer: "swal-text",
+        cancelButton: "swal-cancel-button",
+      },
       preConfirm: () => {
         const registro = document.getElementById("swal-registro").value.trim();
         const senha = document.getElementById("swal-senha").value.trim();
         if (!registro || !senha) {
-          Swal.showValidationMessage("Preencha registro e senha.");
+          Swal.showValidationMessage(
+            "Preencha as informações - Registro (ID) e Senha",
+          );
           return false;
         }
         return { registro, senha };
@@ -125,7 +134,20 @@ const FichaAprovacao = () => {
     const usuario = await window.api.verificarLogin(registro, senha);
 
     if (!usuario) {
-      Swal.fire("Erro", "Registro ou senha inválidos.", "error");
+      Swal.fire({
+        title: "Atenção!",
+        html: "<p><strong>Registro (ID)</strong> ou <strong>Senha</strong> estão incorretos!</p>",
+        icon: "error",
+        iconColor: "#f50808",
+        confirmButtonText: "Tentar novamente",
+        confirmButtonColor: "#2563eb",
+        customClass: {
+          popup: "swal-popup",
+          title: "swal-title",
+          htmlContainer: "swal-text",
+          confirmButton: "swal-confirm-button",
+        },
+      });
       return;
     }
 
