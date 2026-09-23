@@ -180,9 +180,35 @@ const FichaAprovacao = () => {
         console.error("Erro ao registrar aprovação/apagar do Supabase:", err);
       }
 
-      Swal.fire("Aprovado!", "PDF salvo com sucesso.", "success");
+      Swal.fire({
+        title: "Aprovado com sucesso.",
+        html: "<p>Aprovação realizada com sucesso. ✅</p><p>PDF gerado e armazenado com sucesso. ✅</p><p>Aprovação registrada no banco de dados. ✅",
+        icon: "success",
+        iconColor: "#0f8300",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#2563eb",
+        customClass: {
+          popup: "swal-popup",
+          title: "swal-title",
+          htmlContainer: "swal-text",
+          confirmButton: "swal-confirm-button",
+        },
+      });
     } else {
-      Swal.fire("Erro", "Não foi possível salvar o PDF.", "error");
+      Swal.fire({
+        title: "Erro.",
+        html: "<p>Não foi possivel salvar o PDF.",
+        icon: "error",
+        iconColor: "#f70303",
+        confirmButtonText: "Tentar novamente",
+        confirmButtonColor: "#2563eb",
+        customClass: {
+          popup: "swal-popup",
+          title: "swal-title",
+          htmlContainer: "swal-text",
+          confirmButton: "swal-confirm-button",
+        },
+      });
     }
   }
 
