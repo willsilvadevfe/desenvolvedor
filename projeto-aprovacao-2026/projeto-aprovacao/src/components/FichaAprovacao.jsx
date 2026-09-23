@@ -161,7 +161,7 @@ const FichaAprovacao = () => {
     const resultado = await window.api.salvarPdfAprovacao({
       nomeArquivo,
       pdfBase64,
-      imagemBase64, // <- novo campo enviado pro main
+      imagemBase64, 
     });
 
     if (resultado?.sucesso) {

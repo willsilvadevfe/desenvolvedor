@@ -36,16 +36,26 @@ app.whenReady().then(() => {
   criarTabelaAprovacoes(); // <- garante que a tabela existe antes de qualquer insert/select
 });
 
-const PASTA_BASE_APROVACOES = "C:/aprovacoes";
+const configPath = () => path.join(app.getPath("userData"), "config.json");
 
-function obterPastaDestino() {
-  const agora = new Date();
-  const ano = String(agora.getFullYear());
-  const mes = String(agora.getMonth() + 1).padStart(2, "0"); // 01..12
+function lerConfig() {
+  try {
+    return JSON.parse(fs.readFileSync(configPath(), "utf-8"));
+  } catch {
+    return {};
+  }
+}
 
-  const pasta = path.join(PASTA_BASE_APROVACOES, ano, mes);
-  fs.mkdirSync(pasta, { recursive: true }); // cria ano/mês se ainda não existir
-  return pasta;
+function salvarConfig(cfg) {
+  fs.writeFileSync(configPath(), JSON.stringify(cfg, null, 2));
+}
+
+// pasta padrão caso o admin ainda não tenha escolhido nenhuma
+function pastaAprovacoes() {
+  return (
+    lerConfig().pastaAprovacoes ||
+    path.join(app.getPath("documents"), "aprovacoes")
+  );
 }
 
 function imprimirImagem(imagemBase64) {
@@ -93,6 +103,8 @@ function imprimirImagem(imagemBase64) {
   });
 }
 
+ipcMain.handle("config:obterPasta", () => pastaAprovacoes());
+
 ipcMain.handle("usuario:criar", async (event, { nome, registro, senha }) => {
   return await inserirUsuario(nome, registro, senha);
 });
@@ -120,6 +132,42 @@ ipcMain.handle("aprovacao:criar", async (event, dadosAprovacao) => {
 ipcMain.handle("aprovacao:listar", async () => {
   return await listarAprovacoes();
 });
+
+ipcMain.handle("config:escolherPasta", async () => {
+  const r = await dialog.showOpenDialog({
+    title: "Escolha a pasta das aprovações",
+    properties: ["openDirectory", "createDirectory"],
+  });
+  if (r.canceled) return null;
+
+  const pasta = r.filePaths[0];
+  try {
+    fs.mkdirSync(pasta, { recursive: true });
+    fs.accessSync(pasta, fs.constants.W_OK); // testa permissão de escrita
+  } catch {
+    return { erro: "Sem permissão de escrita nessa pasta." };
+  }
+
+  salvarConfig({ ...lerConfig(), pastaAprovacoes: pasta });
+  return { pasta };
+});
+
+// gerar e salvar o PDF na pasta configurada
+ipcMain.handle("pdf:gerar", async (event, nomeArquivo) => {
+  const pasta = pastaAprovacoes();
+  fs.mkdirSync(pasta, { recursive: true }); // recria se a pasta foi apagada
+
+  const pdf = await event.sender.printToPDF({
+    landscape: true,
+    pageSize: "A4",
+    printBackground: true,
+  });
+
+  const destino = path.join(pasta, path.basename(nomeArquivo)); // basename evita path traversal
+  fs.writeFileSync(destino, pdf);
+  return destino;
+});
+
 console.log("verificarUsuario é:", typeof verificarUsuario);
 ipcMain.handle("usuario:verificarLogin", async (event, registro, senha) => {
   try {

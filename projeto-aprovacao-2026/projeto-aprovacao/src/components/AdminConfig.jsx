@@ -9,6 +9,7 @@ const AdminConfig = () => {
   const registroRef = useRef(null);
   const senhaRef = useRef(null);
   const registroDeletarRef = useRef(null);
+  const [pasta, setPasta] = useState("");
 
   const [erro, setErro] = useState("");
   const [enviando, setEnviando] = useState(false);
@@ -16,6 +17,17 @@ const AdminConfig = () => {
   const [carregando, setCarregando] = useState(true);
   const [erroDeletar, setErroDeletar] = useState("");
   const [deletando, setDeletando] = useState(false);
+
+  useEffect(() => {
+    window.api.obterPastaAprovacoes().then(setPasta);
+  }, []);
+
+  async function alterarPasta() {
+    const r = await window.api.escolherPastaAprovacoes();
+    if (!r) return; // cancelou
+    if (r.erro) return Swal.fire("Erro", r.erro, "error");
+    setPasta(r.pasta);
+  }
 
   const carregarUsuarios = useCallback(async () => {
     setCarregando(true);
@@ -262,8 +274,8 @@ const AdminConfig = () => {
       </dialog>
       <div className="down-sqlite">
         <div className="download-db">
-          {/* BANCO DE DADOS REJEIÇÕES DE SETUP */}
-          <h3>Banco de dados - Rejeições de Setup </h3>
+          {/* BANCO DE DADOS */}
+          <h3>Download Banco de Dados - Setup Qualidade </h3>
           <p>Clique no ícone abaixo para iniciar o download do arquivo</p>
           <svg
             onClick={handleExportarCsv}
@@ -282,44 +294,22 @@ const AdminConfig = () => {
             <strong>Carregar Dados</strong> e importe o arquivo baixado.
           </small>
         </div>
-        {/* BANCO DE DADOS APROVAÇÕES DE SETUP */}
+        {/* CAMINHO PDFS */}
         <div className="download-db">
-          <h3>Banco de dados - Aprovações de Setup </h3>
-          <p>Clique no ícone abaixo para iniciar o download do arquivo</p>
+          <h3>Alteração de armazenamento PDF'S </h3>
+          <p>Clique no ícone abaixo para alterar caminho</p>
           <svg
-            onClick={handleExportarCsv}
+            onClick={alterarPasta}
             xmlns="http://www.w3.org/2000/svg"
             height="40px"
             viewBox="0 -960 960 960"
             width="40px"
             fill="#000000"
           >
-            <path d="M480-315.33 284.67-510.67l47.33-48L446.67-444v-356h66.66v356L628-558.67l47.33 48L480-315.33ZM226.67-160q-27 0-46.84-19.83Q160-199.67 160-226.67V-362h66.67v135.33h506.66V-362H800v135.33q0 27-19.83 46.84Q760.33-160 733.33-160H226.67Z" />
+            <path d="M554.83-61.54q-21.5-21.54-21.5-51.79 0-21.67 11-39.34 11-17.66 29-26.66V-415q-18-9-29-26.17-11-17.16-11-38.52 0-30.64 21.56-52.14t51.84-21.5q30.27 0 51.77 21.54Q680-510.25 680-480q0 21.67-11 38.83Q658-424 640-415v128.33l173.33-57.66V-415q-18-9-29-26.17-11-17.16-11-38.52 0-30.64 21.56-52.14t51.84-21.5q30.27 0 51.77 21.54Q920-510.25 920-480q0 21.67-11 38.83Q898-424 880-415v118.6l-240 79.73v37.34q18 9 29 26.66 11 17.67 11 39.03Q680-83 658.44-61.5T606.61-40q-30.28 0-51.78-21.54ZM146.67-160v-573.33V-160Zm0 0q-27 0-46.84-20.17Q80-200.33 80-226.67v-506.66q0-26.34 19.83-46.5Q119.67-800 146.67-800H414l66.67 66.67h332.66q27.5 0 47.09 19.58Q880-694.17 880-666.67H453l-66.67-66.66H146.67v506.66h320V-160h-320Z" />
           </svg>
           <small>
-            O arquivo será baixado em formato CSV. Após o download, abra o
-            Excel,
-            <br /> acesse a aba <strong>Dados</strong>, selecione{" "}
-            <strong>Carregar Dados</strong> e importe o arquivo baixado.
-          </small>
-        </div>
-        <div className="location-db">
-          <h3>Armazenamento de aprovações (PDF)</h3>
-          <p>Clique no ícone abaixo para modificar a pasta de destino</p>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="40px"
-            viewBox="0 -960 960 960"
-            width="40px"
-            fill="#000000"
-          >
-            <path d="M358.67-185.33q-81-32-133.81-100.5-52.8-68.5-63.86-155.5h67q9 59 43.67 106.66 34.66 47.67 87 76v73.34ZM496.67-80q-20.84 0-35.42-14.58-14.58-14.59-14.58-35.42v-252q0-20.83 14.58-35.42Q475.83-432 496.67-432H592q12.6 0 23.94 5.79 11.34 5.79 18.06 16.54l25.33 39H830q20.83 0 35.42 14.59Q880-341.5 880-320.67V-130q0 20.83-14.58 35.42Q850.83-80 830-80H496.67ZM130-528q-20.83 0-35.42-14.58Q80-557.17 80-578v-252q0-20.83 14.58-35.42Q109.17-880 130-880h95.33q12.6 0 23.94 5.79 11.34 5.79 18.06 16.54l25.34 39h170.66q20.84 0 35.42 14.59 14.58 14.58 14.58 35.41V-578q0 20.83-14.58 35.42Q484.17-528 463.33-528H130Zm603.33 48q0-69.67-36-128.5T600-700v-73.33q91 36.66 145.5 116.44Q800-577.12 800-480h-66.67Zm-220 333.33h300V-304H623.67L583-365.33h-69.67v218.66Zm-366.66-448h300V-752H257l-40.67-61.33h-69.66v218.66Zm366.66 448v-218.66V-146.67Zm-366.66-448v-218.66V-594.67Z" />
-          </svg>
-          <small>
-            {" "}
-            Evite alterar o caminho onde as aprovações
-            de setup são armazenadas. Isso<br/> pode comprometer
-            a organização e o correto armazenamento dos arquivos.
+            Altere o caminho dos arquivos somente se necessário, alterações podem<br /> dificultar o rastreio dos arquivos gerados.
           </small>
         </div>
       </div>

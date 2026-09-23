@@ -14,4 +14,7 @@ contextBridge.exposeInMainWorld("api", {
   salvarPdfAprovacao: (payload) => ipcRenderer.invoke("pdf:salvar", payload),
   criarAprovacao: (dados) => ipcRenderer.invoke("aprovacao:criar", dados),
   listarAprovacao: () => ipcRenderer.invoke("aprovacao:listar"),
+  obterPastaAprovacoes: () => ipcRenderer.invoke("config:obterPasta"),
+  escolherPastaAprovacoes: () => ipcRenderer.invoke("config:escolherPasta"),
+  gerarPdf: (nomeArquivo) => ipcRenderer.invoke("pdf:gerar", nomeArquivo),
 });
