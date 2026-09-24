@@ -212,13 +212,13 @@ const MenuForm = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Nº</th>
                     <th>Identificação</th>
                     <th>Tipo</th>
                     <th>PartNumber</th>
                     <th>Linha</th>
                     <th>Equipamento</th>
-                    <th>Registro</th>
+                    <th>Id Operador</th>
                     <th>Aguardando</th>
                     <th className="col-acoes">Ações</th>
                   </tr>

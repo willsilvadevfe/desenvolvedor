@@ -166,7 +166,7 @@ export const caracteristicasEquipamento = {
     titulo: "FIP011 - 15GS - Retífica da haste semi acabada",
     operacao: "15GS",
     docRef: "011",
-    imagem: imgBorazon,
+    imagem: img15g,
     imagemAlt: "Desenho técnico de retífica da haste semi acabada - 15GS",
     campos: [
       {
