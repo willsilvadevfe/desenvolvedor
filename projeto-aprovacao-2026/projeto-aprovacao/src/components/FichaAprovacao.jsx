@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { flushSync } from "react-dom";
 import { caracteristicasEquipamento } from "../configs/CaracteristicaEquipamento";
 import { supabase } from "../supabaseClient";
 import "./FichaAprovacao.css";
@@ -151,8 +152,9 @@ const FichaAprovacao = () => {
       return;
     }
 
-    // login válido: guarda o nome vindo do banco
-    setAuditorNome(usuario.nome);
+    flushSync(() => {
+      setAuditorNome(usuario.nome);
+    });
 
     const { pdfBase64, imagemBase64 } = await gerarPdfBase64();
 
@@ -161,7 +163,7 @@ const FichaAprovacao = () => {
     const resultado = await window.api.salvarPdfAprovacao({
       nomeArquivo,
       pdfBase64,
-      imagemBase64, 
+      imagemBase64,
     });
 
     if (resultado?.sucesso) {

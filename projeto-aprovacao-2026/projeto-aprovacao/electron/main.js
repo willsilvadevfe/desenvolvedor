@@ -20,12 +20,16 @@ const __dirname = path.dirname(__filename);
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1600,
-    height: 1200,
+    minWidth: 1024,
+    minHeight: 768,
+    show: false,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.cjs"),
     },
   });
+  win.maximize();
+  win.show();
 
   win.loadURL("http://localhost:5173");
 }
@@ -155,7 +159,6 @@ ipcMain.handle("config:escolherPasta", async () => {
 // gerar e salvar o PDF na pasta configurada
 ipcMain.handle("pdf:gerar", async (event, nomeArquivo) => {
   const pasta = pastaAprovacoes();
-  fs.mkdirSync(pasta, { recursive: true }); // recria se a pasta foi apagada
 
   const pdf = await event.sender.printToPDF({
     landscape: true,
@@ -168,12 +171,38 @@ ipcMain.handle("pdf:gerar", async (event, nomeArquivo) => {
   return destino;
 });
 
+const MESES = [
+  "janeiro",
+  "fevereiro",
+  "março",
+  "abril",
+  "maio",
+  "junho",
+  "julho",
+  "agosto",
+  "setembro",
+  "outubro",
+  "novembro",
+  "dezembro",
+];
+
+function obterPastaDestino() {
+  const agora = new Date();
+  const ano = String(agora.getFullYear());
+  const indice = agora.getMonth();
+  const numero = String(indice + 1).padStart(2, "0");
+
+  const pasta = path.join(pastaAprovacoes(), ano, `${numero}-${MESES[indice]}`);
+  fs.mkdirSync(pasta, { recursive: true }); // Sync, senão dá erro
+  return pasta;
+}
+
 console.log("verificarUsuario é:", typeof verificarUsuario);
 ipcMain.handle("usuario:verificarLogin", async (event, registro, senha) => {
   try {
     const usuario = await verificarUsuario(registro, senha);
     return usuario;
-  } catch {
+  } catch (error) {
     console.error("Erro ao verificar login:", error);
     return null;
   }
