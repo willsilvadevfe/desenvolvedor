@@ -1,10 +1,11 @@
 // Importar as imagens direto aqui — o Vite converte em URL automaticamente
 import imgBorazon from "../assets/img/borazon.png";
+import img15g from "../assets/img/15g.png";
 import imgTorno01 from "../assets/img/login.svg";
 // ... um import por equipamento
 
 export const caracteristicasEquipamento = {
-  //Borazon Retifica do topo
+  //Borazon Retifica do topo PRONTO
   borazon: {
     titulo: "FIP021 - Borazon - Corte de comprimento",
     operacao: "Borazon",
@@ -47,12 +48,12 @@ export const caracteristicasEquipamento = {
     ],
   },
 
-  //15G Retifica da haste semi-acabada
+  //15G Retifica da haste semi-acabada PRONTO
   "15g": {
     titulo: "FIP010 - 15G - Retífica da haste semi acabada",
     operacao: "15G",
     docRef: "010",
-    imagem: imgBorazon,
+    imagem: img15g,
     imagemAlt: "Desenho técnico de retífica da haste semi acabada - 15G",
     campos: [
       {
@@ -100,12 +101,12 @@ export const caracteristicasEquipamento = {
     ],
   },
 
-  //15S Retifica da haste semi-acabada
+  //15S Retifica da haste semi-acabada PRONTO
   "15s": {
     titulo: "FIP011 - 15S - Retífica da haste semi acabada",
     operacao: "15S",
     docRef: "011",
-    imagem: imgBorazon,
+    imagem: img15g,
     imagemAlt: "Desenho técnico de retífica da haste semi acabada - 15S",
     campos: [
       {
@@ -160,7 +161,7 @@ export const caracteristicasEquipamento = {
     ],
   },
 
-  //15S Retifica da haste semi-acabada
+  //15S Retifica da haste semi-acabada PRONTO
   "15gs": {
     titulo: "FIP011 - 15GS - Retífica da haste semi acabada",
     operacao: "15GS",
@@ -221,13 +222,13 @@ export const caracteristicasEquipamento = {
   },
 
   //18D Retifica do diâmetro da cabeça
-  "18d":{
+  "18d": {
     titulo: "FIP014 - 18D - Retífica do diâmetro da cabeça",
     operacao: "18D",
     docRef: "014",
     imagem: imgBorazon,
     imagemAlt: "Desenho técnico de retífica do diâmetro da cabeça",
-    campos:[
+    campos: [
       {
         id: "diâmetro-cabeca",
         tipo: "texto",
@@ -249,8 +250,6 @@ export const caracteristicasEquipamento = {
         placeholder: "Ex.: 0,02",
         obrigatorio: true,
       },
-      
-    ]
-  }
-
+    ],
+  },
 };
