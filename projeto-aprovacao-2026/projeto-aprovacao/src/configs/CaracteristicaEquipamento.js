@@ -2,6 +2,7 @@
 import imgBorazon from "../assets/img/borazon.png";
 import img15g from "../assets/img/15g.png";
 import img18d from "../assets/img/18d.png";
+import img21a from "../assets/img/21a.png";
 import imgTorno01 from "../assets/img/login.svg";
 // ... um import por equipamento
 
@@ -222,7 +223,7 @@ export const caracteristicasEquipamento = {
     ],
   },
 
-  //18D Retifica do diâmetro da cabeça
+  //18D Retifica do diâmetro da cabeça PRONTO
   "18d": {
     titulo: "FIP014 - 18D - Retífica do diâmetro da cabeça",
     operacao: "18D",
@@ -250,6 +251,52 @@ export const caracteristicasEquipamento = {
         label: "Cônicidade da cabeça",
         placeholder: "Ex.: 0,02",
         obrigatorio: true,
+      },
+    ],
+  },
+
+  //21A Refifica do topo acabado PRONTO
+  "21a": {
+    titulo: "FIP018 - 21A - Retífica do topo acabada",
+    operacao: "21A",
+    docRef: "018",
+    imagem: img21a,
+    imagemAlt: "Desenho técnico de retífica do topo acabado - 21A",
+    campos: [
+      {
+        id: "comprimento",
+        tipo: "texto",
+        label: "Comprimento face/ponta",
+        placeholder: "Ex.: -0,03",
+        obrigatorio: false,
+      },
+      {
+        id: "comprimento-sp",
+        tipo: "texto",
+        label: "Comprimento sede/ponta",
+        placeholder: "Ex.: -0,01",
+        obrigatorio: false,
+      },
+      {
+        id: "esquadro",
+        tipo: "texto",
+        label: "Esquadro do topo",
+        placeholder: "Ex.: 0,012",
+        obrigatorio: true,
+      },
+      {
+        id: "rugosidade",
+        tipo: "texto",
+        label: "Rugosidade do topo",
+        placeholder: "Ex.: 0,26",
+        obrigatorio: true,
+      },
+      {
+        id: "deformacao",
+        tipo: "texto",
+        label: "Deformação do topo",
+        placeholder: "Ex.: 0,04",
+        obrigatorio: false,
       },
     ],
   },
