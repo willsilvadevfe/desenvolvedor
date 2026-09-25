@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+.cd-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Montserrat', 'Inter', Arial, Helvetica, sans-serif;
+  padding: 1rem 2rem;
+  position: relative;
+  z-index: 100;
+  background-color: #222;
+  height: 8vh;
+}
+
+.cd-header-logo img {
+  height: 40px;
+}
+
+.cd-nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cd-nav button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Hambúrguer escondido no desktop */
+.cd-hamburguer {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.cd-hamburguer span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #222;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Animação das 3 barras -> X quando aberto */
+.cd-hamburguer.aberto span:nth-child(1) {
+  transform: translateY(8.5px) rotate(45deg);
+}
+.cd-hamburguer.aberto span:nth-child(2) {
+  opacity: 0;
+}
+.cd-hamburguer.aberto span:nth-child(3) {
+  transform: translateY(-8.5px) rotate(-45deg);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .cd-hamburguer {
+    display: flex;
+  }
+
+  .cd-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .cd-nav.cd-nav-aberto {
+    max-height: 300px;
+  }
+
+  .cd-nav ul {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .cd-nav ul li {
+    border-bottom: 1px solid #eee;
+  }
+
+  .cd-nav button {
+    width: 100%;
+    text-align: left;
+    padding: 1rem 2rem;
+  }
+}
