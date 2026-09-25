@@ -1,6 +1,7 @@
 // Importar as imagens direto aqui — o Vite converte em URL automaticamente
 import imgBorazon from "../assets/img/borazon.png";
 import img15g from "../assets/img/15g.png";
+import img18d from "../assets/img/18d.png";
 import imgTorno01 from "../assets/img/login.svg";
 // ... um import por equipamento
 
@@ -226,7 +227,7 @@ export const caracteristicasEquipamento = {
     titulo: "FIP014 - 18D - Retífica do diâmetro da cabeça",
     operacao: "18D",
     docRef: "014",
-    imagem: imgBorazon,
+    imagem: img18d,
     imagemAlt: "Desenho técnico de retífica do diâmetro da cabeça",
     campos: [
       {
