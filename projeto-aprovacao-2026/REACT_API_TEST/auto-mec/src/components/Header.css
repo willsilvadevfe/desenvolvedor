@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+:root {
+    --primary: #0F172A;
+    --secondary: #1D4ED8;
+    --accent: #DC2626;
+
+    --text: #1E293B;
+    --background: #F1F5F9;
+    --surface: #FFFFFF;
+
+    --success: #16A34A;
+    --warning: #F59E0B;
+}
+
 .cd-header {
   display: flex;
   align-items: center;
@@ -8,7 +21,8 @@
   padding: 1rem 2rem;
   position: relative;
   z-index: 100;
-  background-color: #222;
+  background-color: var(--primary);
+  color: var(--surface);
   height: 8vh;
 }
 
@@ -29,7 +43,10 @@
   border: none;
   font-size: 1rem;
   cursor: pointer;
+  color: var(--surface);
+  
 }
+
 
 /* Hambúrguer escondido no desktop */
 .cd-hamburguer {

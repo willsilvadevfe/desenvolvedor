@@ -25,15 +25,20 @@ function Main() {
     <>
       <section id="sobre" className="cd-main">
         <div className="cd-main-texto">
-          <h1>Oficina Alexandre</h1>
+          <h1>Referência quando o assunto é <span><br />mecânica automotiva.</span></h1>
           <p>
             Manutenção e revisão automotiva com quem entende do assunto.
             Agilidade, transparência e peças de qualidade para o seu carro
             voltar a rodar com segurança.
           </p>
-          <button className="cd-btn-contato" onClick={irParaContato}>
-            Falar com a oficina
-          </button>
+          <div className="btn-main">
+            <button className="cd-btn-contato" onClick={irParaContato}>
+              Entrar em contato
+            </button>
+            <button className="cd-btn-contato" onClick={irParaContato}>
+              Serviços
+            </button>
+          </div>
         </div>
 
         <div className="cd-main-imagem">

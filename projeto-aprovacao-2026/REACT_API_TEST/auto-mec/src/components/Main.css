@@ -1,32 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --primary: #0F172A;
+    --secondary: #1D4ED8;
+    --accent: #DC2626;
+
+    --text: #1E293B;
+    --background: #F1F5F9;
+    --surface: #FFFFFF;
+
+    --success: #16A34A;
+    --warning: #F59E0B;
+}
+
 .cd-main {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   gap: 3rem;
-  padding: 4rem 2rem;
-  max-width: 1200px;
+  padding: 8rem 10rem;
+  width: 100%;
   margin: 0 auto;
+  background-color: var(--background);
 }
 
 .cd-main-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   flex: 1;
-  font-family: 'Montserrat', 'Inter', Arial, Helvetica, sans-serif;
+  
 }
 
 .cd-main-texto h1 {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   margin-bottom: 1rem;
+  color: var(--primary);
+  font-family: 'Barlow Condensed', 'Inter', Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  line-height: 50px;
+
+  
+}
+
+.cd-main-texto h1 span {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  color: var(--secondary);
 }
 
 .cd-main-texto p {
   font-size: 1.1rem;
-  color: #555;
+  color: var(--text);
   margin-bottom: 2rem;
   max-width: 480px;
+  font-family: 'Montserrat', 'Inter', Arial, Helvetica, sans-serif;
+}
+
+.btn-main{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
 
 .cd-btn-contato {
-  background-color: #d32f2f;
+  background-color: var(--secondary);
+  max-width: 200px;
   color: #fff;
   border: none;
   padding: 0.9rem 2rem;
@@ -37,11 +76,12 @@
 }
 
 .cd-btn-contato:hover {
-  background-color: #b71c1c;
+ 
 }
 
 .cd-main-imagem {
   flex: 1;
+  text-align: center;
 }
 
 .cd-main-imagem img {
