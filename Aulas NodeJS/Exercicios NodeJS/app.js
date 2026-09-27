@@ -1,12 +1,30 @@
-const express = require("express"); //Importando express no app.js
-const app = express(); //Agora a variavel app é o próprio express
+const express = require("express");
+const app = express();
 
-app.listen(8081, () => {
-  //Express escutando na porta padrão do node (8081), função assincrona para verificar funcionamento
-  console.log("Servidor iniciado com sucesso..."); //Console.log para avisar que servidor está rodando normalmente
+try {
+  app.listen(8081, () => {
+    console.log("Servidor funcionando com sucesso...");
+  });
+} catch (error) {
+  console.log("Erro ao se conectar com o servidor... ", error);
+}
+
+app.get("/cursos", (req, res) => {
+  res.send(
+    "Página principal - Área de Cursos. --- Digite o id após /cursos para navegar no curso desejado.",
+  );
 });
 
-app.get("/", (req, res) => {
-  //Express com método GET com parametros de requisição e resposta para enviar solicitação ao front
-  res.send("Porta principal funcinando com sucesso..."); //Resposta enviada ao front-end
+app.get("/cursos/:id", (req, res) => {
+  if (req.params.id == "1") {
+    res.send("1 - Análise e Desenvolvimento de Sistemas.");
+  } else if (req.params.id == "2") {
+    res.send("2 - Ciência da Computação.");
+  } else if (req.params.id == "3") {
+    res.send("3 - Engenharia de Software.");
+  } else {
+    res.send(
+      "Nenhuma curso foi encontrado pelo ID digitado, tente novamente...",
+    );
+  }
 });
