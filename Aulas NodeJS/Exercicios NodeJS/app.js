@@ -3,28 +3,24 @@ const app = express();
 
 try {
   app.listen(8081, () => {
-    console.log("Servidor funcionando com sucesso...");
+    console.log("Servidor rodando com sucesso...");
   });
 } catch (error) {
-  console.log("Erro ao se conectar com o servidor... ", error);
+  console.log("Erro de conexão com o servidor ", error);
 }
 
-app.get("/cursos", (req, res) => {
-  res.send(
-    "Página principal - Área de Cursos. --- Digite o id após /cursos para navegar no curso desejado.",
-  );
+app.get("/", (req, res) => {
+  res.send("Rota princial rodando com sucesso");
 });
 
-app.get("/cursos/:id", (req, res) => {
+app.get("/parametros/:id", (req, res) => {
   if (req.params.id == "1") {
-    res.send("1 - Análise e Desenvolvimento de Sistemas.");
+    res.send("Rota com parametro 1 encontrada e funcionando com sucesso...");
   } else if (req.params.id == "2") {
-    res.send("2 - Ciência da Computação.");
+    res.send("Rota com parametro 2 encontrada e funcionando com sucesso...");
   } else if (req.params.id == "3") {
-    res.send("3 - Engenharia de Software.");
+    res.send("Rota com parametro 3 encontrada e funcionando com sucesso...");
   } else {
-    res.send(
-      "Nenhuma curso foi encontrado pelo ID digitado, tente novamente...",
-    );
+    res.send("Nenhuma rota foi encontrada com o parametro digitado...");
   }
 });
