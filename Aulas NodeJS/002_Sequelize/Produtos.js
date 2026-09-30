@@ -15,10 +15,10 @@ const Produtos = db.sequelize.define("produtos", {
   },
 });
 
-Produtos.create({
-  nome: "Gabinete F145X Concordia",
-  preco: "399.99",
-  descricao: "Gabinete branco transparente Concordia",
+Produtos.destroy({
+  where: {
+    id: 6,
+  },
 });
 
 Produtos.sync({ force: false });
