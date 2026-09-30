@@ -8,10 +8,10 @@ const sequelize = new Sequelize("cadastro", "root", "123456", {
 sequelize
   .authenticate()
   .then(() => {
-    console.log("Banco de dados conectado com sucesoo...");
+    console.log("Banco de dados conectado com sucesso...");
   })
   .catch((error) => {
-    console.log("Erro de conexão com o banco de dados..." + error);
+    console.log("Erro ao conectar com o banco de dados..." + error);
   });
 
 module.exports = {
