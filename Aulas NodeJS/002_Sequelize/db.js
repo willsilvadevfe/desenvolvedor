@@ -10,8 +10,8 @@ sequelize
   .then(() => {
     console.log("Banco de dados conectado com sucesso...");
   })
-  .catch((error) => {
-    console.log("Erro ao conectar com o banco de dados..." + error);
+  .catch((erro) => {
+    console.log("Erro de conexão com o banco de dados..." + erro);
   });
 
 module.exports = {

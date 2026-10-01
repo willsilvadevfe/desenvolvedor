@@ -15,10 +15,10 @@ const Produtos = db.sequelize.define("produtos", {
   },
 });
 
-Produtos.destroy({
-  where: {
-    id: 6,
-  },
+Produtos.create({
+  nome: "Monitor Gamer Concordio XF125",
+  preco: "789.50",
+  descricao: "Monitor tela curva Gamer 125hz",
 });
 
 Produtos.sync({ force: false });
