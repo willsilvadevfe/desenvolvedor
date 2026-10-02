@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+  /*========= CORES =========*/
+  --primary: #155eef;
+  --primary-dark: #0b3b91;
+  --secondary: #0f172a;
+  --background: #f5f7fa;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --text: #172033;
+  --text-muted: #64748b;
+
+  /*========= FONTES =========*/
+--font-title: 'Inter', sans-serif;
+--font-text: 'IBM Plex Sans', sans-serif; 
+
+
+ /*========= CORES ALERTAS =========*/
+ --danger: #DC2626;
+ --warning: #EA580C;
+ --alert: #D97706;
+ --success: #16A34A;
+ --info: #2563EB;
+
+}
