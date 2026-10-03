@@ -1,0 +1,440 @@
+/*========= PÁGINA =========*/
+.page {
+  min-height: 100vh;
+}
+
+.page-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+}
+
+/*========= HEADER (logo > título > subtítulo) =========*/
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 32px;
+  background: var(--surface);
+  border-bottom: 3px solid var(--primary);
+}
+
+.img-logo {
+  display: block;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.header-text h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--secondary);
+}
+
+.header-text p {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/*========= CARDS =========*/
+.card {
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.card > h2 {
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+/*========= ÁREA DE INFORMAÇÕES =========*/
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field--wide {
+  grid-column: 1 / -1;
+}
+
+.field > span {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--text);
+  background: var(--field);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+/*========= ÁREA DE IMAGENS =========*/
+.img-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.img-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 4px solid var(--border);
+}
+
+.img-card--approved {
+  border-top-color: var(--success);
+}
+
+.img-card--reject {
+  border-top-color: var(--danger);
+}
+
+.dropzone {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--background);
+  border: 2px dashed var(--border);
+  border-radius: 6px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.dropzone:hover,
+.dropzone:focus-within {
+  border-color: var(--primary);
+  background: var(--primary-tint);
+}
+
+.dropzone:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.dropzone--filled {
+  border-style: solid;
+  background: var(--surface);
+}
+
+.dropzone img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.dropzone-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.dropzone-text strong {
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  color: var(--primary-text);
+}
+
+.dropzone-text small {
+  font-size: 0.8rem;
+}
+
+.img-card figcaption {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  color: var(--text);
+}
+
+/*========= DESCRIÇÃO FINAL =========*/
+.descricao-final p {
+  max-width: 75ch;
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.descricao-final p:last-child {
+  margin-bottom: 0;
+}
+
+/*========= BOTÕES =========*/
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-error {
+  margin: 0 auto 0 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--danger);
+}
+
+.btn {
+  padding: 11px 22px;
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn:focus-visible,
+.btn-link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.btn--primary {
+  color: var(--on-primary);
+  background: var(--primary);
+}
+
+.btn--primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn--secondary {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.btn--secondary:hover {
+  border-color: var(--text-muted);
+}
+
+.btn-link {
+  align-self: center;
+  padding: 0;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--danger);
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-decoration: underline;
+}
+
+/*========= ACESSIBILIDADE =========*/
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+/*========= SELETOR DE TEMA (sem JavaScript) =========*/
+.theme-switch {
+  display: inline-flex;
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 3px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.theme-switch label {
+  padding: 6px 14px;
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.theme-switch label:hover {
+  color: var(--text);
+}
+
+.theme-switch input:focus-visible + label {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Opção ativa: a que está marcada... */
+.theme-switch input:checked + label {
+  color: var(--on-primary);
+  background: var(--primary);
+}
+
+/* ...ou, sem escolha ainda, a que corresponde ao tema do sistema */
+.theme-switch:not(:has(input:checked)) .theme-light {
+  color: var(--on-primary);
+  background: var(--primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  .theme-switch:not(:has(input:checked)) .theme-light {
+    color: var(--text-muted);
+    background: transparent;
+  }
+
+  .theme-switch:not(:has(input:checked)) .theme-dark {
+    color: var(--on-primary);
+    background: var(--primary);
+  }
+}
+
+/*========= TEMA DARK: ajustes específicos =========
+  Placa clara atrás do logo para ele aparecer mesmo sendo escuro.
+  Se o seu logo já funciona no escuro, apague estas duas regras. */
+@media screen {
+  :root:has(#theme-dark:checked) .img-logo {
+    box-sizing: content-box;
+    padding: 6px 10px;
+    background: #ffffff;
+    border-radius: 6px;
+  }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  :root:not(:has(#theme-light:checked)) .img-logo {
+    box-sizing: content-box;
+    padding: 6px 10px;
+    background: #ffffff;
+    border-radius: 6px;
+  }
+}
+
+/*========= RESPONSIVO =========*/
+@media (max-width: 720px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .header-text h1 {
+    font-size: 1.25rem;
+  }
+
+  .page-body {
+    padding: 20px 16px 32px;
+  }
+
+  .fields,
+  .img-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btns {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/*========= IMPRESSÃO / PDF (sempre claro) =========*/
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+@media print {
+  body {
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .page-body {
+    gap: 12px;
+    padding: 12px 0 0;
+  }
+
+  .page-header {
+    padding: 0 0 12px;
+  }
+
+  .card {
+    padding: 14px;
+    break-inside: avoid;
+  }
+
+  .field input,
+  .field textarea {
+    padding: 4px 0;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    resize: none;
+  }
+
+  .dropzone {
+    border: 1px solid var(--border);
+  }
+}
