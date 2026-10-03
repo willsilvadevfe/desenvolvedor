@@ -5,10 +5,11 @@
 
 .page-body {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: min(1100px, 100%);
   margin: 0 auto;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 24px;
+  width: min(1440px, 100%);
   padding: 32px 24px 48px;
 }
 
@@ -43,6 +44,8 @@
 
 /*========= CARDS =========*/
 .card {
+  width: 100%;
+  position: relative;
   padding: 24px;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -88,7 +91,9 @@
   background: var(--field);
   border: 1px solid var(--border);
   border-radius: 6px;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .field textarea {
@@ -142,7 +147,9 @@
   background: var(--background);
   border: 2px dashed var(--border);
   border-radius: 6px;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
 
 .dropzone:hover,
@@ -192,24 +199,15 @@
   color: var(--text);
 }
 
-/*========= DESCRIÇÃO FINAL =========*/
-.descricao-final p {
-  max-width: 75ch;
-  margin: 0 0 8px;
-  color: var(--text);
-}
-
-.descricao-final p:last-child {
-  margin-bottom: 0;
-}
-
 /*========= BOTÕES =========*/
 .btns {
   display: flex;
+  position: absolute;
   flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
+  justify-content: start;
   gap: 12px;
+  bottom: 30px;
+  right: 30px;
 }
 
 .form-error {
@@ -227,7 +225,9 @@
   cursor: pointer;
   border: 1px solid transparent;
   border-radius: 6px;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
 }
 
 .btn:focus-visible,
@@ -305,7 +305,9 @@
   color: var(--text-muted);
   cursor: pointer;
   border-radius: 6px;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .theme-switch label:hover {

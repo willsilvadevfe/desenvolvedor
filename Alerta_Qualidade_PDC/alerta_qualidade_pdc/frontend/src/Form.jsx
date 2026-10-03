@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Logo from "../img/logo_pdc.png";
+import toast, { Toaster } from "react-hot-toast";
 import "./Root.css";
 import "./Form.css";
 
@@ -90,6 +91,7 @@ const Form = () => {
       ...images,
       [key]: file ? { file, url: URL.createObjectURL(file) } : null,
     });
+
     setError("");
   };
 
@@ -98,6 +100,7 @@ const Form = () => {
     setForm(INITIAL_FORM);
     setImages(INITIAL_IMAGES);
     setError("");
+    toast.success("Formulário limpo com sucesso!");
   };
 
   const handleSubmit = (e) => {
@@ -105,7 +108,9 @@ const Form = () => {
 
     if (!images.aprovada || !images.reprovada) {
       setError(
-        "Adicione as duas fotos (aprovada e reprovada) para gerar o alerta.",
+        toast.error(
+          "Adicione as duas fotos (aprovada e reprovada) para gerar o alerta.",
+        ),
       );
       return;
     }
@@ -130,12 +135,7 @@ const Form = () => {
   return (
     <div className="page">
       <header className="page-header">
-        <img
-          className="img-logo"
-          src={Logo}
-          alt="Logo PDC"
-          width={100}
-        />
+        <img className="img-logo" src={Logo} alt="Logo PDC" width={100} />
         <div className="header-text">
           <h1>Sistema de Gestão para Alertas da Qualidade</h1>
           <p>
@@ -280,23 +280,7 @@ const Form = () => {
               onRemove={() => handleImage("reprovada", null)}
             />
           </div>
-        </section>
-
-        {/* Descrição de atividades */}
-        <section className="card descricao-final">
-          <h2>Descrição de atividades</h2>
-          <p>
-            Realizar inspeções visuais e segregar as não conformidades
-            detectadas.
-          </p>
-          <p>
-            Peças identificadas com defeitos devem ser segregadas na caixa de
-            produto não conforme.
-          </p>
-        </section>
-
-        {/* Ações */}
-        <div className="btns no-print">
+          <div className="btns no-print">
           {error && (
             <p className="form-error" role="alert">
               {error}
@@ -313,6 +297,13 @@ const Form = () => {
             Gerar alerta de qualidade
           </button>
         </div>
+        </section>
+        
+
+        
+
+        {/* Ações */}
+        
       </form>
     </div>
   );

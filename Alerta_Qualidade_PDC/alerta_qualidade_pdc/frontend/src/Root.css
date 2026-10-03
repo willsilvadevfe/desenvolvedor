@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 :root {
   /* Faz o navegador adaptar scrollbar, inputs nativos e textarea ao tema */
-  color-scheme: light dark;
+  color-scheme: light;
 
   /*========= CORES =========*/
   --primary: #155eef;
@@ -15,15 +15,15 @@
   --text-muted: #64748b;
 
   /*========= CORES DE APOIO (usadas nos componentes) =========*/
-  --field: #ffffff;                       /* fundo dos inputs */
-  --primary-text: #0b3b91;                /* texto/ícone na cor primária */
-  --primary-tint: #eef4ff;                /* realce em hover/foco */
-  --focus-ring: rgba(21, 94, 239, 0.18);  /* halo de foco dos inputs */
-  --on-primary: #ffffff;                  /* texto sobre fundo primário */
+  --field: #ffffff; /* fundo dos inputs */
+  --primary-text: #0b3b91; /* texto/ícone na cor primária */
+  --primary-tint: #eef4ff; /* realce em hover/foco */
+  --focus-ring: rgba(21, 94, 239, 0.18); /* halo de foco dos inputs */
+  --on-primary: #ffffff; /* texto sobre fundo primário */
 
   /*========= FONTES =========*/
-  --font-title: 'Inter', sans-serif;
-  --font-text: 'IBM Plex Sans', sans-serif;
+  --font-title: "Inter", sans-serif;
+  --font-text: "IBM Plex Sans", sans-serif;
 
   /*========= CORES ALERTAS =========*/
   --danger: #dc2626;
@@ -36,45 +36,19 @@
 /*========= TEMA (claro / escuro) =========
   Sem JavaScript: os botões "Claro" e "Escuro" do header são radios
   (#theme-light e #theme-dark) e o :has() lê qual está marcado.
-  Sem escolha, o tema segue o sistema operacional.
-  "screen" mantém o PDF/impressão sempre claro.
-  ATENÇÃO: os blocos 2 e 3 precisam ter as mesmas variáveis. */
+  A página sempre abre em Claro (o radio #theme-light vem marcado no JSX),
+  independente do tema do sistema.
+  "screen" mantém o PDF/impressão sempre claro. */
 
-/* 1) Escolha explícita: claro */
+/* Claro (padrão) */
 :root:has(#theme-light:checked) {
   color-scheme: light;
 }
 
-/* 2) Escolha explícita: escuro */
+/* Escuro */
 @media screen {
   :root:has(#theme-dark:checked) {
     color-scheme: dark;
-    --primary: #3a74f2;
-    --primary-dark: #2a5bd0;
-    --secondary: #e8edf5;
-    --background: #0b1220;
-    --surface: #141d2e;
-    --border: #263247;
-    --text: #e6ebf3;
-    --text-muted: #94a3b8;
-
-    --field: #0f1828;
-    --primary-text: #8db2ff;
-    --primary-tint: #16264a;
-    --focus-ring: rgba(91, 149, 255, 0.35);
-    --on-primary: #ffffff;
-
-    --danger: #f05252;
-    --warning: #fb923c;
-    --alert: #fbbf24;
-    --success: #22c55e;
-    --info: #60a5fa;
-  }
-}
-
-/* 3) Sem escolha (ou escuro marcado): segue o sistema */
-@media screen and (prefers-color-scheme: dark) {
-  :root:not(:has(#theme-light:checked)) {
     --primary: #3a74f2;
     --primary-dark: #2a5bd0;
     --secondary: #e8edf5;
