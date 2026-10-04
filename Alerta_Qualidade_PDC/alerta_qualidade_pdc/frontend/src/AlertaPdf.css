@@ -1,0 +1,227 @@
+/* Escondido na tela */
+.alerta-pdf {
+  display: none;
+}
+
+/* Fora do @media: define A4 paisagem com margem mínima */
+@page {
+  size: A4 landscape;
+  margin: 5mm;
+}
+
+@media print {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff !important;
+  }
+
+  .tela-formulario {
+    display: none !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .alerta-pdf {
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+    width: 287mm; /* 297mm - 10mm de margem */
+    height: 199mm; /* 210mm - 10mm de margem - 1mm de folga */
+    overflow: hidden;
+    box-sizing: border-box;
+    font-family: "IBM Plex Sans", Arial, sans-serif;
+    color: #101828;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  .alerta-pdf * {
+    box-sizing: border-box;
+  }
+
+  /* Título */
+  .pdf-titulo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 16mm;
+    background: #155eef;
+    color: #fff;
+    border: 0.4mm solid #0b3fae;
+    border-radius: 2mm;
+    flex-shrink: 0;
+  }
+  .pdf-titulo h1 {
+    margin: 0;
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 22pt;
+    font-weight: 800;
+    letter-spacing: 1.5pt;
+  }
+  .pdf-logo {
+    position: absolute;
+    left: 4mm;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 11mm;
+    max-width: 40mm;
+    object-fit: contain;
+    background: transparent;
+    padding: 1mm 2mm;
+    border-radius: 1mm;
+  }
+  .pdf-data {
+    position: absolute;
+    right: 4mm;
+    font-size: 9pt;
+    font-weight: 500;
+  }
+
+  /* Dados */
+  .pdf-dados {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2mm;
+    padding: 3mm;
+    border: 0.4mm solid #155eef;
+    border-radius: 2mm;
+    background: #f5f8ff;
+    flex-shrink: 0;
+  }
+  .pdf-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5mm;
+    padding: 1.5mm 2.5mm;
+    background: #fff;
+    border: 0.25mm solid #c7d7fe;
+    border-radius: 1.5mm;
+    min-height: 11mm;
+  }
+  .pdf-campo label {
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6pt;
+    color: #155eef;
+  }
+  .pdf-campo span {
+    font-size: 11pt;
+    font-weight: 500;
+    word-break: break-word;
+  }
+  .c3 {
+    grid-column: span 3;
+  }
+  .c6 {
+    grid-column: span 6;
+  }
+  .c12 {
+    grid-column: span 12;
+  }
+  .c12 span {
+    font-size: 10pt;
+    line-height: 1.3;
+    max-height: 17mm;
+    overflow: hidden;
+  }
+
+  /* Imagens */
+  .pdf-imagens {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4mm;
+  }
+  .pdf-card {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    border-radius: 3mm;
+    overflow: hidden;
+    border: 0.5mm solid;
+  }
+  .pdf-card.aprovada {
+    border-color: #2e9b57;
+  }
+  .pdf-card.reprovada {
+    border-color: #d92d20;
+  }
+
+  .pdf-card-titulo {
+    padding: 1.5mm;
+    text-align: center;
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    letter-spacing: 1pt;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .aprovada .pdf-card-titulo {
+    background: #2e9b57;
+  }
+  .reprovada .pdf-card-titulo {
+    background: #d92d20;
+  }
+
+  .pdf-moldura {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    padding: 2mm;
+  }
+  .pdf-moldura img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .pdf-card figcaption {
+    padding: 2mm;
+    text-align: center;
+    font-size: 9.5pt;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .aprovada figcaption {
+    background: #e3f1da;
+    color: #1b5e34;
+  }
+  .reprovada figcaption {
+    background: #fee4e2;
+    color: #b42318;
+  }
+
+  /* Descrição de atividades */
+  .pdf-atividades {
+    flex-shrink: 0;
+    padding: 2.5mm 4mm;
+    border: 0.4mm solid #155eef;
+    border-radius: 2mm;
+    background: #f5f8ff;
+  }
+  .pdf-atividades h2 {
+    margin: 0 0 1mm;
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 10.5pt;
+    color: #155eef;
+  }
+  .pdf-atividades ol {
+    margin: 0;
+    padding-left: 5mm;
+    font-size: 8.5pt;
+    line-height: 1.35;
+  }
+}

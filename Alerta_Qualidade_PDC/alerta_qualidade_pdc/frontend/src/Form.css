@@ -193,8 +193,8 @@
 }
 
 .img-card figcaption {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 400;
   text-align: center;
   color: var(--text);
 }
@@ -221,7 +221,7 @@
   padding: 11px 22px;
   font-family: var(--font-title);
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   border: 1px solid transparent;
   border-radius: 6px;
@@ -350,7 +350,7 @@
   :root:has(#theme-dark:checked) .img-logo {
     box-sizing: content-box;
     padding: 6px 10px;
-    background: #ffffff;
+    background: transparent;
     border-radius: 6px;
   }
 }
@@ -359,7 +359,7 @@
   :root:not(:has(#theme-light:checked)) .img-logo {
     box-sizing: content-box;
     padding: 6px 10px;
-    background: #ffffff;
+    background: transparent;
     border-radius: 6px;
   }
 }
@@ -400,43 +400,4 @@
 @page {
   size: A4;
   margin: 12mm;
-}
-
-@media print {
-  body {
-    background: #fff;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .no-print {
-    display: none !important;
-  }
-
-  .page-body {
-    gap: 12px;
-    padding: 12px 0 0;
-  }
-
-  .page-header {
-    padding: 0 0 12px;
-  }
-
-  .card {
-    padding: 14px;
-    break-inside: avoid;
-  }
-
-  .field input,
-  .field textarea {
-    padding: 4px 0;
-    border: none;
-    border-bottom: 1px solid var(--border);
-    border-radius: 0;
-    resize: none;
-  }
-
-  .dropzone {
-    border: 1px solid var(--border);
-  }
 }

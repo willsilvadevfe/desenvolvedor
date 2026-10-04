@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Logo from "../img/logo_pdc.png";
 import toast, { Toaster } from "react-hot-toast";
 import "./Root.css";
 import "./Form.css";
+import AlertaPdf from "./AlertaPdf";
 
 const INITIAL_FORM = {
   cliente: "",
@@ -66,11 +67,12 @@ const ImageUpload = ({ caption, tone, image, onSelect, onRemove }) => {
 const Form = () => {
   const [form, setForm] = useState(INITIAL_FORM);
   const [images, setImages] = useState(INITIAL_IMAGES);
-  const [error, setError] = useState("");
 
-  // Libera as URLs de preview ao sair da página
+  // Mantém sempre a versão mais recente das imagens (para revogar URLs)
   const imagesRef = useRef(images);
   imagesRef.current = images;
+
+  // Libera as URLs de preview ao sair da página
   useEffect(
     () => () => {
       Object.values(imagesRef.current).forEach(
@@ -86,38 +88,59 @@ const Form = () => {
   };
 
   const handleImage = (key, file) => {
-    if (images[key]) URL.revokeObjectURL(images[key].url);
-    setImages({
-      ...images,
-      [key]: file ? { file, url: URL.createObjectURL(file) } : null,
-    });
+    const other = key === "aprovada" ? "reprovada" : "aprovada";
 
-    setError("");
+    // Libera a URL antiga da imagem que está sendo trocada/removida
+    const old = imagesRef.current[key];
+    if (old) URL.revokeObjectURL(old.url);
+
+    // Cria a nova URL fora do setState para não duplicar em StrictMode
+    const next = file ? { file, url: URL.createObjectURL(file) } : null;
+    setImages((prev) => ({ ...prev, [key]: next }));
+
+    // Toast só quando as duas imagens ficam completas
+    if (next && imagesRef.current[other]) {
+      toast.success("Upload das imagens realizado com sucesso!");
+    }
   };
 
   const handleClear = () => {
-    Object.values(images).forEach((img) => img && URL.revokeObjectURL(img.url));
+    Object.values(imagesRef.current).forEach(
+      (img) => img && URL.revokeObjectURL(img.url),
+    );
     setForm(INITIAL_FORM);
     setImages(INITIAL_IMAGES);
-    setError("");
     toast.success("Formulário limpo com sucesso!");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!images.aprovada || !images.reprovada) {
-      setError(
-        toast.error(
-          "Adicione as duas fotos (aprovada e reprovada) para gerar o alerta.",
-        ),
+    if (
+      !form.cliente ||
+      !form.partNumber ||
+      !form.falha ||
+      !form.local ||
+      !form.elaborador ||
+      !form.aprovador ||
+      !form.descricao
+    ) {
+      toast.error(
+        "Atenção! Todos os campos do formulário devem ser preenchidos para gerar o alerta.",
       );
       return;
     }
-    setError("");
 
-    // Por enquanto o PDF sai pela impressão do navegador ("Salvar como PDF").
-    // O nome do arquivo sugerido vem do título da aba.
+    if (!images.aprovada || !images.reprovada) {
+      toast.error(
+        "Adicione as duas fotos (aprovada e reprovada) para gerar o alerta.",
+      );
+      return;
+    }
+
+    // O PDF sai pela impressão do navegador ("Salvar como PDF"), usando a
+    // folha <AlertaPdf /> (A4 paisagem). O nome do arquivo sugerido vem do
+    // título da aba.
     const originalTitle = document.title;
     document.title = `Alerta da Qualidade - ${form.cliente} - ${form.partNumber}`;
     window.addEventListener(
@@ -133,179 +156,172 @@ const Form = () => {
   };
 
   return (
-    <div className="page">
-      <header className="page-header">
-        <img className="img-logo" src={Logo} alt="Logo PDC" width={100} />
-        <div className="header-text">
-          <h1>Sistema de Gestão para Alertas da Qualidade</h1>
-          <p>
-            Acompanhamento de ocorrências, desvios e ações que requerem atenção.
-          </p>
-        </div>
-        <div
-          className="theme-switch no-print"
-          role="radiogroup"
-          aria-label="Tema da página"
-        >
-          <input
-            className="sr-only"
-            type="radio"
-            name="theme"
-            id="theme-light"
-          />
-          <label className="theme-light" htmlFor="theme-light">
-            Claro
-          </label>
-          <input
-            className="sr-only"
-            type="radio"
-            name="theme"
-            id="theme-dark"
-          />
-          <label className="theme-dark" htmlFor="theme-dark">
-            Escuro
-          </label>
-        </div>
-      </header>
+    <>
+      <Toaster position="top-right" />
 
-      <form className="page-body" onSubmit={handleSubmit}>
-        {/* Área de informações do alerta */}
-        <section className="card info-area">
-          <h2>Dados do alerta</h2>
-
-          <div className="fields">
-            <label className="field">
-              <span>Cliente</span>
-              <input
-                type="text"
-                name="cliente"
-                value={form.cliente}
-                onChange={handleChange}
-                placeholder="Ex.: Eaton"
-                required
-              />
-            </label>
-
-            <label className="field">
-              <span>Part Number</span>
-              <input
-                type="text"
-                name="partNumber"
-                value={form.partNumber}
-                onChange={handleChange}
-                placeholder="Ex.: V6005"
-                required
-              />
-            </label>
-
-            <label className="field">
-              <span>Tipo de falha</span>
-              <input
-                type="text"
-                name="falha"
-                value={form.falha}
-                onChange={handleChange}
-                placeholder="Ex.: Marca de rebolo na ponta"
-                required
-              />
-            </label>
-
-            <label className="field">
-              <span>Local da falha</span>
-              <input
-                type="text"
-                name="local"
-                value={form.local}
-                onChange={handleChange}
-                placeholder="Ex.: Quality Gate"
-                required
-              />
-            </label>
-
-            <label className="field">
-              <span>Elaborador</span>
-              <input
-                type="text"
-                name="elaborador"
-                value={form.elaborador}
-                onChange={handleChange}
-                placeholder="Ex.: Eliane Santos"
-                required
-              />
-            </label>
-
-            <label className="field">
-              <span>Aprovador</span>
-              <input
-                type="text"
-                name="aprovador"
-                value={form.aprovador}
-                onChange={handleChange}
-                placeholder="Nome do aprovador"
-                required
-              />
-            </label>
-
-            <label className="field field--wide">
-              <span>Descrição da falha</span>
-              <textarea
-                name="descricao"
-                value={form.descricao}
-                onChange={handleChange}
-                placeholder="Descreva a não conformidade"
-                rows={4}
-                required
-              />
-            </label>
-          </div>
-        </section>
-
-        {/* Área de imagens (centro da página) */}
-        <section className="card container-img">
-          <h2>Evidências</h2>
-
-          <div className="img-grid">
-            <ImageUpload
-              tone="approved"
-              caption="Condição de produto aprovado - Peça física"
-              image={images.aprovada}
-              onSelect={(file) => handleImage("aprovada", file)}
-              onRemove={() => handleImage("aprovada", null)}
-            />
-            <ImageUpload
-              tone="reject"
-              caption="Condição de produto reprovado - Peça física"
-              image={images.reprovada}
-              onSelect={(file) => handleImage("reprovada", file)}
-              onRemove={() => handleImage("reprovada", null)}
-            />
-          </div>
-          <div className="btns no-print">
-          {error && (
-            <p className="form-error" role="alert">
-              {error}
+      {/* Tela do formulário (escondida na impressão) */}
+      <div className="page tela-formulario">
+        <header className="page-header">
+          <img className="img-logo" src={Logo} alt="Logo PDC" width={100} />
+          <div className="header-text">
+            <h1>Sistema de Gestão para Alertas da Qualidade</h1>
+            <p>
+              Acompanhamento de ocorrências, desvios e ações que requerem
+              atenção.
             </p>
-          )}
-          <button
-            type="button"
-            className="btn btn--secondary"
-            onClick={handleClear}
+          </div>
+          <div
+            className="theme-switch no-print"
+            role="radiogroup"
+            aria-label="Tema da página"
           >
-            Limpar formulário
-          </button>
-          <button type="submit" className="btn btn--primary">
-            Gerar alerta de qualidade
-          </button>
-        </div>
-        </section>
-        
+            <input
+              className="sr-only"
+              type="radio"
+              name="theme"
+              id="theme-light"
+            />
+            <label className="theme-light" htmlFor="theme-light">
+              Claro
+            </label>
+            <input
+              className="sr-only"
+              type="radio"
+              name="theme"
+              id="theme-dark"
+            />
+            <label className="theme-dark" htmlFor="theme-dark">
+              Escuro
+            </label>
+          </div>
+        </header>
 
-        
+        <form className="page-body" onSubmit={handleSubmit}>
+          {/* Área de informações do alerta */}
+          <section className="card info-area">
+            <h2>Dados do alerta</h2>
 
-        {/* Ações */}
-        
-      </form>
-    </div>
+            <div className="fields">
+              <label className="field">
+                <span>Cliente</span>
+                <input
+                  type="text"
+                  name="cliente"
+                  value={form.cliente}
+                  onChange={handleChange}
+                  placeholder="Ex.: Eaton"
+                />
+              </label>
+
+              <label className="field">
+                <span>Part Number</span>
+                <input
+                  type="text"
+                  name="partNumber"
+                  value={form.partNumber}
+                  onChange={handleChange}
+                  placeholder="Ex.: V6005"
+                />
+              </label>
+
+              <label className="field">
+                <span>Tipo de falha</span>
+                <input
+                  type="text"
+                  name="falha"
+                  value={form.falha}
+                  onChange={handleChange}
+                  placeholder="Ex.: Marca de rebolo na ponta"
+                />
+              </label>
+
+              <label className="field">
+                <span>Área detectada</span>
+                <input
+                  type="text"
+                  name="local"
+                  value={form.local}
+                  onChange={handleChange}
+                  placeholder="Ex.: Quality Gate"
+                />
+              </label>
+
+              <label className="field">
+                <span>Elaborador</span>
+                <input
+                  type="text"
+                  name="elaborador"
+                  value={form.elaborador}
+                  onChange={handleChange}
+                  placeholder="Ex.: Eliane Santos"
+                />
+              </label>
+
+              <label className="field">
+                <span>Auditor aprovador</span>
+                <input
+                  type="text"
+                  name="aprovador"
+                  value={form.aprovador}
+                  onChange={handleChange}
+                  placeholder="Nome do aprovador"
+                />
+              </label>
+
+              <label className="field field--wide">
+                <span>Descrição da falha detectada</span>
+                <textarea
+                  name="descricao"
+                  value={form.descricao}
+                  onChange={handleChange}
+                  placeholder="Descreva a não conformidade"
+                  rows={4}
+                />
+              </label>
+            </div>
+          </section>
+
+          {/* Área de imagens (centro da página) */}
+          <section className="card container-img">
+            <h2>Evidências com imagens</h2>
+
+            <div className="img-grid">
+              <ImageUpload
+                tone="approved"
+                caption="Condição do produto em conformidade com a qualidade"
+                image={images.aprovada}
+                onSelect={(file) => handleImage("aprovada", file)}
+                onRemove={() => handleImage("aprovada", null)}
+              />
+              <ImageUpload
+                tone="reject"
+                caption="Condição de produto não conforme com a qualidade"
+                image={images.reprovada}
+                onSelect={(file) => handleImage("reprovada", file)}
+                onRemove={() => handleImage("reprovada", null)}
+              />
+            </div>
+
+            {/* Ações */}
+            <div className="btns no-print">
+              <button
+                type="button"
+                className="btn btn--secondary"
+                onClick={handleClear}
+              >
+                Limpar formulário
+              </button>
+              <button type="submit" className="btn btn--primary">
+                Gerar alerta de qualidade
+              </button>
+            </div>
+          </section>
+        </form>
+      </div>
+
+      {/* Folha do PDF (A4 paisagem) — só aparece na impressão */}
+      <AlertaPdf form={form} images={images} />
+    </>
   );
 };
 
