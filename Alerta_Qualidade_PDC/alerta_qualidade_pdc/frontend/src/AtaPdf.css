@@ -1,5 +1,10 @@
 /* Mesma configuração de página do Alerta: A4 paisagem, margens mínimas.
    Se o AlertaPdf.css já tem esse @page, pode remover este bloco. */
+
+   .folhas-impressao {
+  display: none;
+}
+
 @page {
   size: A4 landscape;
   margin: 8mm;

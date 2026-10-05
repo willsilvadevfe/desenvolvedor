@@ -3,6 +3,7 @@
   display: none;
 }
 
+
 /* Fora do @media: define A4 paisagem com margem mínima */
 @page {
   size: A4 landscape;

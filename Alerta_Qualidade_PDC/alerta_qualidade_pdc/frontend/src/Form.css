@@ -202,12 +202,11 @@
 /*========= BOTÕES =========*/
 .btns {
   display: flex;
-  position: absolute;
+  margin-top: 24px;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: end;
   gap: 12px;
-  bottom: 30px;
-  right: 30px;
+  
 }
 
 .form-error {
@@ -265,6 +264,36 @@
   background: none;
   border: none;
   text-decoration: underline;
+}
+
+.pasta-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.pasta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pasta-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.pasta-caminho {
+  font-size: 0.85rem;
+  color: var(--text);
+  overflow-wrap: anywhere;
 }
 
 /*========= ACESSIBILIDADE =========*/

@@ -18,6 +18,12 @@ const INITIAL_FORM = {
 
 const INITIAL_IMAGES = { aprovada: null, reprovada: null };
 
+/* Remove caracteres inválidos para nome de arquivo no Windows */
+const limpar = (txt) =>
+  String(txt)
+    .replace(/[\\/:*?"<>|]/g, "")
+    .trim();
+
 /* ---------- Campo de upload de imagem ---------- */
 const ImageUpload = ({ caption, tone, image, onSelect, onRemove }) => {
   const handleFile = (file) => {
@@ -68,7 +74,17 @@ const ImageUpload = ({ caption, tone, image, onSelect, onRemove }) => {
 const Form = () => {
   const [form, setForm] = useState(INITIAL_FORM);
   const [images, setImages] = useState(INITIAL_IMAGES);
+  const [gerando, setGerando] = useState(false);
+  const [pastaBase, setPastaBase] = useState("");
+  const [pastaAtual, setPastaAtual] = useState("");
+  const temElectron = typeof window.api?.escolherPasta === "function";
 
+  // Busca no Electron qual é a pasta de salvamento atual
+  useEffect(() => {
+    if (typeof window.api?.obterPasta === "function") {
+      window.api.obterPasta().then(setPastaAtual).catch(console.error);
+    }
+  }, []);
   // Mantém sempre a versão mais recente das imagens (para revogar URLs)
   const imagesRef = useRef(images);
   imagesRef.current = images;
@@ -89,8 +105,6 @@ const Form = () => {
   };
 
   const handleImage = (key, file) => {
-    const other = key === "aprovada" ? "reprovada" : "aprovada";
-
     // Libera a URL antiga da imagem que está sendo trocada/removida
     const old = imagesRef.current[key];
     if (old) URL.revokeObjectURL(old.url);
@@ -109,7 +123,20 @@ const Form = () => {
     toast.success("Formulário limpo com sucesso!");
   };
 
-  const handleSubmit = (e) => {
+  const handleEscolherPasta = async () => {
+    try {
+      const pasta = await window.api.escolherPasta();
+
+      if (pasta) {
+        setPastaAtual(pasta);
+        console.log("Pasta escolhida:", pasta);
+      }
+    } catch (erro) {
+      console.error("Erro ao alterar pasta:", erro);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -134,19 +161,53 @@ const Form = () => {
       return;
     }
 
-    // O PDF sai pela impressão do navegador ("Salvar como PDF"), usando a
-    // folha <AlertaPdf /> (A4 paisagem). O nome do arquivo sugerido vem do
-    // título da aba.
-    const originalTitle = document.title;
-    document.title = `Alerta da Qualidade - ${form.cliente} - ${form.partNumber}`;
-    window.addEventListener(
-      "afterprint",
-      () => {
-        document.title = originalTitle;
-      },
-      { once: true },
-    );
-    window.print();
+    // Fora do Electron (navegador comum): usa a impressão normal
+    if (typeof window.api?.salvarPdf !== "function") {
+      const originalTitle = document.title;
+      document.title = `Alerta da Qualidade - ${form.cliente} - ${form.partNumber}`;
+      window.addEventListener(
+        "afterprint",
+        () => {
+          document.title = originalTitle;
+        },
+        { once: true },
+      );
+      window.print();
+      return;
+    }
+
+    // Dentro do Electron: salva o PDF direto em
+    // Documentos > ALERTA_DA_QUALIDADE > ano > mês
+    if (gerando) return;
+    setGerando(true);
+
+    const nome = `alerta_${limpar(form.cliente)}_${limpar(form.partNumber)}_${Date.now()}`;
+
+    try {
+      const caminho = await window.api.salvarPdf(nome);
+      console.log("PDF salvo em:", caminho);
+      toast.success(`PDF salvo com sucesso!\n\nLocal:\n${caminho}`, {
+        duration: 10000,
+        style: {
+          width: "600px",
+          maxWidth: "90vw",
+          whiteSpace: "pre-wrap",
+          wordBreak: "break-all",
+          fontSize: "14px",
+          lineHeight: "1.5",
+          padding: "18px 20px",
+        },
+      });
+
+      // Pequena pausa para o aviso aparecer antes de abrir a impressão
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      window.print();
+    } catch (erro) {
+      console.error("Erro ao salvar PDF:", erro);
+      toast.error(`Não foi possível salvar o PDF: ${erro?.message ?? erro}`);
+    } finally {
+      setGerando(false);
+    }
 
     // TODO (backend): enviar `form` + `images` para a API e salvar no banco.
   };
@@ -296,6 +357,26 @@ const Form = () => {
               />
             </div>
 
+            {/* Pasta de salvamento dos PDFs */}
+            <div className="pasta-box no-print">
+              <div className="pasta-info">
+                <span className="pasta-label">
+                  Pasta de salvamento dos PDFs
+                </span>
+                <code className="pasta-caminho">
+                  {temElectron
+                    ? pastaAtual || "Carregando..."
+                    : "Disponível apenas no aplicativo Electron"}
+                </code>
+              </div>
+              <button
+                onClick={handleEscolherPasta}
+                className="btn btn--secondary"
+              >
+                Escolher pasta
+              </button>
+            </div>
+
             {/* Ações */}
             <div className="btns no-print">
               <button
@@ -305,17 +386,23 @@ const Form = () => {
               >
                 Limpar formulário
               </button>
-              <button type="submit" className="btn btn--primary">
-                Gerar alerta de qualidade
+              <button
+                type="submit"
+                className="btn btn--primary"
+                disabled={gerando}
+              >
+                {gerando ? "Gerando..." : "Gerar alerta de qualidade"}
               </button>
             </div>
           </section>
         </form>
       </div>
 
-      {/* Folha do PDF (A4 paisagem) — só aparece na impressão */}
-      <AlertaPdf form={form} images={images} />
-      <AtaPdf form={form} />
+      {/* Folhas do PDF (A4 paisagem) — escondidas na tela, só aparecem na impressão */}
+      <div className="folhas-impressao">
+        <AlertaPdf form={form} images={images} />
+        <AtaPdf form={form} />
+      </div>
     </>
   );
 };

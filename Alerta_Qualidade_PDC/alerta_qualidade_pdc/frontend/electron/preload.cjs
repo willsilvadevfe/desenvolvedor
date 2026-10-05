@@ -1,5 +1,9 @@
-const { contextBridge } = require("electron");
+const { contextBridge, ipcRenderer } = require("electron");
 
-// Por enquanto a ponte está vazia; nas próximas etapas vamos
-// colocar aqui as funções de salvar PDF e escolher pasta.
-contextBridge.exposeInMainWorld("api", {});
+contextBridge.exposeInMainWorld("api", {
+  salvarPdf: (nome) => ipcRenderer.invoke("pdf:salvar", nome),
+
+  obterPasta: () => ipcRenderer.invoke("pasta:obter"),
+
+  escolherPasta: () => ipcRenderer.invoke("pasta:escolher"),
+});
