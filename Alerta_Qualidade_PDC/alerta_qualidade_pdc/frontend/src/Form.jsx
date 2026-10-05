@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect } from "react";
 import Logo from "../img/logo_pdc.png";
-import toast, { Toaster } from "react-hot-toast";
 import "./Root.css";
 import "./Form.css";
 import AlertaPdf from "./AlertaPdf";
+import AtaPdf from "./AtaPdf";
+import toast, { Toaster } from "react-hot-toast";
 
 const INITIAL_FORM = {
   cliente: "",
@@ -97,11 +98,6 @@ const Form = () => {
     // Cria a nova URL fora do setState para não duplicar em StrictMode
     const next = file ? { file, url: URL.createObjectURL(file) } : null;
     setImages((prev) => ({ ...prev, [key]: next }));
-
-    // Toast só quando as duas imagens ficam completas
-    if (next && imagesRef.current[other]) {
-      toast.success("Upload das imagens realizado com sucesso!");
-    }
   };
 
   const handleClear = () => {
@@ -157,8 +153,6 @@ const Form = () => {
 
   return (
     <>
-      <Toaster position="top-right" />
-
       {/* Tela do formulário (escondida na impressão) */}
       <div className="page tela-formulario">
         <header className="page-header">
@@ -321,6 +315,7 @@ const Form = () => {
 
       {/* Folha do PDF (A4 paisagem) — só aparece na impressão */}
       <AlertaPdf form={form} images={images} />
+      <AtaPdf form={form} />
     </>
   );
 };

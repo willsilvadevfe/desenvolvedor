@@ -31,7 +31,7 @@
     flex-direction: column;
     gap: 3mm;
     width: 287mm; /* 297mm - 10mm de margem */
-    height: 199mm; /* 210mm - 10mm de margem - 1mm de folga */
+    height: 194mm; /* 210mm - 10mm de margem - 1mm de folga */
     overflow: hidden;
     box-sizing: border-box;
     font-family: "IBM Plex Sans", Arial, sans-serif;
@@ -147,7 +147,7 @@
     min-height: 0;
     border-radius: 3mm;
     overflow: hidden;
-    border: 0.5mm solid;
+    border: 0.5mm solid black;
   }
   .pdf-card.aprovada {
     border-color: #2e9b57;
@@ -181,6 +181,7 @@
     justify-content: center;
     background: #fff;
     padding: 2mm;
+    
   }
   .pdf-moldura img {
     max-width: 100%;

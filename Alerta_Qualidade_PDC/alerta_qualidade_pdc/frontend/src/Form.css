@@ -332,12 +332,12 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .theme-switch:not(:has(input:checked)) .theme-light {
+  .theme-switch:not(:has(input:checked)) .theme-dark {
     color: var(--text-muted);
     background: transparent;
   }
 
-  .theme-switch:not(:has(input:checked)) .theme-dark {
+  .theme-switch:not(:has(input:checked)) .theme-light {
     color: var(--on-primary);
     background: var(--primary);
   }

@@ -1,0 +1,219 @@
+/* Mesma configuração de página do Alerta: A4 paisagem, margens mínimas.
+   Se o AlertaPdf.css já tem esse @page, pode remover este bloco. */
+@page {
+  size: A4 landscape;
+  margin: 8mm;
+}
+
+.ata-page {
+  /* Área útil: 297x210mm - margens de 8mm. 193mm evita criar página extra */
+  box-sizing: border-box;
+  width: 100%;
+  height: 193mm;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5mm;
+  color: var(--text, #101828);
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: 9.5pt;
+  background: #fff;
+
+  /* Sempre começa em uma nova folha (a 2ª, depois do Alerta) */
+  break-before: page;
+  page-break-before: always;
+  break-inside: avoid;
+  overflow: hidden;
+
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ---------- Cabeçalho ---------- */
+.ata-header {
+  display: flex;
+  align-items: center;
+  gap: 8mm;
+  padding-bottom: 3mm;
+  border-bottom: 0.6mm solid var(--text, #101828);
+}
+
+.ata-header__logo {
+  height: 14mm;
+  width: auto;
+  object-fit: contain;
+}
+
+.ata-header__titulo {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 16pt;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.ata-header__titulo strong {
+  font-weight: 700;
+}
+
+/* ---------- Dados do formulário ---------- */
+.ata-info {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border: 0.3mm solid var(--text, #101828);
+  border-radius: 1.5mm;
+  overflow: hidden;
+}
+
+.ata-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6mm;
+  padding: 1.8mm 3mm;
+  min-height: 11mm;
+  border-right: 0.2mm solid var(--border, #d0d5dd);
+  border-bottom: 0.2mm solid var(--border, #d0d5dd);
+}
+
+.ata-campo:nth-child(4n) {
+  border-right: none;
+}
+
+.ata-campo:nth-last-child(-n + 4) {
+  border-bottom: none;
+}
+
+.ata-campo__label {
+  font-size: 7.5pt;
+  font-weight: 600;
+  color: var(--text-muted, #475467);
+}
+
+.ata-campo__valor {
+  font-size: 10pt;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Descrição da falha (destaque) ---------- */
+.ata-descricao {
+  display: flex;
+  flex-direction: column;
+  gap: 1mm;
+  padding: 2.5mm 4mm;
+  max-height: 20mm;
+  overflow: hidden;
+  border: 0.3mm solid var(--danger, #d92d20);
+  border-left-width: 1.6mm;
+  border-radius: 1.5mm;
+  background: #fef3f2;
+}
+
+.ata-descricao__label {
+  font-size: 10pt;
+  font-weight: 700;
+  color: var(--danger, #d92d20);
+}
+
+.ata-descricao__texto {
+  margin: 0;
+  font-size: 10.5pt;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Tabela de assinaturas ---------- */
+.ata-tabela {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border: 0.3mm solid var(--text, #101828);
+}
+
+.ata-tabela__head,
+.ata-tabela__linha {
+  display: grid;
+  grid-template-columns: 2.4fr 1.2fr 2fr 1fr;
+}
+
+.ata-tabela__head {
+  background: var(--primary, #155eef);
+  color: #fff;
+  font-weight: 600;
+  font-size: 12pt;
+  text-align: center;
+}
+
+.ata-tabela__head span {
+  padding: 1.6mm 2mm;
+  border-right: 0.2mm solid rgba(255, 255, 255, 0.5);
+}
+
+.ata-tabela__head span:last-child {
+  border-right: none;
+}
+
+/* As linhas dividem o espaço que sobra, então a tabela sempre cabe na folha */
+.ata-tabela__body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-auto-rows: 1fr;
+  border: 0.2mm solid var(--border, #d0d5dd);
+}
+
+.ata-tabela__linha {
+  border-top: 0.2mm solid var(--border, #d0d5dd);
+  min-height: 5.5mm;
+}
+
+.ata-tabela__linha:nth-child(even) {
+  background: var(--table-row, #f9fafb);
+}
+
+.ata-tabela__linha span {
+  border-right: 0.2mm solid var(--border, #d0d5dd);
+}
+
+.ata-tabela__linha span:last-child {
+  border-right: none;
+}
+
+/* ---------- Assinaturas finais ---------- */
+.ata-footer {
+  display: flex;
+  justify-content: space-around;
+  gap: 20mm;
+  padding: 0 10mm;
+}
+
+.ata-footer__assinatura {
+  flex: 1;
+  max-width: 100mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ata-footer__nome {
+  font-size: 9pt;
+  min-height: 4mm;
+}
+
+.ata-footer__linha {
+  width: 100%;
+  height: 0;
+  margin-top: 6mm;
+  border-top: 0.3mm solid var(--text, #101828);
+}
+
+.ata-footer__legenda {
+  margin-top: 1mm;
+  font-size: 8.5pt;
+  font-weight: 600;
+  text-align: center;
+}

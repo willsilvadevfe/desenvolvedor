@@ -5,6 +5,7 @@ const AlertaPdf = ({ form, images }) => {
   const dataHoje = new Date().toLocaleDateString("pt-BR");
 
   return (
+    
     <div className="alerta-pdf">
       {/* Título */}
       <header className="pdf-titulo">
