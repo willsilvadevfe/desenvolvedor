@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 :root {
-  /* Faz o navegador adaptar scrollbar, inputs nativos e textarea ao tema */
   color-scheme: light;
 
   /*========= CORES =========*/
@@ -32,13 +31,6 @@
   --success: #16a34a;
   --info: #2563eb;
 }
-
-/*========= TEMA (claro / escuro) =========
-  Sem JavaScript: os botões "Claro" e "Escuro" do header são radios
-  (#theme-light e #theme-dark) e o :has() lê qual está marcado.
-  A página sempre abre em Claro (o radio #theme-light vem marcado no JSX),
-  independente do tema do sistema.
-  "screen" mantém o PDF/impressão sempre claro. */
 
 /* Claro (padrão) */
 :root:has(#theme-light:checked) {

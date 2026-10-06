@@ -25,5 +25,12 @@
     "oxlint": "^1.81.0",
     "vite": "^8.3.0",
     "wait-on": "^9.5.1"
+  },
+  "build": {
+    "appId": "com.pdc.alertaqualidade",
+    "productName": "Sistema de Alerta da Qualidade PDC do Brasil",
+    "win": {
+      "icon": "electron/icon.ico"
+    }
   }
 }

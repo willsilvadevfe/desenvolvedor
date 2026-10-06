@@ -1,21 +1,25 @@
-/* Escondido na tela */
+.folhas-impressao,
+.alerta-pdf,
+.ata-page {
+  display: none;
+}
+
 .alerta-pdf {
   display: none;
 }
 
-
-/* Fora do @media: define A4 paisagem com margem mínima */
 @page {
   size: A4 landscape;
   margin: 5mm;
 }
 
 @media print {
-  html,
-  body {
-    margin: 0;
-    padding: 0;
-    background: #fff !important;
+  .folhas-impressao {
+    display: block !important;
+  }
+
+  [role="status"] {
+    display: none !important;
   }
 
   .tela-formulario {
@@ -31,8 +35,8 @@
     display: flex;
     flex-direction: column;
     gap: 3mm;
-    width: 287mm; /* 297mm - 10mm de margem */
-    height: 194mm; /* 210mm - 10mm de margem - 1mm de folga */
+    width: 287mm;
+    height: 194mm;
     overflow: hidden;
     box-sizing: border-box;
     font-family: "IBM Plex Sans", Arial, sans-serif;
@@ -45,7 +49,6 @@
     box-sizing: border-box;
   }
 
-  /* Título */
   .pdf-titulo {
     position: relative;
     display: flex;
@@ -182,7 +185,6 @@
     justify-content: center;
     background: #fff;
     padding: 2mm;
-    
   }
   .pdf-moldura img {
     max-width: 100%;

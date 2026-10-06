@@ -1,4 +1,3 @@
-/*========= PÁGINA =========*/
 .page {
   min-height: 100vh;
 }
@@ -13,7 +12,6 @@
   padding: 32px 24px 48px;
 }
 
-/*========= HEADER (logo > título > subtítulo) =========*/
 .page-header {
   display: flex;
   align-items: center;
@@ -42,7 +40,6 @@
   color: var(--text-muted);
 }
 
-/*========= CARDS =========*/
 .card {
   width: 100%;
   position: relative;
@@ -59,7 +56,6 @@
   color: var(--secondary);
 }
 
-/*========= ÁREA DE INFORMAÇÕES =========*/
 .fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -114,7 +110,6 @@
   box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
-/*========= ÁREA DE IMAGENS =========*/
 .img-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -199,14 +194,12 @@
   color: var(--text);
 }
 
-/*========= BOTÕES =========*/
 .btns {
   display: flex;
   margin-top: 24px;
   flex-wrap: wrap;
   justify-content: end;
   gap: 12px;
-  
 }
 
 .form-error {
@@ -296,7 +289,6 @@
   overflow-wrap: anywhere;
 }
 
-/*========= ACESSIBILIDADE =========*/
 .sr-only {
   position: absolute;
   width: 1px;
@@ -315,7 +307,6 @@
   }
 }
 
-/*========= SELETOR DE TEMA (sem JavaScript) =========*/
 .theme-switch {
   display: inline-flex;
   margin-left: auto;
@@ -348,13 +339,11 @@
   outline-offset: 2px;
 }
 
-/* Opção ativa: a que está marcada... */
 .theme-switch input:checked + label {
   color: var(--on-primary);
   background: var(--primary);
 }
 
-/* ...ou, sem escolha ainda, a que corresponde ao tema do sistema */
 .theme-switch:not(:has(input:checked)) .theme-light {
   color: var(--on-primary);
   background: var(--primary);
@@ -372,9 +361,7 @@
   }
 }
 
-/*========= TEMA DARK: ajustes específicos =========
-  Placa clara atrás do logo para ele aparecer mesmo sendo escuro.
-  Se o seu logo já funciona no escuro, apague estas duas regras. */
+/* Tema Dark - Light */
 @media screen {
   :root:has(#theme-dark:checked) .img-logo {
     box-sizing: content-box;
@@ -393,7 +380,6 @@
   }
 }
 
-/*========= RESPONSIVO =========*/
 @media (max-width: 720px) {
   .page-header {
     flex-direction: column;
@@ -425,7 +411,6 @@
   }
 }
 
-/*========= IMPRESSÃO / PDF (sempre claro) =========*/
 @page {
   size: A4;
   margin: 12mm;

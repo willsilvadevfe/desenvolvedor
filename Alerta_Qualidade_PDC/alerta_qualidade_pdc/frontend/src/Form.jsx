@@ -18,7 +18,6 @@ const INITIAL_FORM = {
 
 const INITIAL_IMAGES = { aprovada: null, reprovada: null };
 
-/* Remove caracteres inválidos para nome de arquivo no Windows */
 const limpar = (txt) =>
   String(txt)
     .replace(/[\\/:*?"<>|]/g, "")
@@ -46,7 +45,7 @@ const ImageUpload = ({ caption, tone, image, onSelect, onRemove }) => {
           accept="image/*"
           onChange={(e) => {
             handleFile(e.target.files[0]);
-            e.target.value = ""; // permite escolher o mesmo arquivo de novo
+            e.target.value = ""; 
           }}
         />
         {image ? (
@@ -75,21 +74,20 @@ const Form = () => {
   const [form, setForm] = useState(INITIAL_FORM);
   const [images, setImages] = useState(INITIAL_IMAGES);
   const [gerando, setGerando] = useState(false);
-  const [pastaBase, setPastaBase] = useState("");
   const [pastaAtual, setPastaAtual] = useState("");
   const temElectron = typeof window.api?.escolherPasta === "function";
 
-  // Busca no Electron qual é a pasta de salvamento atual
+
   useEffect(() => {
     if (typeof window.api?.obterPasta === "function") {
       window.api.obterPasta().then(setPastaAtual).catch(console.error);
     }
   }, []);
-  // Mantém sempre a versão mais recente das imagens (para revogar URLs)
+
   const imagesRef = useRef(images);
   imagesRef.current = images;
 
-  // Libera as URLs de preview ao sair da página
+
   useEffect(
     () => () => {
       Object.values(imagesRef.current).forEach(
@@ -105,11 +103,11 @@ const Form = () => {
   };
 
   const handleImage = (key, file) => {
-    // Libera a URL antiga da imagem que está sendo trocada/removida
+
     const old = imagesRef.current[key];
     if (old) URL.revokeObjectURL(old.url);
 
-    // Cria a nova URL fora do setState para não duplicar em StrictMode
+
     const next = file ? { file, url: URL.createObjectURL(file) } : null;
     setImages((prev) => ({ ...prev, [key]: next }));
   };
@@ -161,7 +159,6 @@ const Form = () => {
       return;
     }
 
-    // Fora do Electron (navegador comum): usa a impressão normal
     if (typeof window.api?.salvarPdf !== "function") {
       const originalTitle = document.title;
       document.title = `Alerta da Qualidade - ${form.cliente} - ${form.partNumber}`;
@@ -176,15 +173,12 @@ const Form = () => {
       return;
     }
 
-    // Dentro do Electron: salva o PDF direto em
-    // Documentos > ALERTA_DA_QUALIDADE > ano > mês
     if (gerando) return;
     setGerando(true);
 
     const nome = `alerta_${limpar(form.cliente)}_${limpar(form.partNumber)}_${Date.now()}`;
 
     try {
-      
       const caminho = await window.api.salvarPdf(nome);
       console.log("PDF salvo em:", caminho);
       toast.success(`PDF salvo com sucesso!\n\nLocal:\n${caminho}`, {
@@ -200,7 +194,6 @@ const Form = () => {
         },
       });
 
-      // Pequena pausa para o aviso aparecer antes de abrir a impressão
       await new Promise((resolve) => setTimeout(resolve, 400));
       window.print();
     } catch (erro) {
@@ -209,8 +202,7 @@ const Form = () => {
     } finally {
       setGerando(false);
     }
-
-    // TODO (backend): enviar `form` + `images` para a API e salvar no banco.
+    
   };
 
   return (
@@ -371,6 +363,7 @@ const Form = () => {
                 </code>
               </div>
               <button
+                type="button"
                 onClick={handleEscolherPasta}
                 className="btn btn--secondary"
               >

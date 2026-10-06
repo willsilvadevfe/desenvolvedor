@@ -22,34 +22,57 @@ const MESES = [
 
 function createWindow() {
   const win = new BrowserWindow({
+    title: "Sistema de Alerta da Qualidade PDC do Brasil",
     show: false,
+    icon: path.join(__dirname, "icon.ico"),
     webPreferences: {
       preload: path.join(__dirname, "preload.cjs"),
       contextIsolation: true,
       nodeIntegration: false,
     },
   });
+  win.on("page-title-updated", (e) => e.preventDefault());
   win.maximize();
   win.show();
   win.loadURL("http://localhost:5173");
+  app.setName("Alertas da Qualidade");
 }
 
-// Salva o PDF em ALERTA_DA_QUALIDADE/ANO/mês
+function arquivoConfig() {
+  return path.join(app.getPath("userData"), "config.json");
+}
+
+function lerConfig() {
+  try {
+    return JSON.parse(fs.readFileSync(arquivoConfig(), "utf-8"));
+  } catch {
+    return {};
+  }
+}
+
+function salvarConfig(config) {
+  fs.writeFileSync(arquivoConfig(), JSON.stringify(config, null, 2));
+}
+
+function pastaRaiz() {
+  return (
+    lerConfig().pastaRaiz ||
+    path.join(app.getPath("documents"), "ALERTA_DA_QUALIDADE")
+  );
+}
+
 ipcMain.handle("pdf:salvar", async (event, nomeArquivo) => {
   const hoje = new Date();
   const pasta = path.join(
-    app.getPath("documents"),
-    "ALERTA_DA_QUALIDADE",
+    pastaRaiz(),
     String(hoje.getFullYear()),
     MESES[hoje.getMonth()],
   );
   fs.mkdirSync(pasta, { recursive: true });
 
   const pdf = await event.sender.printToPDF({
-    landscape: true,
-    pageSize: "A4",
+    preferCSSPageSize: true, 
     printBackground: true,
-    margins: { marginType: "none" },
   });
 
   const caminho = path.join(pasta, `${nomeArquivo}.pdf`);
