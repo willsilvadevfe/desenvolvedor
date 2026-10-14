@@ -1,8 +1,9 @@
+const routers = require("./api");
 const express = require("express");
 const app = express();
-const router = require("./api");
 
 app.use(express.json());
+app.use("/", routers);
 
 try {
   app.listen(3000, () => {
