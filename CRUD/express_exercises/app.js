@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 8081;
 const routers = require("./express_routes");
 
 app.use(express.json());
@@ -11,5 +11,5 @@ try {
     console.log("Server is running...");
   });
 } catch (error) {
-  console.log("Failed connection with the server..." + error);
+  console.log("Failed connect with the server..." + error);
 }
