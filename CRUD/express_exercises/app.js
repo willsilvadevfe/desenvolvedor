@@ -11,5 +11,5 @@ try {
     console.log("Server is running...");
   });
 } catch (error) {
-  console.log("Failed connect with the server..." + error);
+  console.log("Connection with the server failed..." + error);
 }
