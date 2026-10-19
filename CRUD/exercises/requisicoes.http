@@ -1,0 +1,13 @@
+
+### Cadastrar o primeiro curso
+POST http://localhost:8081/
+Content-Type: application/json
+
+{
+    "id": 3,
+    "nome": "React",
+    "cargaHoraria": 50
+}
+
+### Listar todos os cursos
+GET http://localhost:8081/

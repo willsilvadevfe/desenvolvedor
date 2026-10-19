@@ -6,18 +6,21 @@ const routerSchool = require("./school");
 router.use("/class", routerClass);
 router.use("/school", routerSchool);
 
+const cursos = [];
+
 router.get("/", (req, res) => {
-  res.send("index page running...");
+  res.json(cursos);
 });
 
-router.get("/country/:id", (req, res) => {
-  if (req.params.id == 1) {
-    res.send("Brazil id number one detected...");
-  } else if (req.params.id == 2) {
-    res.send("United States id number two detected...");
-  } else {
-    res.send("Country not registered...");
-  }
+router.post("/", (req, res) => {
+  const curso = req.body;
+  cursos.push(curso);
+
+  res.status(201).json({
+    mensagem: "Curso cadastrado com sucesso!",
+    cursos: curso,
+  });
 });
+
 
 module.exports = router;
