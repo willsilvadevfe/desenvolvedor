@@ -1,15 +1,15 @@
 const express = require("express");
 const app = express();
-const routers = require("./routers");
 const port = 8081;
+const routers = require("./routers");
 
 app.use(express.json());
 app.use("/", routers);
 
 try {
   app.listen(port, () => {
-    console.log("Server is running...");
+    console.log("Server connect...");
   });
 } catch (error) {
-  console.log("Failed connection with the server..." + error);
+  console.log("Connection with the server failed..." + error);
 }
