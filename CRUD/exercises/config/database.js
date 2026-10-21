@@ -5,7 +5,7 @@ const sequelize = new Sequelize.Sequelize(
     "will8864",{
         host: "localhost",
         dialect: "postgres",
-        port: 8081,
+        port: 5432,
         logging: false
     }
 );

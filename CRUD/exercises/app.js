@@ -1,15 +1,14 @@
 const express = require("express");
 const app = express();
-const PORT = 8081;
 const routers = require("./routers");
 const sequelize = require("./config/database");
+const Curso = require("./models/curso");
+const cors = require("cors");
 
 app.use(express.json());
 app.use("/", routers);
-
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
+app.use("/curso", Curso);
+app.use(cors());
 
 async function startServer() {
   try {
@@ -17,9 +16,9 @@ async function startServer() {
     console.log("Connect PostgreSQL success!");
 
     await sequelize.sync();
-    console.log("Create tables success!");
+    console.log("Create table success!");
 
-    app.listen(PORT, () => {
+    app.listen(3000, () => {
       console.log("Server is running...");
     });
   } catch (error) {

@@ -1,17 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const routerClass = require("./class");
-const routerSchool = require("./school");
 
-router.use("/class", routerClass);
-router.use("/school", routerSchool);
-
+router.post("/curso", async (req, res) => {
+  try {
+    const curso = await Curso.create({
+      nome: req.body.nome,
+      duracao: req.body.duracao,
+    });
+    res.status(201).json({
+      mensagem: "Curso cadastrado com sucesso!",
+      curso,
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensagem: "Erro ao cadastrar o curso!",
+      error: error.message,
+    });
+  }
+});
 
 router.get("/", (req, res) => {
   res.send("API is running...");
 });
-
-
-
 
 module.exports = router;
