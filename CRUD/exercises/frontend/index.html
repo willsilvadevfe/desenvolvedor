@@ -35,7 +35,7 @@
         const duracao = Number(document.getElementById("duracao").value);
 
         try {
-          const resposta = await fetch("http://localhost:3000/curso", {
+          const resposta = await fetch("http://localhost:3000/cursos", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

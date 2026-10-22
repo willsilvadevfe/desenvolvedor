@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const Curso = require("../models/curso");
 
-router.post("/curso", async (req, res) => {
+router.post("/cursos", async (req, res) => {
   try {
     const curso = await Curso.create({
       nome: req.body.nome,
