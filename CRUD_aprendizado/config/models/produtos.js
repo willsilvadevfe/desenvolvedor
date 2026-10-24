@@ -19,3 +19,4 @@ const Produto = sequelize.define("Produto", {
 });
 
 module.exports = Produto;
+module.exports = router;
