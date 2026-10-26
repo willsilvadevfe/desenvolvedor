@@ -1,24 +1,22 @@
 const express = require("express");
 const router = express.Router();
 const { DataTypes } = require("sequelize");
-const sequelize = require("../database/database");
+const sequelize = require("../database");
 
-const Produtos = sequelize.define("Produtos", {
-  item: {
-    type: DataTypes.STRING,
+const Produto = sequelize.define("Produtos", {
+  estoque: {
+    type: DataTypes.STRING(100),
     allowNull: false,
   },
-
-  descricao: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-
   preco: {
-    type: DataTypes.DOUBLE,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
+  },
+  descricao: {
+    type: DataTypes.TEXT,
+    allowNull: true,
   },
 });
 
 module.exports = router;
-module.exports = Produtos;
+module.exports = Produto;
