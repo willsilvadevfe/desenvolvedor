@@ -1,18 +1,32 @@
 const express = require("express");
 const app = express();
 const PORT = 3000;
-const router = express.Router();
+
 const indexRouter = require("./config");
+const sequelize = require("./config/database/database");
+
+const Produtos = require("./config/models/produtos");
 
 app.use(express.json());
 app.use("/", indexRouter);
 
-try {
-  app.listen(PORT, () => {
-    console.log(`Servidor funcionando na porta ${PORT}`);
-  });
-} catch (erro) {
-  console.log("Erro de conexão com o servidor..." + erro);
+async function startServer() {
+  try {
+    //1 - Testa conexão com banco de dados
+    await sequelize.authenticate();
+    console.log("Conexão com o banco estabelecida com sucesso!");
+
+    //2 - Sincroniza os modelos com o banco
+    await sequelize.sync();
+    console.log("Modelos sincronizados com o banco!");
+
+    //3 - Inicia o servidor
+    app.listen(PORT, () => {
+      console.log(`Servidor conectado com sucesso na porta: ${PORT}`);
+    });
+  } catch (error) {
+    console.log("Erro de conexão com o banco de dados...", error);
+  }
 }
 
-module.exports = router;
+startServer();
