@@ -1,12 +1,14 @@
 const express = require("express");
 const app = express();
 const PORT = 3000;
+const cors = require("cors");
 
 const indexRouter = require("./config");
 const sequelize = require("./config/database/database");
 
 const Produtos = require("./config/models/produtos");
 
+app.use(cors());
 app.use(express.json());
 app.use("/", indexRouter);
 
