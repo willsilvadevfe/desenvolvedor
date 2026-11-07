@@ -1,32 +1,268 @@
+/* ==========================================================
+   Tema escuro com gradiente teal
+   Todas as cores ficam em variáveis: para ajustar o visual,
+   mude só este bloco.
+   ========================================================== */
+:root {
+  --bg-base: #0b1a1f;
+  --bg-superficie: #11262c;
+  --bg-elevado: #173239;
+  --bg-input: #0e2026;
+
+  --teal-300: #5eead4;
+  --teal-400: #2dd4bf;
+  --teal-500: #14b8a6;
+  --teal-600: #0d9488;
+  --teal-700: #0f766e;
+
+  --texto: #e6f4f1;
+  --texto-suave: #9bb8b3;
+  --texto-fraco: #6b8a85;
+
+  --borda: rgba(94, 234, 212, 0.14);
+  --borda-foco: var(--teal-400);
+
+  --sucesso: #34d399;
+  --alerta: #fbbf24;
+  --erro: #f87171;
+
+  --gradiente-hero: linear-gradient(135deg, #0f766e 0%, #0d9488 45%, #134e4a 100%);
+  --gradiente-botao: linear-gradient(135deg, var(--teal-500), var(--teal-700));
+
+  --raio: 14px;
+  --raio-pequeno: 10px;
+  --sombra: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --transicao: 0.2s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: var(--texto);
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(20, 184, 166, 0.22), transparent 60%),
+    radial-gradient(700px 400px at -10% 110%, rgba(13, 148, 136, 0.18), transparent 60%),
+    var(--bg-base);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Layout ---------- */
 .pagina {
-  min-height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 .conteudo {
-  flex: 1;
   width: 100%;
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 1.5rem 1rem 4rem;
+  padding: 32px 20px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ---------- Formulários (base) ---------- */
+.formulario {
+  background: linear-gradient(180deg, var(--bg-elevado), var(--bg-superficie));
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 28px;
+  box-shadow: var(--sombra);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.formulario-identificacao {
+  max-width: 440px;
+  width: 100%;
+  margin: 40px auto 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Faixa de gradiente no topo, remete ao painel hero da referência */
+.formulario-identificacao::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: var(--gradiente-hero);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.campo label,
+.campo-rotulo {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.campo input[type="text"],
+.campo select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--texto);
+  background: var(--bg-input);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-pequeno);
+  outline: none;
+  transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.campo input::placeholder {
+  color: var(--texto-fraco);
+}
+
+.campo input[type="text"]:hover:not(:disabled),
+.campo select:hover:not(:disabled) {
+  border-color: rgba(94, 234, 212, 0.35);
+}
+
+.campo input[type="text"]:focus,
+.campo select:focus {
+  border-color: var(--borda-foco);
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+}
+
+.campo input:disabled,
+.campo select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.campo select option {
+  background: var(--bg-superficie);
+  color: var(--texto);
+}
+
+/* ---------- Botões ---------- */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #04201c;
+  background: var(--gradiente-botao);
+  border: none;
+  border-radius: var(--raio-pequeno);
+  cursor: pointer;
+  transition: transform var(--transicao), box-shadow var(--transicao), filter var(--transicao);
+}
+
+.botao:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.35);
+}
+
+.botao:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.botao:focus-visible {
+  outline: 2px solid var(--teal-300);
+  outline-offset: 3px;
+}
+
+.botao:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.botao-lancar {
+  align-self: flex-start;
+}
+
+.formulario-identificacao .botao-lancar {
+  align-self: stretch;
 }
 
 .acoes-finalizar {
   display: flex;
   justify-content: flex-end;
-  margin-top: 1.5rem;
 }
 
-.acoes-finalizar .botao-finalizar {
-  min-width: 220px;
+.botao-finalizar {
+  color: var(--texto);
+  background: transparent;
+  border: 1.5px solid var(--teal-400);
 }
 
-@media (max-width: 640px) {
-  .acoes-finalizar {
-    justify-content: stretch;
+.botao-finalizar:hover:not(:disabled) {
+  background: rgba(45, 212, 191, 0.12);
+  box-shadow: none;
+  filter: none;
+}
+
+/* ---------- Alertas ---------- */
+.alerta {
+  padding: 14px 18px;
+  font-size: 0.92rem;
+  border-radius: var(--raio-pequeno);
+  border: 1px solid transparent;
+  border-left-width: 4px;
+  animation: entrar 0.25s ease;
+}
+
+.alerta-sucesso {
+  color: var(--sucesso);
+  background: rgba(52, 211, 153, 0.1);
+  border-color: rgba(52, 211, 153, 0.35);
+}
+
+.alerta-erro {
+  color: var(--erro);
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.35);
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
   }
-  .acoes-finalizar .botao-finalizar {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 600px) {
+  .conteudo {
+    padding: 20px 14px 40px;
+  }
+
+  .formulario {
+    padding: 20px;
+  }
+
+  .botao-lancar,
+  .botao-finalizar {
     width: 100%;
+    align-self: stretch;
   }
 }

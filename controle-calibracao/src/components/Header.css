@@ -1,55 +1,229 @@
+/* ==========================================================
+   Header — glassmorphism + ícone de qualidade
+   Usa as variáveis do App.css (com fallback caso falte alguma).
+   O ícone (selo com check) é desenhado 100% em CSS, então o
+   JSX do Header continua exatamente como está.
+   ========================================================== */
+
 .cabecalho {
-  background-color: var(--cor-cartao);
-  border-bottom: 1px solid var(--cor-borda);
-  padding: 1.5rem 1.25rem;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  width: min(1100px, calc(100% - 28px));
+  margin: 24px auto 0;
+  padding: 28px 32px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 28px;
+
+  /* Vidro principal */
+  background:
+    linear-gradient(135deg, rgba(20, 184, 166, 0.22), rgba(15, 118, 110, 0.1) 55%, rgba(19, 78, 74, 0.28)),
+    rgba(17, 38, 44, 0.55);
+  border: 1px solid rgba(94, 234, 212, 0.22);
+  border-radius: 22px;
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(94, 234, 212, 0.06);
 }
 
+/* Orbes de luz atrás do vidro (dão profundidade ao blur) */
+.cabecalho::before,
+.cabecalho::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.cabecalho::before {
+  width: 260px;
+  height: 260px;
+  top: -120px;
+  right: 8%;
+  background: rgba(45, 212, 191, 0.38);
+}
+
+.cabecalho::after {
+  width: 220px;
+  height: 220px;
+  bottom: -110px;
+  left: 10%;
+  background: rgba(13, 148, 136, 0.35);
+}
+
+/* ---------- Bloco de título (grid: ícone | texto) ---------- */
 .cabecalho-conteudo {
-  max-width: 700px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 20px;
+  row-gap: 6px;
+  align-items: center;
+  min-width: 0;
+}
+
+/* Ícone de qualidade: selo com check dentro de um quadrado de vidro */
+.cabecalho-conteudo::before {
+  content: "";
+  grid-row: 1 / span 2;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  border: 1px solid rgba(94, 234, 212, 0.4);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235eead4' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5l8-3z'/%3E%3Cpath d='M8.5 12l2.5 2.5 4.5-5'/%3E%3C/svg%3E"),
+    linear-gradient(145deg, rgba(94, 234, 212, 0.28), rgba(13, 148, 136, 0.12));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 34px 34px, cover;
+  box-shadow:
+    0 8px 24px rgba(20, 184, 166, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  animation: selo-brilho 3.6s ease-in-out infinite;
 }
 
 .cabecalho h1 {
-  font-size: 1.5rem;
-  letter-spacing: -0.01em;
+  margin: 0;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  background: linear-gradient(90deg, #ffffff 0%, var(--teal-300, #5eead4) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .cabecalho-subtitulo {
-  margin: 0.35rem 0 0;
-  color: var(--cor-texto-suave);
+  margin: 0;
+  max-width: 560px;
   font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--texto-suave, #9bb8b3);
 }
 
+/* ---------- Contador (cartão de vidro) ---------- */
 .cabecalho-contador {
+  flex-shrink: 0;
+  min-width: 170px;
+  padding: 16px 24px;
+
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  background-color: #eef2ff;
-  border-radius: var(--raio);
-  padding: 0.6rem 1.1rem;
-  min-width: 150px;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.cabecalho-contador:hover {
+  transform: translateY(-2px);
+  border-color: rgba(94, 234, 212, 0.45);
 }
 
 .contador-numero {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--cor-primaria);
+  font-size: 2.6rem;
+  font-weight: 800;
   line-height: 1;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #ffffff, var(--teal-400, #2dd4bf));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 4px 14px rgba(45, 212, 191, 0.45));
 }
 
 .contador-label {
-  font-size: 0.75rem;
-  color: var(--cor-texto-suave);
-  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-suave, #9bb8b3);
 }
 
-@media (max-width: 640px) {
+/* ---------- Animação do selo ---------- */
+@keyframes selo-brilho {
+  0%,
+  100% {
+    box-shadow:
+      0 8px 24px rgba(20, 184, 166, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+  50% {
+    box-shadow:
+      0 8px 32px rgba(45, 212, 191, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cabecalho-conteudo::before {
+    animation: none;
+  }
   .cabecalho-contador {
-    align-items: flex-start;
-    width: 100%;
+    transition: none;
+  }
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 760px) {
+  .cabecalho {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 22px 20px;
+    gap: 20px;
+  }
+
+  .cabecalho-contador {
+    flex-direction: row;
+    justify-content: center;
+    gap: 14px;
+    padding: 14px 18px;
+  }
+
+  .contador-numero {
+    font-size: 2.1rem;
+  }
+
+  .contador-label {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .cabecalho-conteudo {
+    column-gap: 14px;
+  }
+
+  .cabecalho-conteudo::before {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    background-size: 28px 28px, cover;
+  }
+
+  .cabecalho-subtitulo {
+    grid-column: 1 / -1;
+    margin-top: 6px;
   }
 }

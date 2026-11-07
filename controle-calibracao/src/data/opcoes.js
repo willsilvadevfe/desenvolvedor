@@ -19,6 +19,8 @@ export const LINHAS = [
   "AFTM(2)",
   "AFTM(3)",
   "Cromadora",
+  "Metrologia (Linhas)",
+  "Metrologia (Forjaria)",
 ];
 
 const MESES = [
@@ -54,6 +56,7 @@ export const SETORES = [
   "15PC",
   "21A",
   "25",
+  "TBT",
   "Tempera",
   "Cromadora",
   "Ponta de Linha",
@@ -182,6 +185,8 @@ export const opcoesPorTipo = {
   ],
 
   Tempera: ["Empenamento da ponta"],
+
+  TBT: ["Diâmetro do furo", "Profundidade do furo", "Batimento do furo"],
 
   "Ponta de Linha": [
     "Diâmetro da cabeça",
