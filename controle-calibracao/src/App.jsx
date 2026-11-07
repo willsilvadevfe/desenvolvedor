@@ -161,6 +161,7 @@ function App() {
             </button>
           </form>
         ) : (
+
           <>
             <FormularioLancamento onLancar={adicionarRegistro} />
 
@@ -186,6 +187,8 @@ function App() {
             </div>
           </>
         )}
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima quas, corporis dicta nulla odit quod accusantium ipsum voluptatibus totam, aliquid in temporibus dolore accusamus. Iste recusandae rem accusantium cumque eligendi!
+        </p>
       </main>
 
       {modalAberto && (
