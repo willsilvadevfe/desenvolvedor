@@ -1,21 +1,28 @@
 :root {
-  --cor-primaria: #2563eb;
-  --cor-primaria-escura: #1d4ed8;
-  --cor-fundo: #f3f5f8;
-  --cor-cartao: #ffffff;
-  --cor-texto: #1f2937;
-  --cor-texto-suave: #6b7280;
-  --cor-borda: #e2e5ea;
+  color-scheme: dark;
 
-  --cor-verde: #16a34a;
-  --cor-verde-fundo: #ecfdf3;
-  --cor-amarelo: #b45309;
-  --cor-amarelo-fundo: #fffbeb;
-  --cor-vermelho: #dc2626;
-  --cor-vermelho-fundo: #fef2f2;
+  /* Teal (cor principal) */
+  --cor-primaria: #14b8a6;
+  --cor-primaria-escura: #0d9488;
+  --cor-primaria-clara: #5eead4;
+  --cor-texto-botao: #04201c;
 
-  --sombra-cartao:
-    0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+  /* Superfícies e texto */
+  --cor-fundo: #0b1a1f;
+  --cor-cartao: #11262c;
+  --cor-texto: #e6f4f1;
+  --cor-texto-suave: #9bb8b3;
+  --cor-borda: rgba(94, 234, 212, 0.14);
+
+  /* Estados */
+  --cor-verde: #34d399;
+  --cor-verde-fundo: rgba(52, 211, 153, 0.1);
+  --cor-amarelo: #fbbf24;
+  --cor-amarelo-fundo: rgba(251, 191, 36, 0.1);
+  --cor-vermelho: #f87171;
+  --cor-vermelho-fundo: rgba(248, 113, 113, 0.1);
+
+  --sombra-cartao: 0 10px 30px rgba(0, 0, 0, 0.35);
   --raio: 10px;
 }
 
@@ -34,7 +41,19 @@ body {
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, sans-serif;
-  background-color: #000000f1;
+  background:
+    radial-gradient(
+      900px 500px at 85% -10%,
+      rgba(20, 184, 166, 0.22),
+      transparent 60%
+    ),
+    radial-gradient(
+      700px 400px at -10% 110%,
+      rgba(13, 148, 136, 0.18),
+      transparent 60%
+    ),
+    var(--cor-fundo);
+  background-attachment: fixed;
   color: var(--cor-texto);
   -webkit-font-smoothing: antialiased;
 }
@@ -65,6 +84,7 @@ select {
   font-weight: 600;
   transition:
     background-color 0.15s ease,
+    filter 0.15s ease,
     transform 0.05s ease;
 }
 
@@ -75,27 +95,28 @@ select {
 .botao-primario,
 .botao-lancar {
   background-color: var(--cor-primaria);
-  color: #fff;
+  color: var(--cor-texto-botao);
 }
 .botao-primario:hover,
 .botao-lancar:hover {
-  background-color: var(--cor-primaria-escura);
+  background-color: var(--cor-primaria-clara);
 }
 
 .botao-secundario {
-  background-color: #eef1f5;
+  background-color: rgba(255, 255, 255, 0.06);
   color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
 }
 .botao-secundario:hover {
-  background-color: #e2e6ec;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .botao-finalizar {
   background-color: var(--cor-verde);
-  color: #fff;
+  color: var(--cor-texto-botao);
 }
 .botao-finalizar:hover {
-  background-color: #15803d;
+  filter: brightness(1.1);
 }
 
 /* Alertas / mensagens */
@@ -107,11 +128,11 @@ select {
 }
 .alerta-sucesso {
   background-color: var(--cor-verde-fundo);
-  color: #166534;
-  border: 1px solid #bbf7d0;
+  color: var(--cor-verde);
+  border: 1px solid rgba(52, 211, 153, 0.35);
 }
 .alerta-erro {
   background-color: var(--cor-vermelho-fundo);
-  color: #991b1b;
-  border: 1px solid #fecaca;
+  color: var(--cor-vermelho);
+  border: 1px solid rgba(248, 113, 113, 0.35);
 }
