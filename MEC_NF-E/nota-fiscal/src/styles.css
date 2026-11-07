@@ -1,0 +1,25 @@
+:root {
+  --tinta: #1c2b30; --papel: #f2f4f2; --linha: #c9d1cd; --acento: #0d6b5b; --erro: #a62b1f;
+  font-family: "Segoe UI", system-ui, sans-serif; color: var(--tinta);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--papel); }
+main { max-width: 860px; margin: 0 auto; padding: 32px 20px 64px; }
+h1 { margin: 0 0 4px; font-size: 1.7rem; }
+header p { margin: 0 0 24px; color: #4d5f64; }
+fieldset { border: 1px solid var(--linha); border-radius: 6px; margin: 0 0 20px; padding: 16px; background: #fff; }
+legend { font-weight: 600; padding: 0 6px; }
+.grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 12px; }
+.campo { display: flex; flex-direction: column; gap: 4px; font-size: .9rem; }
+.campo.cheio { margin-bottom: 12px; }
+input, select, textarea { font: inherit; padding: 8px 10px; border: 1px solid var(--linha); border-radius: 4px; background: #fff; }
+input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--acento); outline-offset: 1px; }
+small { color: #5d6e72; font-size: .78rem; }
+.check { display: flex; gap: 8px; align-items: center; font-size: .9rem; }
+details { margin-bottom: 20px; }
+summary { cursor: pointer; font-weight: 600; margin-bottom: 10px; }
+button { width: 100%; padding: 14px; font: inherit; font-weight: 600; color: #fff; background: var(--acento); border: 0; border-radius: 6px; cursor: pointer; }
+button:disabled { opacity: .6; cursor: progress; }
+.aviso { padding: 12px 14px; border-radius: 6px; margin: 0 0 16px; font: inherit; white-space: pre-wrap; }
+.erro { background: #fbe9e6; color: var(--erro); border: 1px solid #e3b1aa; }
+.ok { background: #e3f3ee; color: #0a5144; border: 1px solid #a9d6ca; }

@@ -19,7 +19,7 @@ function App() {
       body: JSON.stringify({
         nome,
         sobrenome,
-        nascimento,
+        data_nascimento: nascimento,
         sexo,
       }),
     });
@@ -38,7 +38,7 @@ function App() {
   return (
     <>
       <h2>Cadastro de pessoas</h2>
-      <form action={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <label>Nome</label>
         <input
           type="text"
@@ -46,6 +46,37 @@ function App() {
           onChange={(e) => setNome(e.target.value)}
           required
         />
+
+        <label>Sobrenome</label>
+        <input
+          type="text"
+          value={sobrenome}
+          onChange={(e) => setSobrenome(e.target.value)}
+          required
+        />
+
+        <label>Data de nascimento</label>
+        <input
+          type="date"
+          value={nascimento}
+          onChange={(e) => setNascimento(e.target.value)}
+          required
+        />
+
+        <label>Sexo</label>
+        <select
+          name="sexo"
+          id="sexo"
+          value={sexo}
+          onChange={(e) => setSexo(e.target.value)}
+          required
+        >
+          <option value="">Selecione...</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Feminino">Feminino</option>
+        </select>
+
+        <button type="submit">Enviar</button>
       </form>
     </>
   );
