@@ -41,13 +41,12 @@ function ListaLancamentos({ registros, onRemover }) {
           <tbody>
             {registros.map((registro, indice) => (
               <tr key={registro.id}>
-                <td data-rotulo="#">{indice + 1}</td>
-                <td data-rotulo="Código">{registro.codigoObjeto}</td>
-                <td data-rotulo="Calibração">{registro.dataCalibracao}</td>
-                <td data-rotulo="Vencimento">{registro.dataVencimento}</td>
-                <td data-rotulo="Tipo">{registro.tipoObjeto}</td>
-                <td data-rotulo="Setor">{registro.setor}</td>
-                <td data-rotulo="Status">
+                <td data-rotulo="Número de Registro">{indice + 1}</td>
+                <td data-rotulo="Código da Etiqueta">{registro.codigoObjeto}</td>
+                <td data-rotulo="Data de Calibração">{registro.dataCalibracao}</td>
+                <td data-rotulo="Data de Vencimento">{registro.dataVencimento}</td>
+                <td data-rotulo="Equipamento">{registro.setor}</td>
+                <td data-rotulo="Status da Calibração">
                   <StatusCalibracao dataVencimento={registro.dataVencimento} />
                 </td>
                 <td data-rotulo="">

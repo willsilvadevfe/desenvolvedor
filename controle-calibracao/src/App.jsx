@@ -170,7 +170,7 @@ function App() {
                 type="text"
                 value={nomeTemporario}
                 onChange={(e) => setNomeTemporario(e.target.value)}
-                placeholder="Ex: João Silva"
+                placeholder="Ex: Willian Silva"
                 autoFocus
               />
             </div>

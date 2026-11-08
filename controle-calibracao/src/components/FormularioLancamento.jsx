@@ -4,8 +4,18 @@ import { validarRegistro } from "../utils/validacoes";
 import "./FormularioLancamento.css";
 
 const MESES = [
-  "01", "02", "03", "04", "05", "06",
-  "07", "08", "09", "10", "11", "12",
+  "01",
+  "02",
+  "03",
+  "04",
+  "05",
+  "06",
+  "07",
+  "08",
+  "09",
+  "10",
+  "11",
+  "12",
 ];
 
 function gerarOpcoesMesAno(anoInicial, anoFinal) {
@@ -49,7 +59,10 @@ function FormularioLancamento({ onLancar }) {
   const [dados, setDados] = useState(CAMPO_INICIAL);
   const [erros, setErros] = useState({});
 
-  const opcoesMesAno = useMemo(() => gerarOpcoesMesAno(2026, 2027), []);
+  const opcoesMesAno = useMemo(() => {
+    const anoAtual = new Date().getFullYear();
+    return gerarOpcoesMesAno(anoAtual - 1, anoAtual);
+  }, []);
 
   function atualizarCampo(campo, valor) {
     setDados((anterior) => {

@@ -21,7 +21,12 @@
 
   /* Vidro principal */
   background:
-    linear-gradient(135deg, rgba(20, 184, 166, 0.22), rgba(15, 118, 110, 0.1) 55%, rgba(19, 78, 74, 0.28)),
+    linear-gradient(
+      135deg,
+      rgba(20, 184, 166, 0.22),
+      rgba(15, 118, 110, 0.1) 55%,
+      rgba(19, 78, 74, 0.28)
+    ),
     rgba(17, 38, 44, 0.55);
   border: 1px solid rgba(94, 234, 212, 0.22);
   border-radius: 22px;
@@ -80,11 +85,13 @@
   border-radius: 18px;
   border: 1px solid rgba(94, 234, 212, 0.4);
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235eead4' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5l8-3z'/%3E%3Cpath d='M8.5 12l2.5 2.5 4.5-5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235eead4' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cg%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 12 12' to='360 12 12' dur='6s' repeatCount='indefinite'/%3E%3Cpath d='M15.25 3.07A9.5 9.5 0 0 1 16.75 20.23'/%3E%3Cpath d='M8.75 20.93A9.5 9.5 0 0 1 7.25 3.77'/%3E%3Cpath d='M-2 -1.8L0 0L-2 1.8' transform='translate(16.75 20.23) rotate(150)'/%3E%3Cpath d='M-2 -1.8L0 0L-2 1.8' transform='translate(7.25 3.77) rotate(330)'/%3E%3C/g%3E%3Cg transform='translate(12 12) scale(.8) translate(-12 -12)'%3E%3Cg%3E%3CanimateTransform attributeName='transform' type='rotate' from='360 12 12' to='0 12 12' dur='8s' repeatCount='indefinite'/%3E%3Ccircle cx='12' cy='12' r='4.4'/%3E%3Ccircle cx='12' cy='12' r='5.9' stroke-width='1.8' stroke-linecap='butt' stroke-dasharray='2.2 2.434'/%3E%3C/g%3E%3C/g%3E%3Cpath d='M10.2 12.1l1.3 1.4 2.4-2.8' stroke-width='1.4'/%3E%3C/svg%3E"),
     linear-gradient(145deg, rgba(94, 234, 212, 0.28), rgba(13, 148, 136, 0.12));
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 34px 34px, cover;
+  background-size:
+    40px 40px,
+    cover;
   box-shadow:
     0 8px 24px rgba(20, 184, 166, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
@@ -132,7 +139,9 @@
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .cabecalho-contador:hover {
@@ -219,7 +228,9 @@
     width: 52px;
     height: 52px;
     border-radius: 15px;
-    background-size: 28px 28px, cover;
+    background-size:
+      28px 28px,
+      cover;
   }
 
   .cabecalho-subtitulo {
