@@ -135,9 +135,9 @@ function App() {
     }
   }
 
-  function baixarArquivoGerado() {
+  async function baixarArquivoGerado() {
     if (arquivoGerado) {
-      baixarCSV(arquivoGerado.blob, arquivoGerado.nomeArquivo);
+      await baixarCSV(arquivoGerado.blob, arquivoGerado.nomeArquivo);
     }
   }
 

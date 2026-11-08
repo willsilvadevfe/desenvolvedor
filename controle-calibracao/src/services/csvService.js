@@ -45,6 +45,7 @@ function montarLinha(registro) {
     .map(escaparCampo)
     .join(",");
 }
+
 // Monta o texto completo do CSV a partir da lista de registros.
 export function gerarConteudoCSV(registros) {
   const linhas = [CABECALHO.join(","), ...registros.map(montarLinha)];
@@ -79,8 +80,34 @@ export function gerarArquivoCSV(registros) {
   return { blob, nomeArquivo, conteudo };
 }
 
-// Dispara o download do arquivo no navegador do usuário.
-export function baixarCSV(blob, nomeArquivo) {
+// Detecta iPhone/iPad. O segundo teste cobre iPads novos, que se
+// identificam como "MacIntel" mas têm tela sensível ao toque.
+function ehIOS() {
+  return (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  );
+}
+
+// Entrega o arquivo ao usuário.
+// - iPhone/iPad: abre o menu nativo de compartilhar ("Salvar em Arquivos",
+//   AirDrop, WhatsApp...), pois o Safari não lida bem com downloads via Blob.
+// - Android/desktop: download direto, como antes.
+export async function baixarCSV(blob, nomeArquivo) {
+  if (ehIOS()) {
+    const arquivo = new File([blob], nomeArquivo, { type: "text/csv" });
+
+    if (navigator.canShare && navigator.canShare({ files: [arquivo] })) {
+      try {
+        await navigator.share({ files: [arquivo], title: nomeArquivo });
+        return;
+      } catch (erro) {
+        if (erro.name === "AbortError") return; // usuário fechou o menu
+        // Outro erro: segue para o download tradicional abaixo.
+      }
+    }
+  }
+
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -88,5 +115,6 @@ export function baixarCSV(blob, nomeArquivo) {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  // Revogar imediatamente fazia o Safari perder o arquivo; por isso o atraso.
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
