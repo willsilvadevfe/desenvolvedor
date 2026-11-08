@@ -1,14 +1,16 @@
-import { useState } from 'react';
-import Header from './components/Header';
-import FormularioLancamento from './components/FormularioLancamento';
-import ListaLancamentos from './components/ListaLancamentos';
-import ModalConfirmacao from './components/ModalConfirmacao';
-import { gerarArquivoCSV, baixarCSV } from './services/csvService';
-import { enviarRelatorioPorEmail } from './services/emailService';
-import { calcularStatus, STATUS } from './utils/statusCalibracao';
-import { obterDataHoraAtualFormatada } from './utils/formatarData';
-import { LINHAS } from './data/opcoes';
-import './App.css';
+import { useState } from "react";
+import Header from "./components/Header";
+import { FaGithub } from "react-icons/fa";
+import FormularioLancamento from "./components/FormularioLancamento";
+import ListaLancamentos from "./components/ListaLancamentos";
+import ModalConfirmacao from "./components/ModalConfirmacao";
+import { gerarArquivoCSV, baixarCSV } from "./services/csvService";
+import { enviarRelatorioPorEmail } from "./services/emailService";
+import { calcularStatus, STATUS } from "./utils/statusCalibracao";
+import { obterDataHoraAtualFormatada } from "./utils/formatarData";
+import { LINHAS } from "./data/opcoes";
+
+import "./App.css";
 
 let proximoId = 1;
 
@@ -17,16 +19,16 @@ function App() {
 
   // Nome e Linha: pedidos uma única vez por sessão, igual como já
   // funcionava com o nome. Ambos somem se a página recarregar.
-  const [nomeUsuario, setNomeUsuario] = useState('');
-  const [nomeTemporario, setNomeTemporario] = useState('');
-  const [linhaSelecionada, setLinhaSelecionada] = useState('');
-  const [linhaTemporaria, setLinhaTemporaria] = useState('');
+  const [nomeUsuario, setNomeUsuario] = useState("");
+  const [nomeTemporario, setNomeTemporario] = useState("");
+  const [linhaSelecionada, setLinhaSelecionada] = useState("");
+  const [linhaTemporaria, setLinhaTemporaria] = useState("");
 
-  const [mensagemSucesso, setMensagemSucesso] = useState('');
+  const [mensagemSucesso, setMensagemSucesso] = useState("");
   const [avisoSemRegistros, setAvisoSemRegistros] = useState(false);
 
   const [modalAberto, setModalAberto] = useState(false);
-  const [statusEnvio, setStatusEnvio] = useState('idle');
+  const [statusEnvio, setStatusEnvio] = useState("idle");
   const [arquivoGerado, setArquivoGerado] = useState(null);
 
   const identificacaoCompleta = Boolean(nomeUsuario && linhaSelecionada);
@@ -53,17 +55,24 @@ function App() {
     setRegistros((anteriores) => [...anteriores, novoRegistro]);
 
     setMensagemSucesso(
-      `Instrumento lançado com sucesso! Total de instrumentos lançados: ${registros.length + 1}`
+      `Instrumento lançado com sucesso! Total de instrumentos lançados: ${registros.length + 1}`,
     );
-    setTimeout(() => setMensagemSucesso(''), 3500);
+    setTimeout(() => setMensagemSucesso(""), 3500);
   }
 
   function removerRegistro(id) {
-    setRegistros((anteriores) => anteriores.filter((registro) => registro.id !== id));
+    setRegistros((anteriores) =>
+      anteriores.filter((registro) => registro.id !== id),
+    );
   }
 
   function calcularResumo() {
-    const totais = { total: registros.length, validos: 0, alerta: 0, vencidos: 0 };
+    const totais = {
+      total: registros.length,
+      validos: 0,
+      alerta: 0,
+      vencidos: 0,
+    };
 
     registros.forEach((registro) => {
       const status = calcularStatus(registro.dataVencimento);
@@ -81,12 +90,12 @@ function App() {
       setTimeout(() => setAvisoSemRegistros(false), 4000);
       return;
     }
-    setStatusEnvio('idle');
+    setStatusEnvio("idle");
     setModalAberto(true);
   }
 
   async function confirmarFinalizacao() {
-    setStatusEnvio('enviando');
+    setStatusEnvio("enviando");
 
     const { blob, nomeArquivo } = gerarArquivoCSV(registros);
     setArquivoGerado({ blob, nomeArquivo });
@@ -96,10 +105,10 @@ function App() {
 
     try {
       await enviarRelatorioPorEmail({ resumo, csvBlob: blob, nomeArquivo });
-      setStatusEnvio('sucesso');
+      setStatusEnvio("sucesso");
     } catch (erro) {
-      console.error('Erro ao enviar relatório por e-mail:', erro);
-      setStatusEnvio('erro');
+      console.error("Erro ao enviar relatório por e-mail:", erro);
+      setStatusEnvio("erro");
     }
   }
 
@@ -112,12 +121,12 @@ function App() {
   function iniciarNovoRelatorio() {
     setRegistros([]);
     setModalAberto(false);
-    setStatusEnvio('idle');
+    setStatusEnvio("idle");
     setArquivoGerado(null);
   }
 
   function fecharModal() {
-    if (statusEnvio === 'enviando') return;
+    if (statusEnvio === "enviando") return;
     setModalAberto(false);
   }
 
@@ -127,7 +136,10 @@ function App() {
 
       <main className="conteudo">
         {!identificacaoCompleta ? (
-          <form className="formulario formulario-identificacao" onSubmit={confirmarIdentificacao}>
+          <form
+            className="formulario formulario-identificacao"
+            onSubmit={confirmarIdentificacao}
+          >
             <div className="campo">
               <label htmlFor="nomeUsuario">Seu nome</label>
               <input
@@ -161,7 +173,6 @@ function App() {
             </button>
           </form>
         ) : (
-
           <>
             <FormularioLancamento onLancar={adicionarRegistro} />
 
@@ -173,22 +184,27 @@ function App() {
 
             {avisoSemRegistros && (
               <div className="alerta alerta-erro" role="alert">
-                Nenhum relógio foi lançado. Realize pelo menos um lançamento antes de
-                finalizar o relatório.
+                Nenhum relógio foi lançado. Realize pelo menos um lançamento
+                antes de finalizar o relatório.
               </div>
             )}
 
-            <ListaLancamentos registros={registros} onRemover={removerRegistro} />
+            <ListaLancamentos
+              registros={registros}
+              onRemover={removerRegistro}
+            />
 
             <div className="acoes-finalizar">
-              <button type="button" className="botao botao-finalizar" onClick={abrirFinalizacao}>
+              <button
+                type="button"
+                className="botao botao-finalizar"
+                onClick={abrirFinalizacao}
+              >
                 Finalizar relatório
               </button>
             </div>
           </>
         )}
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima quas, corporis dicta nulla odit quod accusantium ipsum voluptatibus totam, aliquid in temporibus dolore accusamus. Iste recusandae rem accusantium cumque eligendi!
-        </p>
       </main>
 
       {modalAberto && (
@@ -201,7 +217,15 @@ function App() {
           onNovoRelatorio={iniciarNovoRelatorio}
         />
       )}
+
+<div className="footer-dev">
+  <a href="https://github.com/willsilvadevfe" target="_blank" rel="noreferrer">
+    <p>Desenvolvido por <FaGithub size={22} />/willsilvadevfe</p>
+    <span>Desenvolvedor Full Stack</span>
+  </a>
+</div>
     </div>
+    
   );
 }
 
