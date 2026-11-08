@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
 import Header from "./components/Header";
 import { FaGithub } from "react-icons/fa";
 import FormularioLancamento from "./components/FormularioLancamento";
@@ -37,10 +38,32 @@ function App() {
   // restante do app. Só avança se os dois campos estiverem preenchidos.
   function confirmarIdentificacao(evento) {
     evento.preventDefault();
+
     const nomeLimpo = nomeTemporario.trim();
     if (nomeLimpo && linhaTemporaria) {
       setNomeUsuario(nomeLimpo);
       setLinhaSelecionada(linhaTemporaria);
+    } else if (!nomeUsuario || !linhaSelecionada) {
+      Swal.fire({
+        icon: "warning",
+        title: "Campos obrigatórios",
+        html: `
+    <p style="margin: 0;">
+      Para continuar, informe seu nome e selecione
+      uma linha de produção.
+    </p>
+  `,
+        confirmButtonText: "Tentar novamente",
+        background: "#11262c",
+        color: "#e6f4f1",
+        backdrop: "rgba(3, 12, 15, 0.80)",
+        customClass: {
+          popup: "alerta-personalizado",
+          title: "alerta-titulo",
+          htmlContainer: "alerta-texto",
+          confirmButton: "alerta-botao",
+        },
+      });
     }
   }
 
@@ -218,14 +241,20 @@ function App() {
         />
       )}
 
-<div className="footer-dev">
-  <a href="https://github.com/willsilvadevfe" target="_blank" rel="noreferrer">
-    <p>Desenvolvido por <FaGithub size={22} />/willsilvadevfe</p>
-    <span>Desenvolvedor Full Stack</span>
-  </a>
-</div>
+      <div className="footer-dev">
+        <a
+          href="https://github.com/willsilvadevfe"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <p>
+            Desenvolvido por <FaGithub size={22} />
+            /willsilvadevfe
+          </p>
+          <span>Desenvolvedor Full Stack</span>
+        </a>
+      </div>
     </div>
-    
   );
 }
 

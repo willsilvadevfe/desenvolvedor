@@ -242,16 +242,16 @@ body {
   filter: none;
 }
 
-  .footer-dev {
-    margin: 0 auto;
-    text-align: center;
-  }
+.footer-dev {
+  margin: 0 auto;
+  text-align: center;
+}
 
-  .footer-dev a {
-    text-decoration: none;
-    color: white;
-    font-family: 'Michroma', 'Courier New', Courier, monospace;
-  }
+.footer-dev a {
+  text-decoration: none;
+  color: white;
+  font-family: "Michroma", "Courier New", Courier, monospace;
+}
 
 /* ---------- Alertas ---------- */
 .alerta {
@@ -275,8 +275,60 @@ body {
   border-color: rgba(248, 113, 113, 0.35);
 }
 
-.icon-git {
-  opacity: 0% !important;
+/* ALERTA SWEETALERT2 */
+
+.alerta-personalizado {
+  background: rgba(255, 255, 255, 0.842) !important;
+  border: 1px solid var(--cor-borda) !important;
+  border-radius: 18px !important;
+  padding: 32px 28px !important;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.45) !important;
+}
+
+.alerta-titulo {
+  color: #000 !important;
+  font-size: 23px !important;
+  font-weight: 700 !important;
+}
+
+.alerta-texto {
+  color: #000 !important;
+  font-size: 14px !important;
+  line-height: 1.7 !important;
+}
+
+/* Botão teal */
+.alerta-botao {
+  background: linear-gradient(
+    135deg,
+    var(--cor-primaria),
+    var(--cor-primaria-escura)
+  ) !important;
+  color: var(--cor-texto-botao) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 12px 30px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  transition: all 0.25s ease !important;
+  cursor: pointer;
+}
+
+.alerta-botao:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(20, 184, 166, 0.25);
+}
+
+/* Ícone de atenção */
+.alerta-personalizado .swal2-icon.swal2-warning {
+  border-color: var(--bg-elevado) !important;
+  color: var(--bg-elevado) !important;
+}
+
+/* Animação do botão */
+.alerta-botao:active {
+  transform: scale(0.97);
 }
 
 @keyframes entrar {
@@ -305,5 +357,4 @@ body {
     width: 100%;
     align-self: stretch;
   }
-
 }
