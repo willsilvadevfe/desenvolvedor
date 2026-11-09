@@ -1,3 +1,8 @@
+export const DESTINATARIOS = [
+  "WillianVSilva@eaton.com",
+  "willvrsilva@gmail.com",
+];
+
 export const LINHAS = [
   "Linha 01",
   "Linha 02",
@@ -19,8 +24,6 @@ export const LINHAS = [
   "AFTM(2)",
   "AFTM(3)",
   "Cromadora",
-  "Metrologia (Linhas)",
-  "Metrologia (Forjaria)",
 ];
 
 const MESES = [

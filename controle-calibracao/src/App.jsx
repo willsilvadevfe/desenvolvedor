@@ -8,8 +8,7 @@ import ModalConfirmacao from "./components/ModalConfirmacao";
 import { gerarArquivoCSV, baixarCSV } from "./services/csvService";
 import { enviarRelatorioPorEmail } from "./services/emailService";
 import { calcularStatus, STATUS } from "./utils/statusCalibracao";
-import { obterDataHoraAtualFormatada } from "./utils/formatarData";
-import { LINHAS } from "./data/opcoes";
+import { LINHAS, DESTINATARIOS } from "./data/opcoes";
 
 import "./App.css";
 
@@ -31,6 +30,10 @@ function App() {
   const [modalAberto, setModalAberto] = useState(false);
   const [statusEnvio, setStatusEnvio] = useState("idle");
   const [arquivoGerado, setArquivoGerado] = useState(null);
+
+  // E-mail que receberá o CSV. Escolhido num select dentro do modal,
+  // entre os endereços cadastrados em DESTINATARIOS (não é digitado).
+  const [destinatario, setDestinatario] = useState("");
 
   const identificacaoCompleta = Boolean(nomeUsuario && linhaSelecionada);
 
@@ -114,20 +117,27 @@ function App() {
       return;
     }
     setStatusEnvio("idle");
+    // Zera a escolha para o usuário selecionar o destinatário a cada envio.
+    setDestinatario("");
     setModalAberto(true);
   }
 
   async function confirmarFinalizacao() {
+    // Sem destinatário escolhido, não envia (o botão do modal também
+    // fica desabilitado, esta é só uma segunda proteção).
+    if (!destinatario) return;
+
     setStatusEnvio("enviando");
 
     const { blob, nomeArquivo } = gerarArquivoCSV(registros);
     setArquivoGerado({ blob, nomeArquivo });
 
-    const { data, horario } = obterDataHoraAtualFormatada();
-    const resumo = { ...calcularResumo(), data, horario };
-
     try {
-      await enviarRelatorioPorEmail({ resumo, csvBlob: blob, nomeArquivo });
+      await enviarRelatorioPorEmail({
+        csvBlob: blob,
+        nomeArquivo,
+        destinatario,
+      });
       setStatusEnvio("sucesso");
     } catch (erro) {
       console.error("Erro ao enviar relatório por e-mail:", erro);
@@ -146,6 +156,7 @@ function App() {
     setModalAberto(false);
     setStatusEnvio("idle");
     setArquivoGerado(null);
+    setDestinatario("");
   }
 
   function fecharModal() {
@@ -234,6 +245,9 @@ function App() {
         <ModalConfirmacao
           resumo={calcularResumo()}
           statusEnvio={statusEnvio}
+          destinatarios={DESTINATARIOS}
+          destinatario={destinatario}
+          onSelecionarDestinatario={setDestinatario}
           onCancelar={fecharModal}
           onConfirmar={confirmarFinalizacao}
           onBaixarCSV={baixarArquivoGerado}

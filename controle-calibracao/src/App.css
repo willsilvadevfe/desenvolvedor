@@ -245,6 +245,7 @@ body {
 .footer-dev {
   margin: 0 auto;
   text-align: center;
+  margin-bottom: 40px;
 }
 
 .footer-dev a {

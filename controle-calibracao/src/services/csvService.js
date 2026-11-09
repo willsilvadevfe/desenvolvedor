@@ -32,7 +32,7 @@ function montarLinha(registro) {
     registro.codigoObjeto,
     registro.dataCalibracao,
     registro.dataVencimento,
-    registro.tipoObjeto,
+    registro.linha,
     registro.setor,
     registro.responsavel,
     registro.etiquetaLegivel === true
