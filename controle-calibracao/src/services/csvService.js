@@ -1,4 +1,3 @@
-import { formatarDataBR } from "../utils/formatarData";
 import { calcularStatus, obterInfoStatus } from "../utils/statusCalibracao";
 
 const CABECALHO = [

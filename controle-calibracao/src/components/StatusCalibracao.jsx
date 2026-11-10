@@ -4,6 +4,7 @@ import { calcularStatus, obterInfoStatus } from '../utils/statusCalibracao';
 // desenha o "selo" colorido (🟢 Válido / 🟡 Próximo / 🔴 Vencido).
 // Toda a regra de negócio fica em utils/statusCalibracao.js — aqui
 // é só apresentação.
+
 function StatusCalibracao({ dataVencimento }) {
   const status = calcularStatus(dataVencimento);
   const info = obterInfoStatus(status);

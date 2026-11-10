@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const REGEX_NOME_ARQUIVO = /^[\w-]+\.csv$/;
-const LIMITE_CSV = 1_000_000; // ~1 MB de texto
+const LIMITE_CSV = 1_000_000; // Texto de até 1MB
 const NOME_ARQUIVO_PADRAO = "relatorio_calibracao.csv";
 
 const ASSUNTO = "Auditoria de Calibração - Relatório CSV";
@@ -67,9 +67,6 @@ Sobre este sistema: o Controle de Calibração é um projeto de estudos, desenvo
 
 Esta é uma mensagem automática enviada pelo sistema.`;
 
-// Lista de e-mails autorizados a receber o relatório, vinda da variável
-// de ambiente EMAILS_PERMITIDOS (separados por vírgula). A conferência é
-// feita aqui no servidor porque o select do front pode ser contornado.
 const PERMITIDOS = (process.env.EMAILS_PERMITIDOS ?? "")
   .split(",")
   .map((email) => email.trim().toLowerCase())
