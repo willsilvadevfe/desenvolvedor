@@ -1,44 +1,71 @@
+/* Fontes Google — manter antes de qualquer regra CSS */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Michroma&display=swap");
+
 /* ==========================================================
-   Tema escuro com gradiente teal
-   Todas as cores ficam em variáveis: para ajustar o visual,
-   mude só este bloco.
+   PALETA PRINCIPAL — INDUSTRIAL PREMIUM
+   Black | Prussian Blue | Orange | Alabaster Grey | White
    ========================================================== */
-
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Michroma&display=swap");
 :root {
-  --bg-base: #0b1a1f;
-  --bg-superficie: #11262c;
-  --bg-elevado: #173239;
-  --bg-input: #0e2026;
+  /* Tipografia */
+  --fonte-titulo: "Montserrat", sans-serif;
+  --fonte-texto: "IBM Plex Sans", sans-serif;
+  --fonte-interface: "Google Sans", "IBM Plex Sans", sans-serif;
+  --fonte-destaque: "Michroma", monospace;
 
-  --teal-300: #5eead4;
-  --teal-400: #2dd4bf;
-  --teal-500: #14b8a6;
-  --teal-600: #0d9488;
-  --teal-700: #0f766e;
+  /* Fundos */
+  --bg-base: #000000;
+  --bg-superficie: #14213d;
+  --bg-elevado: #1b2d4d;
+  --bg-input: #0c172b;
 
-  --texto: #e6f4f1;
-  --texto-suave: #9bb8b3;
-  --texto-fraco: #6b8a85;
+  /* Escala principal — Prussian Blue (nomes mantidos por compatibilidade) */
+  --teal-300: #8291aa;
+  --teal-400: #526987;
+  --teal-500: #14213d;
+  --teal-600: #101b32;
+  --teal-700: #0a1427;
 
-  --borda: rgba(94, 234, 212, 0.14);
-  --borda-foco: var(--teal-400);
+  /* Destaque — Orange */
+  --laranja: #fca311;
+  --laranja-hover: #ffb52e;
+  --laranja-escuro: #d98b00;
 
-  --sucesso: #34d399;
-  --alerta: #fbbf24;
+  /* Textos */
+  --texto: #ffffff;
+  --texto-suave: #e5e5e5;
+  --texto-fraco: #aeb6c4;
+
+  /* Bordas e foco */
+  --borda: rgba(229, 229, 229, 0.14);
+  --borda-foco: var(--laranja);
+
+  /* Estados */
+  --sucesso: #4ade80;
+  --alerta: #fca311;
   --erro: #f87171;
 
+  /* Gradientes */
   --gradiente-hero: linear-gradient(
     135deg,
-    #0f766e 0%,
-    #0d9488 45%,
-    #134e4a 100%
+    #000000 0%,
+    #14213d 55%,
+    #1b2d4d 100%
   );
-  --gradiente-botao: linear-gradient(135deg, var(--teal-500), var(--teal-700));
+  --gradiente-botao: linear-gradient(135deg, #fca311 0%, #e89508 100%);
 
+  /* SweetAlert2 */
+  --cor-borda: rgba(252, 163, 17, 0.35);
+  --cor-primaria: #fca311;
+  --cor-primaria-escura: #d98b00;
+  --cor-texto-botao: #000000;
+
+  /* Formas, sombras e movimento */
   --raio: 14px;
   --raio-pequeno: 10px;
-  --sombra: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --sombra: 0 10px 30px rgba(0, 0, 0, 0.45);
   --transicao: 0.2s ease;
 }
 
@@ -50,30 +77,16 @@
 
 body {
   margin: 0;
-  font-family:
-    "Inter",
-    "Segoe UI",
-    system-ui,
-    -apple-system,
-    sans-serif;
+  font-family: var(--fonte-texto);
   color: var(--texto);
-  background:
-    radial-gradient(
-      900px 500px at 85% -10%,
-      rgba(20, 184, 166, 0.22),
-      transparent 60%
-    ),
-    radial-gradient(
-      700px 400px at -10% 110%,
-      rgba(13, 148, 136, 0.18),
-      transparent 60%
-    ),
-    var(--bg-base);
+  background-color: var(--bg-superficie);
+  background-size: cover;
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
 
 /* ---------- Layout ---------- */
+
 .pagina {
   min-height: 100vh;
   display: flex;
@@ -91,32 +104,15 @@ body {
 }
 
 /* ---------- Formulários (base) ---------- */
+
 .formulario {
-  background: linear-gradient(180deg, var(--bg-elevado), var(--bg-superficie));
+  background: var(--bg-elevado);
   border: 1px solid var(--borda);
   border-radius: var(--raio);
   padding: 28px;
-  box-shadow: var(--sombra);
   display: flex;
   flex-direction: column;
   gap: 22px;
-}
-
-.formulario-identificacao {
-  max-width: 440px;
-  width: 100%;
-  margin: 40px auto 0;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Faixa de gradiente no topo, remete ao painel hero da referência */
-.formulario-identificacao::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 4px;
-  background: var(--gradiente-hero);
 }
 
 .campo {
@@ -156,13 +152,13 @@ body {
 
 .campo input[type="text"]:hover:not(:disabled),
 .campo select:hover:not(:disabled) {
-  border-color: rgba(94, 234, 212, 0.35);
+  border-color: rgba(252, 163, 17, 0.4);
 }
 
 .campo input[type="text"]:focus,
 .campo select:focus {
   border-color: var(--borda-foco);
-  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+  box-shadow: 0 0 0 3px rgba(252, 163, 17, 0.18);
 }
 
 .campo input:disabled,
@@ -177,6 +173,7 @@ body {
 }
 
 /* ---------- Botões ---------- */
+
 .botao {
   display: inline-flex;
   align-items: center;
@@ -186,21 +183,15 @@ body {
   font-size: 0.95rem;
   font-weight: 600;
   font-family: inherit;
-  color: #04201c;
+  color: #ffffff;
   background: var(--gradiente-botao);
   border: none;
   border-radius: var(--raio-pequeno);
   cursor: pointer;
-  transition:
-    transform var(--transicao),
-    box-shadow var(--transicao),
-    filter var(--transicao);
 }
 
 .botao:hover:not(:disabled) {
   transform: translateY(-1px);
-  filter: brightness(1.1);
-  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.35);
 }
 
 .botao:active:not(:disabled) {
@@ -209,20 +200,18 @@ body {
 
 .botao:focus-visible {
   outline: 2px solid var(--teal-300);
+
   outline-offset: 3px;
 }
 
 .botao:disabled {
   opacity: 0.5;
+
   cursor: not-allowed;
 }
 
 .botao-lancar {
   align-self: flex-start;
-}
-
-.formulario-identificacao .botao-lancar {
-  align-self: stretch;
 }
 
 .acoes-finalizar {
@@ -232,16 +221,232 @@ body {
 
 .botao-finalizar {
   color: var(--texto);
-  background: transparent;
+  background-color: var(--laranja);
   border: 1.5px solid var(--teal-400);
 }
 
-.botao-finalizar:hover:not(:disabled) {
-  background: rgba(45, 212, 191, 0.12);
-  color: var(--teal-300);
-  box-shadow: none;
-  filter: none;
+
+/* ==========================================================
+
+   Tela de acesso (nome + linha)
+
+   ========================================================== */
+
+.identificacao {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 440px) 1fr;
+  align-items: center;
+  gap: 32px;
+  margin-top: 24px;
 }
+
+.identificacao-lateral {
+  min-width: 0;
+}
+
+/* Marca d'água de engrenagem (esquerda) */
+
+.identificacao-marca {
+  display: flex;
+  justify-content: center;
+}
+
+.identificacao-marca svg {
+  width: 190px;
+  height: 190px;
+  color: rgba(252, 163, 17, 0.1);
+  filter: drop-shadow(0 0 24px rgba(252, 163, 17, 0.12));
+}
+
+/* Frase de apoio (direita) */
+
+.identificacao-slogan p {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.3;
+  color: var(--texto-suave);
+}
+
+.identificacao-slogan strong {
+  font-weight: 700;
+  color: var(--texto);
+}
+
+.identificacao-slogan::after {
+  content: "";
+  display: block;
+  width: 130px;
+  height: 2px;
+  margin-top: 14px;
+  background: linear-gradient(90deg, var(--laranja), transparent);
+  box-shadow: 0 0 12px rgba(252, 163, 17, 0.35);
+}
+
+/* Card do formulário */
+
+.formulario-identificacao {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+  box-shadow:
+    var(--sombra),
+    0 0 40px rgba(252, 163, 17, 0.08);
+}
+
+.identificacao-topo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  color: var(--texto);
+  background: var(--bg-input);
+  border-bottom: 1px solid var(--borda);
+}
+
+.identificacao-topo svg {
+  font-size: 1.05rem;
+  color: var(--teal-300);
+}
+
+.identificacao-topo h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.identificacao-corpo {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.identificacao-intro {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--texto-suave);
+}
+
+/* Rótulos da tela de acesso em caixa normal (como na referência) */
+
+.formulario-identificacao .campo label {
+  font-size: 0.85rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--texto);
+}
+
+/* Input/select com ícone dentro */
+
+.campo-icone {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.campo-icone-esquerda,
+.campo-icone-direita {
+  position: absolute;
+  pointer-events: none;
+  color: var(--teal-400);
+}
+
+.campo-icone-esquerda {
+  left: 14px;
+  font-size: 0.95rem;
+}
+
+.campo-icone-direita {
+  right: 14px;
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+/* Divisor entre o ícone e o texto */
+
+.campo-icone::before {
+  content: "";
+  position: absolute;
+  left: 42px;
+  top: 25%;
+  height: 50%;
+  width: 1px;
+  background: var(--borda);
+  pointer-events: none;
+}
+
+.campo .campo-icone input[type="text"],
+.campo .campo-icone select {
+  padding-left: 54px;
+}
+
+.campo .campo-icone select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+/* Botão Continuar ocupa toda a largura */
+
+.formulario-identificacao .botao-lancar {
+  align-self: stretch;
+  margin-top: 4px;
+}
+
+/* Botão de ajuda (WhatsApp) */
+
+.botao-ajuda {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-family: inherit;
+  text-decoration: none;
+  color: #ffffffb6;
+  background: none;
+  border: 1.2px solid #ffffffb6;
+  border-radius: var(--raio-pequeno);
+}
+
+.botao-ajuda:hover {
+  transform: translateY(-1px);
+}
+
+.botao-ajuda:focus-visible {
+  outline-offset: 3px;
+}
+
+.botao-ajuda svg {
+  font-size: 1.15rem;
+}
+
+.identificacao-nota {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  text-align: center;
+  color: var(--texto-fraco);
+}
+
+.identificacao-nota svg {
+  flex-shrink: 0;
+  color: var(--teal-400);
+}
+
+/* ---------- Footer do desenvolvedor (mantido) ---------- */
 
 .footer-dev {
   margin: 0 auto;
@@ -252,10 +457,11 @@ body {
 .footer-dev a {
   text-decoration: none;
   color: white;
-  font-family: "Michroma", "Courier New", Courier, monospace;
+  font-family: var(--fonte-destaque);
 }
 
 /* ---------- Alertas ---------- */
+
 .alerta {
   padding: 14px 18px;
   font-size: 0.92rem;
@@ -266,40 +472,43 @@ body {
 }
 
 .alerta-sucesso {
-  color: var(--sucesso);
-  background: rgba(52, 211, 153, 0.1);
-  border-color: rgba(52, 211, 153, 0.35);
+  color: var(--sucesso) !important;
+  background-color: rgba(52, 211, 153, 0.1) !important;
+  border-color: rgba(52, 211, 153, 0.35) !important;
 }
 
 .alerta-erro {
-  color: var(--erro);
-  background: rgba(248, 113, 113, 0.1);
-  border-color: rgba(248, 113, 113, 0.35);
+  color: var(--erro) !important;
+  background-color: rgba(31, 31, 31, 0.1) !important;
+  border-color: rgba(248, 113, 113, 0.35) !important;
 }
 
 /* ALERTA SWEETALERT2 */
 
 .alerta-personalizado {
-  background: rgba(255, 255, 255, 0.842) !important;
+  background: var(--bg-superficie) !important;
   border: 1px solid var(--cor-borda) !important;
   border-radius: 18px !important;
   padding: 32px 28px !important;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.45) !important;
+  box-shadow:
+    0 15px 50px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(252, 163, 17, 0.08) !important;
 }
 
 .alerta-titulo {
-  color: #000 !important;
+  color: var(--texto) !important;
   font-size: 23px !important;
   font-weight: 700 !important;
 }
 
 .alerta-texto {
-  color: #000 !important;
+  color: var(--texto-suave) !important;
   font-size: 14px !important;
   line-height: 1.7 !important;
 }
 
-/* Botão teal */
+/* Botão de destaque laranja */
+
 .alerta-botao {
   background: linear-gradient(
     135deg,
@@ -319,16 +528,18 @@ body {
 .alerta-botao:hover {
   filter: brightness(1.12);
   transform: translateY(-2px);
-  box-shadow: 0 5px 18px rgba(20, 184, 166, 0.25);
+  box-shadow: 0 5px 18px rgba(252, 163, 17, 0.25);
 }
 
 /* Ícone de atenção */
+
 .alerta-personalizado .swal2-icon.swal2-warning {
-  border-color: var(--bg-elevado) !important;
-  color: var(--bg-elevado) !important;
+  border-color: var(--alerta) !important;
+  color: var(--alerta) !important;
 }
 
 /* Animação do botão */
+
 .alerta-botao:active {
   transform: scale(0.97);
 }
@@ -338,6 +549,7 @@ body {
     opacity: 0;
     transform: translateY(-6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -345,6 +557,18 @@ body {
 }
 
 /* ---------- Responsivo ---------- */
+
+@media (max-width: 960px) {
+  .identificacao {
+    grid-template-columns: 1fr;
+    margin-top: 8px;
+  }
+
+  .identificacao-lateral {
+    display: none;
+  }
+}
+
 @media (max-width: 600px) {
   .conteudo {
     padding: 20px 14px 40px;
@@ -354,9 +578,33 @@ body {
     padding: 20px;
   }
 
+  .formulario-identificacao {
+    padding: 0;
+  }
+
+  .identificacao-corpo {
+    padding: 20px;
+  }
+
   .botao-lancar,
   .botao-finalizar {
     width: 100%;
+
     align-self: stretch;
   }
+}
+
+/* Hierarquia tipográfica da identidade visual */
+h1,
+h2,
+h3,
+h4,
+.campo-rotulo {
+  font-family: var(--fonte-titulo);
+}
+button,
+input,
+select,
+textarea {
+  font-family: var(--fonte-interface);
 }

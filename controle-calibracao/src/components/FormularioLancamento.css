@@ -41,7 +41,7 @@
 }
 
 .campo-erro {
-  color: var(--cor-vermelho);
+  color: rgba(204, 55, 55, 0.459);
   font-size: 0.8rem;
 }
 

@@ -1,18 +1,23 @@
 .lista {
-  background-color: var(--cor-cartao);
+  background-color: var(--bg-superficie);
+  border: 1px solid var(--borda);
   border-radius: var(--raio);
-  box-shadow: var(--sombra-cartao);
+  box-shadow: var(--sombra);
   padding: 1.5rem;
   margin-top: 1.5rem;
+  font-family: var(--fonte-texto);
+  color: var(--texto);
 }
 
 .lista-vazia {
-  background-color: var(--cor-cartao);
+  background-color: var(--bg-superficie);
+  border: 1px dashed var(--borda);
   border-radius: var(--raio);
-  box-shadow: var(--sombra-cartao);
+  box-shadow: var(--sombra);
   padding: 1.5rem;
   margin-top: 1.5rem;
-  color: var(--cor-texto-suave);
+  font-family: var(--fonte-texto);
+  color: var(--texto-fraco);
   text-align: center;
 }
 
@@ -26,8 +31,9 @@
 }
 
 .lista-total {
+  font-family: var(--fonte-titulo);
   font-weight: 600;
-  color: var(--cor-texto-suave);
+  color: var(--texto-suave);
 }
 
 .lista-tabela-wrapper {
@@ -41,52 +47,77 @@
 
 .lista-tabela th {
   text-align: left;
+  font-family: var(--fonte-interface);
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: var(--cor-texto-suave);
+  color: var(--texto-fraco);
   padding: 0.6rem 0.75rem;
-  border-bottom: 2px solid var(--cor-borda);
+  border-bottom: 2px solid var(--laranja);
   white-space: nowrap;
 }
 
 .lista-tabela td {
   padding: 0.7rem 0.75rem;
-  border-bottom: 1px solid var(--cor-borda);
+  color: var(--texto);
+  border-bottom: 1px solid var(--borda);
 }
 
+.lista-tabela tbody tr {
+  transition: background-color var(--transicao);
+}
+
+.lista-tabela tbody tr:hover {
+  background-color: var(--bg-elevado);
+}
+
+/* ---------- Selos de status ---------- */
 .selo-status {
   display: inline-block;
   padding: 0.25rem 0.6rem;
   border-radius: 999px;
+  font-family: var(--fonte-interface);
   font-size: 0.8rem;
   font-weight: 600;
   white-space: nowrap;
 }
+
 .selo-status-verde {
-  background-color: var(--cor-verde-fundo);
-  color: var(--cor-verde);
-}
-.selo-status-amarelo {
-  background-color: var(--cor-amarelo-fundo);
-  color: var(--cor-amarelo);
-}
-.selo-status-vermelho {
-  background-color: var(--cor-vermelho-fundo);
-  color: var(--cor-vermelho);
+  background-color: color-mix(in srgb, var(--sucesso) 15%, transparent);
+  color: var(--sucesso);
 }
 
+.selo-status-amarelo {
+  background-color: color-mix(in srgb, var(--alerta) 15%, transparent);
+  color: var(--alerta);
+}
+
+.selo-status-vermelho {
+  background-color: color-mix(in srgb, var(--erro) 15%, transparent);
+  color: var(--erro);
+}
+
+/* ---------- Botão remover ---------- */
 .botao-remover {
   background: none;
-  border: 1px solid var(--cor-vermelho);
-  color: var(--cor-vermelho);
-  border-radius: 8px;
+  border: 1px solid var(--erro);
+  color: var(--erro);
+  border-radius: var(--raio-pequeno);
   padding: 0.4rem 0.7rem;
+  font-family: var(--fonte-interface);
   font-size: 0.8rem;
   font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transicao), color var(--transicao);
 }
+
 .botao-remover:hover {
-  background-color: var(--cor-vermelho-fundo);
+  background-color: color-mix(in srgb, var(--erro) 15%, transparent);
+}
+
+.botao-remover:focus-visible {
+  outline: 2px solid var(--borda-foco);
+  outline-offset: 2px;
 }
 
 /* Abaixo de 700px, a tabela vira uma lista de "cards": cada linha
@@ -106,8 +137,9 @@
   }
 
   .lista-tabela tr {
-    border: 1px solid var(--cor-borda);
-    border-radius: 10px;
+    background-color: var(--bg-elevado);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-pequeno);
     margin-bottom: 0.75rem;
     padding: 0.5rem 0.75rem;
   }
@@ -123,8 +155,9 @@
 
   .lista-tabela td[data-rotulo]::before {
     content: attr(data-rotulo);
+    font-family: var(--fonte-interface);
     font-weight: 600;
-    color: var(--cor-texto-suave);
+    color: var(--texto-fraco);
     font-size: 0.75rem;
   }
 

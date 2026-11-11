@@ -1,7 +1,17 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import Header from "./components/Header";
-import { FaGithub } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLockOpen,
+  FaUser,
+  FaIndustry,
+  FaChevronDown,
+  FaCheck,
+  FaWhatsapp,
+  FaShieldAlt,
+  FaCog,
+} from "react-icons/fa";
 import FormularioLancamento from "./components/FormularioLancamento";
 import ListaLancamentos from "./components/ListaLancamentos";
 import ModalConfirmacao from "./components/ModalConfirmacao";
@@ -11,6 +21,16 @@ import { calcularStatus, STATUS } from "./utils/statusCalibracao";
 import { LINHAS, DESTINATARIOS } from "./data/opcoes";
 
 import "./App.css";
+
+// Botão de ajuda: abre uma conversa no WhatsApp.
+// Troque pelo número com código do país + DDD, só dígitos
+// (ex.: "5512999999999") e ajuste a mensagem se quiser.
+const WHATSAPP_NUMERO = "55DDNUMERO";
+const WHATSAPP_MENSAGEM =
+  "Olá! Preciso de ajuda com o sistema de Controle de Calibração.";
+const LINK_WHATSAPP = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(
+  WHATSAPP_MENSAGEM,
+)}`;
 
 let proximoId = 1;
 
@@ -57,9 +77,9 @@ function App() {
     </p>
   `,
         confirmButtonText: "Tentar novamente",
-        background: "#11262c",
-        color: "#e6f4f1",
-        backdrop: "rgba(3, 12, 15, 0.80)",
+        background: "#0a1a30",
+        color: "#e8f1fc",
+        backdrop: "rgba(3, 8, 18, 0.80)",
         customClass: {
           popup: "alerta-personalizado",
           title: "alerta-titulo",
@@ -157,11 +177,13 @@ function App() {
     setStatusEnvio("idle");
     setArquivoGerado(null);
     setDestinatario("");
+    location.reload(); // Reinicia a página para limpar nome e linha, como na primeira abertura.
   }
 
   function fecharModal() {
     if (statusEnvio === "enviando") return;
     setModalAberto(false);
+    location.reload(); // Reinicia a página para limpar nome e linha, como na primeira abertura.
   }
 
   return (
@@ -170,42 +192,104 @@ function App() {
 
       <main className="conteudo">
         {!identificacaoCompleta ? (
-          <form
-            className="formulario formulario-identificacao"
-            onSubmit={confirmarIdentificacao}
-          >
-            <div className="campo">
-              <label htmlFor="nomeUsuario">Seu nome</label>
-              <input
-                id="nomeUsuario"
-                type="text"
-                value={nomeTemporario}
-                onChange={(e) => setNomeTemporario(e.target.value)}
-                placeholder="Ex: Willian Silva"
-                autoFocus
-              />
+          <div className="identificacao">
+            {/* Marca d'água decorativa (esquerda) */}
+            <div
+              className="identificacao-lateral identificacao-marca"
+              aria-hidden="true"
+            >
+              <FaCog />
             </div>
 
-            <div className="campo">
-              <label htmlFor="linhaSelecionada">Linha</label>
-              <select
-                id="linhaSelecionada"
-                value={linhaTemporaria}
-                onChange={(e) => setLinhaTemporaria(e.target.value)}
-              >
-                <option value="">Selecione...</option>
-                {LINHAS.map((linha) => (
-                  <option key={linha} value={linha}>
-                    {linha}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <form
+              className="formulario formulario-identificacao"
+              onSubmit={confirmarIdentificacao}
+            >
+              <div className="identificacao-topo">
+                <FaLockOpen aria-hidden="true" />
+                <h2>Abertura de Auditoria</h2>
+              </div>
 
-            <button type="submit" className="botao botao-lancar">
-              Continuar
-            </button>
-          </form>
+              <div className="identificacao-corpo">
+                <p className="identificacao-intro">
+                  Preencha seus dados para iniciar a verificação dos
+                  dispositivos da linha selecionada.
+                </p>
+
+                <div className="campo">
+                  <label htmlFor="nomeUsuario">Seu nome</label>
+                  <div className="campo-icone">
+                    <FaUser
+                      className="campo-icone-esquerda"
+                      aria-hidden="true"
+                    />
+                    <input
+                      id="nomeUsuario"
+                      type="text"
+                      value={nomeTemporario}
+                      onChange={(e) => setNomeTemporario(e.target.value)}
+                      placeholder="Digite seu nome..."
+                      autoComplete="name"
+                      autoFocus
+                    />
+                  </div>
+                </div>
+
+                <div className="campo">
+                  <label htmlFor="linhaSelecionada">Linha</label>
+                  <div className="campo-icone">
+                    <FaIndustry
+                      className="campo-icone-esquerda"
+                      aria-hidden="true"
+                    />
+                    <select
+                      id="linhaSelecionada"
+                      value={linhaTemporaria}
+                      onChange={(e) => setLinhaTemporaria(e.target.value)}
+                    >
+                      <option value="">Selecione...</option>
+                      {LINHAS.map((linha) => (
+                        <option key={linha} value={linha}>
+                          {linha}
+                        </option>
+                      ))}
+                    </select>
+                    <FaChevronDown
+                      className="campo-icone-direita"
+                      aria-hidden="true"
+                    />
+                  </div>
+                </div>
+
+                <button type="submit" className="botao botao-lancar">
+                  <FaCheck aria-hidden="true" />
+                  Continuar
+                </button>
+
+                <a
+                  className="botao-ajuda"
+                  href={LINK_WHATSAPP}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FaWhatsapp aria-hidden="true" />
+                  Precisa de ajuda?
+                </a>
+
+                <p className="identificacao-nota">
+                  <FaShieldAlt aria-hidden="true" />
+                  Seu nome e sua linha ficam salvos apenas nesta sessão.
+                </p>
+              </div>
+            </form>
+
+            {/* Frase de apoio (direita) */}
+            <aside className="identificacao-lateral identificacao-slogan">
+              <p>
+                Precisão que gera <strong>confiança.</strong>
+              </p>
+            </aside>
+          </div>
         ) : (
           <>
             <FormularioLancamento onLancar={adicionarRegistro} />

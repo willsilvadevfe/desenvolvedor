@@ -57,7 +57,7 @@ function ModalConfirmacao({
               </button>
               <button
                 type="button"
-                className="botao botao-primario"
+                className="botao-finalizar botao-primario"
                 onClick={onConfirmar}
                 disabled={!destinatario}
               >

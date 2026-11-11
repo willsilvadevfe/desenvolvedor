@@ -1,7 +1,9 @@
 .resumo-relatorio {
   margin-top: 1rem;
-  border-top: 1px solid var(--cor-borda);
+  border-top: 1px solid var(--borda);
   padding-top: 1rem;
+  font-family: var(--fonte-texto);
+  color: var(--texto-suave);
 }
 
 .resumo-linha {
@@ -12,9 +14,11 @@
 }
 
 .resumo-total {
+  font-family: var(--fonte-titulo);
   font-weight: 700;
   font-size: 1.05rem;
-  border-bottom: 1px solid var(--cor-borda);
+  color: var(--texto);
+  border-bottom: 1px solid var(--borda);
   padding-bottom: 0.6rem;
   margin-bottom: 0.4rem;
 }
@@ -22,4 +26,5 @@
 .botao:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  filter: grayscale(0.4);
 }

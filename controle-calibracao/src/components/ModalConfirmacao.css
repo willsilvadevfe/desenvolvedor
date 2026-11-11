@@ -1,7 +1,28 @@
+.botao-finalizar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #ffffff;
+  background: var(--gradiente-botao);
+  border: none;
+  border-radius: var(--raio-pequeno);
+  cursor: pointer;
+}
+
+.botao-secundario{
+  color: #000 !important;
+}
+
 .modal-fundo {
   position: fixed;
   inset: 0;
-  background-color: rgba(15, 23, 42, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,17 +31,20 @@
 }
 
 .modal-caixa {
-  background-color: var(--cor-cartao);
+  background-color: var(--bg-superficie);
+  border: 1px solid var(--borda);
   border-radius: var(--raio);
   padding: 1.75rem;
   max-width: 440px;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
+  box-shadow: var(--sombra);
+  font-family: var(--fonte-texto);
+  color: var(--texto);
 }
 
 .modal-pergunta {
   margin: 1rem 0 0;
-  color: var(--cor-texto-suave);
+  color: var(--texto-suave);
 }
 
 .modal-acoes {
@@ -38,29 +62,7 @@
   gap: 1rem;
   padding: 1rem 0;
   text-align: center;
-  color: var(--cor-texto-suave);
+  color: var(--texto-suave);
 }
 
-.spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--cor-borda);
-  border-top-color: var(--cor-primaria);
-  border-radius: 50%;
-  animation: girar 0.8s linear infinite;
-}
 
-@keyframes girar {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (max-width: 480px) {
-  .modal-acoes {
-    flex-direction: column-reverse;
-  }
-  .modal-acoes .botao {
-    width: 100%;
-  }
-}

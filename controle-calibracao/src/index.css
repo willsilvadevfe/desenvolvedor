@@ -1,30 +1,90 @@
+/* Fontes Google — manter antes de qualquer regra CSS */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Michroma&display=swap");
+
+/* ==========================================================
+
+   Tema escuro azul-marinho (baseado na nova referência)
+
+
+
+   Todas as cores ficam em variáveis. Os nomes antigos (--teal-*)
+
+   foram mantidos de propósito para não quebrar os outros
+
+   componentes (FormularioLancamento, Lista, Modal), mas agora
+
+   guardam tons de AZUL. Para ajustar o visual, mude só este bloco.
+
+   ========================================================== */
+
+/* ==========================================================
+   PALETA PRINCIPAL — INDUSTRIAL PREMIUM
+   Black | Prussian Blue | Orange | Alabaster Grey | White
+   ========================================================== */
 :root {
-  color-scheme: dark;
+  /* Tipografia */
+  --fonte-titulo: "Montserrat", sans-serif;
+  --fonte-texto: "IBM Plex Sans", sans-serif;
+  --fonte-interface: "Google Sans", "IBM Plex Sans", sans-serif;
+  --fonte-destaque: "Michroma", monospace;
 
-  /* Teal (cor principal) */
-  --cor-primaria: #14b8a6;
-  --cor-primaria-escura: #0d9488;
-  --cor-primaria-clara: #5eead4;
-  --cor-texto-botao: #04201c;
+  /* Fundos */
+  --bg-base: #000000;
+  --bg-superficie: #14213d;
+  --bg-elevado: #1b2d4d;
+  --bg-input: #0c172b;
 
-  /* Superfícies e texto */
-  --cor-fundo: #0b1a1f;
-  --cor-cartao: #11262c;
-  --cor-texto: #e6f4f1;
-  --cor-texto-suave: #9bb8b3;
-  --cor-borda: rgba(94, 234, 212, 0.14);
+  /* Escala principal — Prussian Blue (nomes mantidos por compatibilidade) */
+  --teal-300: #8291aa;
+  --teal-400: #526987;
+  --teal-500: #14213d;
+  --teal-600: #101b32;
+  --teal-700: #0a1427;
+
+  /* Destaque — Orange */
+  --laranja: #fca311;
+  --laranja-hover: #ffb52e;
+  --laranja-escuro: #d98b00;
+
+  /* Textos */
+  --texto: #ffffff;
+  --texto-suave: #e5e5e5;
+  --texto-fraco: #aeb6c4;
+
+  /* Bordas e foco */
+  --borda: rgba(229, 229, 229, 0.14);
+  --borda-foco: var(--laranja);
 
   /* Estados */
-  --cor-verde: #34d399;
-  --cor-verde-fundo: rgba(52, 211, 153, 0.1);
-  --cor-amarelo: #fbbf24;
-  --cor-amarelo-fundo: rgba(251, 191, 36, 0.1);
-  --cor-vermelho: #f87171;
-  --cor-vermelho-fundo: rgba(248, 113, 113, 0.1);
+  --sucesso: #4ade80;
+  --alerta: #fca311;
+  --erro: #f87171;
 
-  --sombra-cartao: 0 10px 30px rgba(0, 0, 0, 0.35);
-  --raio: 10px;
+  /* Gradientes */
+  --gradiente-hero: linear-gradient(
+    135deg,
+    #000000 0%,
+    #14213d 55%,
+    #1b2d4d 100%
+  );
+  --gradiente-botao: linear-gradient(135deg, #fca311 0%, #e89508 100%);
+
+  /* SweetAlert2 */
+  --cor-borda: rgba(252, 163, 17, 0.35);
+  --cor-primaria: #fca311;
+  --cor-primaria-escura: #d98b00;
+  --cor-texto-botao: #000000;
+
+  /* Formas, sombras e movimento */
+  --raio: 14px;
+  --raio-pequeno: 10px;
+  --sombra: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --transicao: 0.2s ease;
 }
+
 
 * {
   box-sizing: border-box;
@@ -38,22 +98,6 @@ body,
 
 body {
   margin: 0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
-  background:
-    radial-gradient(
-      900px 500px at 85% -10%,
-      rgba(55, 150, 142, 0.22),
-      transparent 60%
-    ),
-    radial-gradient(
-      1200px 600px at -10% 110%,
-      rgba(23, 88, 90, 0.22),
-      transparent 100%
-    ),
-    #000000ab;
-  background-attachment: fixed;
   color: var(--cor-texto);
   -webkit-font-smoothing: antialiased;
 }
