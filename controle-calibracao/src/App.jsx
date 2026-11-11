@@ -22,10 +22,7 @@ import { LINHAS, DESTINATARIOS } from "./data/opcoes";
 
 import "./App.css";
 
-// Botão de ajuda: abre uma conversa no WhatsApp.
-// Troque pelo número com código do país + DDD, só dígitos
-// (ex.: "5512999999999") e ajuste a mensagem se quiser.
-const WHATSAPP_NUMERO = "55DDNUMERO";
+const WHATSAPP_NUMERO = "5512991199357";
 const WHATSAPP_MENSAGEM =
   "Olá! Preciso de ajuda com o sistema de Controle de Calibração.";
 const LINK_WHATSAPP = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(
@@ -278,7 +275,7 @@ function App() {
 
                 <p className="identificacao-nota">
                   <FaShieldAlt aria-hidden="true" />
-                  Seu nome e sua linha ficam salvos apenas nesta sessão.
+                  Informações ficam salvas apenas nesta sessão.
                 </p>
               </div>
             </form>
