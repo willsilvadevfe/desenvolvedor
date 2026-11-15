@@ -14,6 +14,12 @@ import DanceContemporanea from "./assets/dance/danca-contemporanea.jpg";
 import DanceVentre from "./assets/dance/danca-ventre.jpg";
 import DanceJazz from "./assets/dance/jazz.jpg";
 import DanceSapateado from "./assets/dance/sapateado.jpg";
+import Professor1 from "./assets/professores/professor1.jpg";
+import Professor2 from "./assets/professores/professor2.jpg";
+import Professor3 from "./assets/professores/professor3.jpg";
+import Professor4 from "./assets/professores/professor4.jpg";
+import Professor5 from "./assets/professores/professor5.jpg";
+import Professor6 from "./assets/professores/professor6.jpg";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 ScrollTrigger.config({ ignoreMobileResize: true }); // evita "pulos" quando a barra do navegador mobile some
@@ -21,9 +27,9 @@ ScrollTrigger.config({ ignoreMobileResize: true }); // evita "pulos" quando a ba
 /* ===== Conteúdo (edite à vontade) ===== */
 const MENU = [
   { label: "Início", href: "#inicio" },
-  { label: "Item 2", href: "#sobre" },
-  { label: "Item 3", href: "#modalidades" },
-  { label: "Item 4", href: "#contato" },
+  { label: "Sobre nós", href: "#sobre" },
+  { label: "Aulas", href: "#modalidades" },
+  { label: "Contato", href: "#contato" },
 ];
 
 // Coloque as fotos do Unsplash em /public/img com estes nomes
@@ -31,7 +37,7 @@ const IMG = {
   hero1: Hero1,
   hero2: Hero2,
   about: Ballet,
-  banner: "/img/banner.jpg",
+  banner: DanceBreaking,
   aulas: [
     DanceBallet,
     DanceJazz,
@@ -71,37 +77,37 @@ const PROFESSORES = [
     aula: "Ballet Clássico",
     nome: "Vanessa Campos",
     info: "Seg e Qua · 18h",
-    foto: "/img/prof-1.jpg",
+    foto: Professor2,
   },
   {
     aula: "Jazz",
     nome: "Mauro Vilela",
     info: "Ter e Qui · 19h",
-    foto: "/img/prof-2.jpg",
+    foto: Professor3,
   },
   {
     aula: "Breaking Dance",
     nome: "Jonas Souza",
     info: "Seg e Qua · 20h",
-    foto: "/img/prof-3.jpg",
+    foto: Professor1,
   },
   {
     aula: "Dança Contemporânea",
     nome: "Elizabete Todeschini",
     info: "Sex · 18h",
-    foto: "/img/prof-4.jpg",
+    foto: Professor4,
   },
   {
     aula: "Sapateado",
     nome: "Mauro Naves",
     info: "Sáb · 10h",
-    foto: "/img/prof-5.jpg",
+    foto: Professor6,
   },
   {
     aula: "Dança do Ventre",
     nome: "Gabriela Almeida",
     info: "Ter e Qui · 20h",
-    foto: "/img/prof-6.jpg",
+    foto: Professor5,
   },
 ];
 
@@ -112,6 +118,21 @@ const MARQUEE = [
   "Hip Hop",
   "Sapateado",
   "Dança do Ventre",
+];
+
+// true = respeita quem desativou animações no sistema (recomendado em produção).
+// Coloque false para TESTAR o efeito mesmo se o seu Windows/Mac estiver com animações reduzidas.
+const RESPECT_REDUCED_MOTION = true;
+
+const STAGE_TEXT =
+  "A dança não pede palavras.\nEla começa no primeiro passo,\ncresce no ritmo\ne fica no corpo para sempre.";
+const STAGE_WORDS = [
+  "Ballet",
+  "Jazz",
+  "Contemporâneo",
+  "Breaking",
+  "Dança do Ventre",
+  "Sapateado",
 ];
 
 /* ===== Helpers ===== */
@@ -125,11 +146,12 @@ const Words = ({ text, as: Tag = "h2", className = "" }) => (
   </Tag>
 );
 
-const Img = ({ src, alt = "" }) => (
+const Img = ({ src, alt = "", eager = false }) => (
   <img
     src={src}
     alt={alt}
-    loading="lazy"
+    loading={eager ? "eager" : "lazy"}
+    decoding="async"
     onError={(e) => (e.currentTarget.style.display = "none")}
   />
 );
@@ -149,12 +171,14 @@ export default function App() {
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();
     window.addEventListener("load", refresh);
+    document.fonts?.ready.then(refresh);
     return () => window.removeEventListener("load", refresh);
   }, []);
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
+      const q = gsap.utils.selector(root);
 
       /* 1. Intro do hero (text reveal + imagens com clip-path) */
       const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
@@ -311,8 +335,135 @@ export default function App() {
           end: () => "+=" + dist(),
           invalidateOnRefresh: true,
           anticipatePin: 1,
+          refreshPriority: 2,
         },
       });
+
+      /* 11.5 Palco: holofote (scroll) + texto digitado por tempo, iniciado ao chegar.
+         Fica depois do scroll horizontal para os pins serem calculados na ordem certa */
+      const stage = q(".stage")[0];
+      if (stage) {
+        const typedEl = stage.querySelector(".stage-typed-text");
+        const bg = stage.querySelector(".stage-bg");
+        const spotEl = stage.querySelector(".stage-spot");
+        const wordsRow = stage.querySelector(".stage-words");
+        const words = stage.querySelectorAll(".stage-cycle span");
+
+        const total = STAGE_TEXT.length;
+        const spot = { r: 16, x: 50, y: 50 }; // raio (vmax) e posição (%) do holofote
+        const typing = { n: 0 };
+
+        const paint = () => {
+          spotEl.style.setProperty("--sr", spot.r + "vmax");
+          spotEl.style.setProperty("--sx", spot.x + "%");
+          spotEl.style.setProperty("--sy", spot.y + "%");
+        };
+        const renderTyping = () => {
+          typedEl.textContent = STAGE_TEXT.slice(0, Math.round(typing.n));
+        };
+
+        mm.add(
+          RESPECT_REDUCED_MOTION
+            ? "(prefers-reduced-motion: no-preference)"
+            : "all",
+          () => {
+          // estado inicial: escuro, texto vazio, palavras escondidas
+          typing.n = 0;
+          renderTyping();
+          paint();
+          gsap.set(words, { yPercent: 110 });
+          gsap.set(wordsRow, { opacity: 0 });
+          gsap.set(bg, { scale: 1.25 });
+
+          /* A) holofote + cor da foto: acompanham a rolagem (scrub) */
+          gsap
+            .timeline({
+              defaults: { ease: "none" },
+              scrollTrigger: {
+                trigger: stage,
+                start: "top top",
+                end: "+=300%",
+                scrub: 1,
+                pin: true,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+                refreshPriority: 1,
+              },
+            })
+            .to(spot, { r: 120, ease: "power1.inOut", onUpdate: paint }, 0)
+            .to(bg, { scale: 1 }, 0);
+
+          /* B) texto digitado + troca de palavras: rodam por TEMPO,
+                começam só quando a seção chega na tela */
+          const typeTl = gsap.timeline({ paused: true });
+          typeTl
+            .to(typing, {
+              n: total,
+              duration: 5.5,
+              ease: "none",
+              onUpdate: renderTyping,
+            })
+            .to(wordsRow, { opacity: 1, duration: 0.5 }, "+=0.3");
+
+          words.forEach((w, i) => {
+            typeTl.to(w, { yPercent: 0, duration: 0.45, ease: "power3.out" });
+            if (i < words.length - 1) {
+              typeTl.to(w, {
+                yPercent: -110,
+                duration: 0.4,
+                ease: "power3.in",
+                delay: 1.1,
+              });
+            }
+          });
+
+          ScrollTrigger.create({
+            trigger: stage,
+            start: "top 15%",
+            onEnter: () => {
+              // ignora disparos falsos durante o carregamento (layout ainda mudando)
+              if (window.scrollY < 100) return;
+              typeTl.restart(); // chegou: começa a escrever
+            },
+            onLeaveBack: () => {
+              // voltou para cima: zera para escrever de novo na próxima vez
+              typeTl.pause(0);
+              typing.n = 0;
+              renderTyping();
+            },
+          });
+
+          // o holofote segue o mouse (só em telas com mouse)
+          const mmMove = gsap.matchMedia();
+          mmMove.add("(pointer: fine)", () => {
+            const onMove = (e) =>
+              gsap.to(spot, {
+                x: (e.clientX / window.innerWidth) * 100,
+                y: (e.clientY / window.innerHeight) * 100,
+                duration: 0.7,
+                ease: "power3.out",
+                overwrite: "auto",
+                onUpdate: paint,
+              });
+            stage.addEventListener("mousemove", onMove);
+            return () => stage.removeEventListener("mousemove", onMove);
+          });
+          return () => mmMove.revert();
+          },
+        );
+
+        // quem prefere menos movimento vê tudo já pronto
+        mm.add(RESPECT_REDUCED_MOTION ? "(prefers-reduced-motion: reduce)" : "not all", () => {
+          console.warn(
+            "[Palco] Seu sistema está com 'reduzir movimento' ligado, então o efeito foi desativado. Para testar, use RESPECT_REDUCED_MOTION = false no App.jsx.",
+          );
+          typedEl.textContent = STAGE_TEXT;
+          spot.r = 120;
+          paint();
+          gsap.set(words, { yPercent: 110 });
+          gsap.set(words[words.length - 1], { yPercent: 0 });
+        });
+      }
 
       /* 12. Cursor customizado */
       mm.add("(pointer: fine)", () => {
@@ -442,10 +593,10 @@ export default function App() {
             </div>
             <div className="hero-visual">
               <div className="hero-img a">
-                <Img src={IMG.hero1} alt="Bailarina" />
+                <Img src={IMG.hero1} alt="Bailarina" eager />
               </div>
               <div className="hero-img b">
-                <Img src={IMG.hero2} alt="Aula de dança" />
+                <Img src={IMG.hero2} alt="Aula de dança" eager />
               </div>
             </div>
           </div>
@@ -528,15 +679,31 @@ export default function App() {
           </div>
         </section>
 
-        {/* BANNER PARALLAX */}
-        <section className="banner">
-          <Img src={IMG.banner} alt="" />
-          <div className="banner-text container">
-            <Words text="A dança transforma quem somos" />
+        {/* PALCO: holofote + texto digitado */}
+        <section className="stage" aria-label="A dança em palavras">
+          <div
+            className="stage-bg"
+            style={{ backgroundImage: `url(${IMG.banner})` }}
+          />
+          <div className="stage-spot" />
+          <div className="stage-content container">
+            <p
+              className="stage-typed"
+              aria-label={STAGE_TEXT.replace(/\n/g, " ")}
+            >
+              <span className="stage-typed-text" aria-hidden="true" />
+              <span className="stage-caret" aria-hidden="true" />
+            </p>
+            <p className="stage-words" aria-hidden="true">
+              <span className="stage-prefix">Hoje é dia de</span>
+              <span className="stage-cycle">
+                {STAGE_WORDS.map((w) => (
+                  <span key={w}>{w}</span>
+                ))}
+              </span>
+            </p>
           </div>
         </section>
-        {/* o parallax usa a <img> dentro do banner */}
-        <ParallaxBinder />
 
         {/* PROFESSORES */}
         <section className="section">
@@ -589,23 +756,4 @@ export default function App() {
       </footer>
     </div>
   );
-}
-
-/* Liga o parallax à imagem do banner sem precisar de ref extra */
-function ParallaxBinder() {
-  useGSAP(() => {
-    const img = document.querySelector(".banner img");
-    if (!img) return;
-    gsap.to(img, {
-      yPercent: 12,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".banner",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
-  }, []);
-  return null;
 }
