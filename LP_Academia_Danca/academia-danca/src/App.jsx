@@ -8,6 +8,13 @@ import Ballet from "./assets/ballet.jpg";
 import Hero1 from "./assets/header1.jpg";
 import Hero2 from "./assets/header2.jpg";
 
+import DanceBallet from "./assets/dance/ballet.jpg";
+import DanceBreaking from "./assets/dance/breaking.jpg";
+import DanceContemporanea from "./assets/dance/danca-contemporanea.jpg";
+import DanceVentre from "./assets/dance/danca-ventre.jpg";
+import DanceJazz from "./assets/dance/jazz.jpg";
+import DanceSapateado from "./assets/dance/sapateado.jpg";
+
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 ScrollTrigger.config({ ignoreMobileResize: true }); // evita "pulos" quando a barra do navegador mobile some
 
@@ -26,10 +33,12 @@ const IMG = {
   about: Ballet,
   banner: "/img/banner.jpg",
   aulas: [
-    "/img/aula-1.jpg",
-    "/img/aula-2.jpg",
-    "/img/aula-3.jpg",
-    "/img/aula-4.jpg",
+    DanceBallet,
+    DanceJazz,
+    DanceContemporanea,
+    DanceBreaking,
+    DanceVentre,
+    DanceSapateado,
   ],
 };
 
@@ -44,7 +53,15 @@ const AULAS = [
     d: "Ut enim ad minim veniam, quis nostrud exercitation.",
   },
   {
-    t: "Danças Urbanas",
+    t: "Breaking Dance",
+    d: "Duis aute irure dolor in reprehenderit in voluptate.",
+  },
+  {
+    t: "Dança do Ventre",
+    d: "Duis aute irure dolor in reprehenderit in voluptate.",
+  },
+  {
+    t: "Sapateado",
     d: "Duis aute irure dolor in reprehenderit in voluptate.",
   },
 ];
@@ -52,37 +69,37 @@ const AULAS = [
 const PROFESSORES = [
   {
     aula: "Ballet Clássico",
-    nome: "Nome do Professor",
+    nome: "Vanessa Campos",
     info: "Seg e Qua · 18h",
     foto: "/img/prof-1.jpg",
   },
   {
     aula: "Jazz",
-    nome: "Nome da Professora",
+    nome: "Mauro Vilela",
     info: "Ter e Qui · 19h",
     foto: "/img/prof-2.jpg",
   },
   {
-    aula: "Hip Hop",
-    nome: "Nome do Professor",
+    aula: "Breaking Dance",
+    nome: "Jonas Souza",
     info: "Seg e Qua · 20h",
     foto: "/img/prof-3.jpg",
   },
   {
     aula: "Dança Contemporânea",
-    nome: "Nome da Professora",
+    nome: "Elizabete Todeschini",
     info: "Sex · 18h",
     foto: "/img/prof-4.jpg",
   },
   {
     aula: "Sapateado",
-    nome: "Nome do Professor",
+    nome: "Mauro Naves",
     info: "Sáb · 10h",
     foto: "/img/prof-5.jpg",
   },
   {
     aula: "Dança do Ventre",
-    nome: "Nome da Professora",
+    nome: "Gabriela Almeida",
     info: "Ter e Qui · 20h",
     foto: "/img/prof-6.jpg",
   },
@@ -341,7 +358,7 @@ export default function App() {
       <header className="header">
         <div className="container">
           <a href="#inicio" className="logo">
-            Aura<span>.</span>
+            ESSENZA<span>.</span>
           </a>
           <nav className="nav">
             {MENU.map((m) => (
@@ -367,7 +384,7 @@ export default function App() {
       <aside className={`offcanvas ${open ? "open" : ""}`} aria-hidden={!open}>
         <div className="oc-top">
           <span className="logo">
-            Aura<span>.</span>
+            ESSENZA<span>.</span>
           </span>
           <button
             className="oc-close"
@@ -394,7 +411,7 @@ export default function App() {
           >
             Aula experimental
           </a>
-          <p>Rua Exemplo, 123 — Cidade/UF</p>
+          <p>Rua Nagazaki, 86 — São José dos Campos/SP</p>
         </div>
       </aside>
 
@@ -407,11 +424,12 @@ export default function App() {
               <Words
                 as="h1"
                 className="hero-title"
-                text="Dance com leveza, viva com intensidade"
+                text="Seu corpo, sua história, seu movimento"
               />
               <p className="hero-sub hero-fade">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore.
+                Do primeiro passo à evolução constante, encontre aulas,
+                aprendizado e inspiração para viver a dança no seu próprio
+                ritmo.
               </p>
               <div className="hero-actions hero-fade">
                 <a href="#contato" className="btn btn-primary">
@@ -428,11 +446,6 @@ export default function App() {
               </div>
               <div className="hero-img b">
                 <Img src={IMG.hero2} alt="Aula de dança" />
-              </div>
-              <div className="badge">
-                +10
-                <br />
-                anos de arte
               </div>
             </div>
           </div>
@@ -457,21 +470,24 @@ export default function App() {
               <span className="eyebrow" data-fade>
                 Sobre nós
               </span>
-              <Words text="Um espaço feito para o seu movimento" />
+              <Words text="Mais que uma academia, um espaço para se expressar." />
               <p data-fade>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation.
+                Acreditamos que a dança vai muito além dos movimentos. É uma
+                forma de expressão, conexão e liberdade. Nosso propósito é
+                proporcionar um ambiente acolhedor e inspirador, onde cada
+                pessoa possa descobrir seu potencial, desenvolver suas
+                habilidades e transformar sua paixão pela dança em experiências
+                inesquecíveis.
               </p>
               <div className="stats" data-fade>
                 <div className="stat">
-                  <strong data-count="12" data-suffix="+">
+                  <strong data-count="10" data-suffix="+">
                     0
                   </strong>
-                  <span>Anos</span>
+                  <span>Anos de história</span>
                 </div>
                 <div className="stat">
-                  <strong data-count="800" data-suffix="+">
+                  <strong data-count="400" data-suffix="+">
                     0
                   </strong>
                   <span>Alunos</span>
@@ -493,8 +509,10 @@ export default function App() {
                 <span className="eyebrow">Modalidades</span>
                 <Words text="Encontre o seu ritmo" />
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Role
-                  para conhecer as aulas →
+                  Explore diferentes estilos de dança, desenvolva novas
+                  habilidades e descubra novas formas de se expressar. Temos
+                  modalidades para diferentes perfis, níveis e objetivos, sempre
+                  com movimento, dedicação e muita paixão pela dança.
                 </p>
               </div>
               {AULAS.map((a, i) => (
@@ -565,7 +583,7 @@ export default function App() {
 
       <footer className="footer">
         <div className="container">
-          <span>© 2026 Aura Dança</span>
+          <span>© 2026 ESSENZA Dança</span>
           <span>Rua Nagazaki, 86 — São José dos Campos/SP</span>
         </div>
       </footer>
