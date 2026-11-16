@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import "./index.css";
+import Contato from "./Contato";
 /* IMGS */
 import Ballet from "./assets/dance/ballet.webp";
 import Ballet2 from "./assets/dance/ballet2.webp";
@@ -12,6 +13,7 @@ import Sapateado from "./assets/dance/sapateado.webp";
 import Salao from "./assets/dance/salao.webp";
 import Jazz from "./assets/dance/jazz.webp";
 import Ventre from "./assets/dance/ventre.webp";
+import Banner from "./assets/dance/banner.jpg";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 ScrollTrigger.config({ ignoreMobileResize: true }); // evita "pulos" quando a barra do navegador mobile some
@@ -28,31 +30,31 @@ const IMG = {
   hero1: Ballet2,
   hero2: Contemporanea,
   about: Ballet,
-  banner: Salao,
+  banner: Banner,
   aulas: [Ballet2, Jazz, Contemporanea, Breaking, Ventre, Sapateado],
 };
 
 const AULAS = [
   {
     t: "Ballet Clássico",
-    d: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    d: "Tradição e beleza em cada movimento, formando bailarinos com técnica, sensibilidade e expressão.",
   },
-  { t: "Jazz", d: "Sed do eiusmod tempor incididunt ut labore et dolore." },
+  { t: "Jazz", d: "O jazz combina energia, ritmo e expressão corporal, proporcionando movimentos dinâmicos que despertam a criatividade" },
   {
     t: "Dança Contemporânea",
-    d: "Ut enim ad minim veniam, quis nostrud exercitation.",
+    d: "Explore sua liberdade corporal, desenvolva consciência dos movimentos e descubra novas possibilidades artísticas.",
   },
   {
-    t: "Breaking Dance",
-    d: "Duis aute irure dolor in reprehenderit in voluptate.",
+    t: "Street Dance",
+    d: "Explore sua personalidade através de movimentos urbanos, coreografias marcantes e muita atitude.",
   },
   {
     t: "Dança do Ventre",
-    d: "Duis aute irure dolor in reprehenderit in voluptate.",
+    d: "Descubra a beleza dos movimentos orientais e desenvolva coordenação, ritmo e consciência corporal.",
   },
   {
     t: "Sapateado",
-    d: "Duis aute irure dolor in reprehenderit in voluptate.",
+    d: "Transforme cada passo em uma batida e descubra a musicalidade através dos movimentos dos pés.",
   },
 ];
 
@@ -436,7 +438,7 @@ export default function App() {
               <Words
                 as="h1"
                 className="hero-title"
-                text="Seu corpo, sua história, seu movimento"
+                text="ESSENZA Studio"
               />
               <p className="hero-sub hero-fade">
                 Do primeiro passo à evolução constante, encontre aulas,
@@ -542,9 +544,9 @@ export default function App() {
 
         {/* BANNER PARALLAX */}
         <section className="banner">
-          
+          <Img src={IMG.banner} alt="Aula de dança de salão" />
           <div className="banner-text container">
-            <Words text="A dança transforma quem somos" />
+            <Words text="A vida tem seu ritmo. Encontre o seu." />
           </div>
         </section>
 
@@ -577,18 +579,7 @@ export default function App() {
         </section>
 
         {/* CTA */}
-        <section className="section cta" id="contato">
-          <div className="container">
-            <Words text="Pronta para o primeiro passo?" />
-            <p data-fade>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Agende
-              sua aula experimental.
-            </p>
-            <a href="#" className="btn btn-primary" data-fade>
-              Agendar agora
-            </a>
-          </div>
-        </section>
+        <Contato />
       </main>
 
       <footer className="footer">
