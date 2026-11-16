@@ -32,7 +32,7 @@
 
 /* ---------- texto de apoio ---------- */
 .contato .eyebrow {
-  color: var(--white);
+  color: var(--cream);
 }
 .contato .eyebrow::before {
   filter: brightness(0) invert(1);
@@ -43,6 +43,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0 0.28em;
+  color: var(--ink);
 }
 .contato-w {
   display: inline-block;
@@ -62,7 +63,7 @@
 /* ---------- lista de aulas ---------- */
 .contato-aulas {
   position: relative;
-  border-left: 1.5px solid rgba(255, 253, 250, 0.35);
+  border-left: 1.5px solid rgba(62, 12, 102, 0.35);
 }
 .contato-marcador {
   position: absolute;

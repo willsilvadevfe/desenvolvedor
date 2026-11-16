@@ -10,10 +10,14 @@ import Ballet2 from "./assets/dance/ballet2.webp";
 import Breaking from "./assets/dance/breaking.webp";
 import Contemporanea from "./assets/dance/contemporanea.webp";
 import Sapateado from "./assets/dance/sapateado.webp";
-import Salao from "./assets/dance/salao.webp";
 import Jazz from "./assets/dance/jazz.webp";
 import Ventre from "./assets/dance/ventre.webp";
 import Banner from "./assets/dance/banner.jpg";
+/* PROFESSORES */
+import Professor1 from "./assets/professores/professor1.webp";
+import Professor2 from "./assets/professores/professor2.webp";
+import Professor3 from "./assets/professores/professor3.webp";
+import Professor6 from "./assets/professores/professor6.webp";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 ScrollTrigger.config({ ignoreMobileResize: true }); // evita "pulos" quando a barra do navegador mobile some
@@ -28,7 +32,7 @@ const MENU = [
 
 const IMG = {
   hero1: Ballet2,
-  hero2: Contemporanea,
+  hero2: Ballet,
   about: Ballet,
   banner: Banner,
   aulas: [Ballet2, Jazz, Contemporanea, Breaking, Ventre, Sapateado],
@@ -39,7 +43,10 @@ const AULAS = [
     t: "Ballet Clássico",
     d: "Tradição e beleza em cada movimento, formando bailarinos com técnica, sensibilidade e expressão.",
   },
-  { t: "Jazz", d: "O jazz combina energia, ritmo e expressão corporal, proporcionando movimentos dinâmicos que despertam a criatividade" },
+  {
+    t: "Jazz",
+    d: "O jazz combina energia, ritmo e expressão corporal, proporcionando movimentos dinâmicos que despertam a criatividade",
+  },
   {
     t: "Dança Contemporânea",
     d: "Explore sua liberdade corporal, desenvolva consciência dos movimentos e descubra novas possibilidades artísticas.",
@@ -63,37 +70,37 @@ const PROFESSORES = [
     aula: "Ballet Clássico",
     nome: "Vanessa Campos",
     info: "Seg e Qua · 18h",
-    foto: Breaking,
+    foto: Professor2,
   },
   {
     aula: "Jazz",
     nome: "Mauro Vilela",
     info: "Ter e Qui · 19h",
-    foto: Ballet,
+    foto: Professor6,
   },
   {
     aula: "Breaking Dance",
     nome: "Jonas Souza",
     info: "Seg e Qua · 20h",
-    foto: Ballet,
+    foto: Professor1,
   },
   {
     aula: "Dança Contemporânea",
     nome: "Elizabete Todeschini",
     info: "Sex · 18h",
-    foto: Ballet,
+    foto: Professor3,
   },
   {
     aula: "Sapateado",
-    nome: "Mauro Naves",
+    nome: "Mauro Vilela",
     info: "Sáb · 10h",
-    foto: Ballet,
+    foto: Professor6,
   },
   {
     aula: "Dança do Ventre",
-    nome: "Gabriela Almeida",
+    nome: "Vanessa Campos",
     info: "Ter e Qui · 20h",
-    foto: Ballet,
+    foto: Professor2,
   },
 ];
 
@@ -435,11 +442,7 @@ export default function App() {
           <div className="container">
             <div>
               <span className="eyebrow hero-fade">Escola de Dança</span>
-              <Words
-                as="h1"
-                className="hero-title"
-                text="ESSENZA Studio"
-              />
+              <Words as="h1" className="hero-title" text="ESSENZA Studio" />
               <p className="hero-sub hero-fade">
                 Do primeiro passo à evolução constante, encontre aulas,
                 aprendizado e inspiração para viver a dança no seu próprio
@@ -544,9 +547,13 @@ export default function App() {
 
         {/* BANNER PARALLAX */}
         <section className="banner">
-          <Img src={IMG.banner} alt="Aula de dança de salão" />
           <div className="banner-text container">
             <Words text="A vida tem seu ritmo. Encontre o seu." />
+            <p>
+              Mais do que passos, criamos experiências, despertamos talentos e
+              celebramos a liberdade de se expressar. Do primeiro passo à
+              realização de um sonho, aqui cada movimento conta uma história.
+            </p>
           </div>
         </section>
 
