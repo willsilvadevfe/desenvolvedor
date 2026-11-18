@@ -1,500 +1,297 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, Float, Stars } from "@react-three/drei";
+import { Suspense, useMemo, useRef } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Environment, Float, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import Lenis from "lenis";
-import "lenis/dist/lenis.css";
 import "./App.css";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+const MODEL_URL = "/star.glb";
 
-let lenis = null;
+const reduceMotion =
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// Campo de estrelas em CSS: cada estrela tem um núcleo e um halo de brilho em cores combinadas
-const STAR_COLORS = ["#ffffff", "#bfe9ff", "#ffd9a0", "#c9b8ff", "#9fe3f2"];
-const seeded = (seed) => () => {
-  seed |= 0;
-  seed = (seed + 0x6d2b79f5) | 0;
-  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-};
-const starShadows = (count, seed, core, blur, glow) => {
-  const r = seeded(seed);
-  return Array.from({ length: count }, () => {
-    const c = STAR_COLORS[Math.floor(r() * STAR_COLORS.length)];
-    const x = (r() * 100).toFixed(2);
-    const y = (r() * 125).toFixed(2);
-    return `${x}vw ${y}vh 0 ${core}px ${c}, ${x}vw ${y}vh ${blur}px ${glow}px ${c}66`;
-  }).join(",");
-};
-const STAR_LAYERS = [
-  { cls: "s1", shadow: starShadows(140, 11, 0.5, 4, 0) },
-  { cls: "s2", shadow: starShadows(60, 23, 0.8, 7, 1) },
-  { cls: "s3", shadow: starShadows(14, 37, 1.2, 12, 2) },
+/* =====================================================================
+   MOVIMENTAÇÃO DO COPO  (é aqui que você altera tudo)
+   ---------------------------------------------------------------------
+   Cada item de STOPS é uma "parada": hero, section1, section2, section3
+   e a section final (escura). O copo viaja de uma parada para a próxima
+   conforme você rola a página.
+
+   x       posição horizontal: -1 = esquerda, 0 = meio, 1 = direita
+   y       altura (0 = centro da tela, negativo = mais para baixo)
+   yMobile altura no celular (copo no topo, texto embaixo)
+   scale   tamanho do copo (1 = normal)
+   rot     orientação em VOLTAS (1 = 360°, 0.5 = 180°, 0.25 = 90°)
+             rot.x -> mortal (cambalhota). Cada +1 = 1 mortal
+             rot.y -> giro em torno do próprio eixo (parafuso)
+             rot.z -> inclinação de lado
+
+   Onde o copo PARA, olhando para:
+     rot.y = 0 (ou 1, 2...)  de frente
+     rot.y = 0.25            de lado (esquerda)
+     rot.y = 0.5             de costas
+     rot.y = 0.75            de lado (direita)
+   ===================================================================== */
+const STOPS = [
+  // hero (verde): no meio, de frente
+  { x: 0, y: 0, yMobile: 1.1, scale: 1, rot: { x: 0, y: 0, z: 0 } },
+  // section1 (branca): esquerda
+  { x: -1, y: 0, yMobile: 1.1, scale: 1, rot: { x: 1, y: 0, z: 0 } },
+  // section2 (verde): direita
+  { x: 1, y: 0, yMobile: 1.1, scale: 1, rot: { x: 2, y: 0, z: 0 } },
+  // section3 (branca): esquerda
+  { x: -1, y: 0, yMobile: 1.1, scale: 1, rot: { x: 3, y: 0, z: 0 } },
+  // section final (escura): no meio, menor e mais baixo para não bater no título
+  { x: 0, y: -0.35, yMobile: 0, scale: 0.8, rot: { x: 4, y: 0, z: 0 } },
 ];
 
-// Ajuste aqui o arquivo e a orientação inicial do modelo
-const MODEL_URL = "/voyager1.glb";
-const MODEL_SIZE = 3.4;
-const MODEL_ROTATION = [0, 0, 0];
-const reduceMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)",
-).matches;
-const col = (hex) => {
-  const c = new THREE.Color(hex);
-  return { r: c.r, g: c.g, b: c.b };
-};
+// Correção da orientação do .glb (em voltas). O seu nasce de costas, então 0.5 = gira 180°
+// para o logo ficar de frente. Se o logo aparecer de lado, tente 0.25 ou 0.75.
+const MODEL_YAW = 0.5;
 
-// Trechos entre *asteriscos* ganham o itálico serifado âmbar
-const story = [
-  {
-    side: "right",
-    tag: "Fase 01 · Lançamento",
-    title: "Setembro de 1977",
-    text: "A Voyager 1 deixa a Terra em um foguete Titan–Centaur, com a missão de visitar *Júpiter e Saturno*.",
-  },
-  {
-    side: "left",
-    tag: "Fase 02 · Gigantes",
-    title: "Júpiter e Saturno",
-    text: "Entre 1979 e 1980, a sonda envia as primeiras imagens detalhadas das luas e dos anéis dos *gigantes do sistema solar*.",
-  },
-  {
-    side: "right",
-    tag: "Fase 03 · Retrato",
-    title: "Um ponto azul-claro",
-    text: "Em 1990, a câmera olha para trás e fotografa a Terra como um *ponto minúsculo*, a bilhões de quilômetros.",
-  },
-  {
-    side: "left",
-    tag: "Fase 04 · Fronteira",
-    title: "Além do Sol",
-    text: "Em 2012, a Voyager 1 cruza a heliopausa e se torna a primeira sonda a viajar pelo *espaço interestelar*.",
-  },
-  {
-    side: "right",
-    tag: "Fase 05 · Silêncio",
-    title: "Cada vez mais longe",
-    text: "Seus geradores de plutônio perdem potência aos poucos, e o sinal leva *mais de 20 horas* para chegar à Terra.",
-  },
-];
+const SIDE = 0.26; // quão longe das bordas o copo para (fração da largura da tela)
+const DIP = 0.9; // quanto ele desce no meio da transição (0 = não desce)
+const SMOOTH = 5; // suavidade: menor = mais "preguiçoso", maior = mais colado ao scroll
+const TURN = Math.PI * 2; // não mexer: converte "voltas" em radianos
 
-const rich = (t) =>
-  t.split("*").map((p, i) => (i % 2 ? <em key={i}>{p}</em> : p));
+// Progresso do scroll de 0 (topo) a 1 (fim da página)
+function getScrollProgress() {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  return max > 0 ? THREE.MathUtils.clamp(window.scrollY / max, 0, 1) : 0;
+}
 
-// Uma etapa por fase: a sonda cruza a tela na horizontal e na vertical, mostrando lados diferentes
-const steps = (dx, dy, va) => [
-  {
-    x: -dx,
-    y: dy + va,
-    rx: 0.8,
-    ry: 1.1,
-    rz: 0.15,
-    bg: "#010309",
-    key: "#9fe3f2",
-    rim: "#e8a15a",
-  },
-  {
-    x: dx,
-    y: dy - va,
-    rx: -0.8,
-    ry: -1.2,
-    rz: -0.15,
-    bg: "#000308",
-    key: "#8fa2ff",
-    rim: "#7fd8e8",
-  },
-  {
-    x: -dx,
-    y: dy + va * 0.8,
-    rx: 0.45,
-    ry: 1.3,
-    rz: 0.1,
-    bg: "#04020a",
-    key: "#9fe3f2",
-    rim: "#e8a15a",
-  },
-  {
-    x: dx,
-    y: dy - va * 0.8,
-    rx: -0.6,
-    ry: -1.3,
-    rz: -0.1,
-    bg: "#01070a",
-    key: "#7fe8d0",
-    rim: "#5a6bb0",
-  },
-  {
-    x: -dx,
-    y: dy + va,
-    rx: 0.7,
-    ry: 0.9,
-    rz: 0.12,
-    bg: "#02030a",
-    key: "#9fe3f2",
-    rim: "#e8a15a",
-  },
-  {
-    x: 0,
-    y: 0.1,
-    rx: 0.2,
-    ry: 0,
-    rz: 0,
-    bg: "#000103",
-    key: "#e8a15a",
-    rim: "#7fd8e8",
-  },
-];
-
-// Órbita de brilho suave: halos largos e quase transparentes, sem fio central
-function Orbit({ radius, rotation, color, strength = 1 }) {
-  const layers = [
-    { tube: 0.05, opacity: 0.07 },
-    { tube: 0.14, opacity: 0.04 },
-    { tube: 0.28, opacity: 0.022 },
-    { tube: 0.5, opacity: 0.012 },
-  ];
+/* Detalhe gráfico que fica sob o copo: anéis finos + um traço em meia-lua.
+   A cor vem do CSS (currentColor), o ponto dourado usa --gold. */
+function Orbit({ side }) {
   return (
-    <group rotation={rotation}>
-      {layers.map((l, i) => (
-        <mesh key={i}>
-          <torusGeometry args={[radius, l.tube, 16, 220]} />
-          <meshBasicMaterial
-            color={color}
-            transparent
-            opacity={l.opacity * strength}
-            blending={THREE.AdditiveBlending}
-            depthWrite={false}
-            toneMapped={false}
-          />
-        </mesh>
-      ))}
-    </group>
+    <svg
+      className={`orbit orbit-${side}`}
+      viewBox="0 0 600 600"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g fill="none" stroke="currentColor" strokeLinecap="round">
+        <circle
+          cx="300"
+          cy="300"
+          r="235"
+          strokeWidth="2.5"
+          strokeDasharray="1130 347"
+          transform="rotate(-35 300 300)"
+        />
+        <circle
+          cx="300"
+          cy="300"
+          r="190"
+          strokeWidth="1.5"
+          strokeDasharray="640 554"
+          opacity="0.55"
+          transform="rotate(110 300 300)"
+        />
+      </g>
+      <path
+        d="M28 440 C170 548 380 556 576 372 C392 506 186 500 28 440 Z"
+        fill="currentColor"
+      />
+      <circle cx="576" cy="372" r="9" fill="var(--gold)" />
+    </svg>
   );
 }
 
-// [anel, eixo, quanto]: nem todo anel se move em todo passo, e alguns vão contra a sonda
-const RING_MOVES = [
-  [
-    [0, "y", -0.8],
-    [2, "y", 0.5],
-  ],
-  [
-    [0, "y", 0.8],
-    [1, "y", 0.7],
-  ],
-  [
-    [1, "y", -0.7],
-    [2, "x", -0.4],
-  ],
-  [
-    [0, "y", 0.7],
-    [2, "y", 0.6],
-    [1, "x", 0.3],
-  ],
-  [
-    [0, "y", -0.6],
-    [1, "y", -0.5],
-    [2, "x", -0.3],
-  ],
-  [
-    [0, "y", 0.4],
-    [1, "y", -0.4],
-  ],
-];
-
-function Rover() {
-  const stage = useRef();
-  const tilt = useRef();
-  const sky = useRef();
-  const orbits = useRef();
-  const ringsRoot = useRef();
-  const key = useRef();
-  const rim = useRef();
+function Cup() {
+  const group = useRef();
   const { scene } = useGLTF(MODEL_URL);
+  const { viewport, size } = useThree();
+  const isMobile = size.width < 768;
 
-  const { scale, offset } = useMemo(() => {
-    const box = new THREE.Box3().setFromObject(scene);
-    const size = box.getSize(new THREE.Vector3()).length();
-    return {
-      scale: MODEL_SIZE / size,
-      offset: box.getCenter(new THREE.Vector3()).negate(),
-    };
+  // Centraliza o modelo na origem e normaliza o tamanho, qualquer que seja o .glb
+  const { object, scale } = useMemo(() => {
+    const clone = scene.clone(true);
+    const box = new THREE.Box3().setFromObject(clone);
+    const dims = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+    clone.position.sub(center);
+    return { object: clone, scale: 3 / Math.max(dims.x, dims.y, dims.z) };
   }, [scene]);
 
-  useGSAP(() => {
-    const g = stage.current;
-    const og = ringsRoot.current;
-    const rings = orbits.current.children;
-    const mobile = window.innerWidth < 768;
-    const dx = mobile ? 0 : 1.8;
-    const dy = mobile ? 1.5 : 0;
-    g.rotation.set(0.15, -0.6, 0);
+  useFrame((_, delta) => {
+    const g = group.current;
+    if (!g) return;
 
-    const tl = gsap.timeline({
-      defaults: { ease: "power1.inOut", duration: 1 },
-      scrollTrigger: {
-        trigger: ".page",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: reduceMotion ? true : 1,
-      },
-    });
+    // Em qual trecho estamos (i) e quanto já andamos dele (e, de 0 a 1)
+    const p = getScrollProgress() * (STOPS.length - 1);
+    const i = Math.min(Math.floor(p), STOPS.length - 2);
+    const e = THREE.MathUtils.smootherstep(p - i, 0, 1);
+    const a = STOPS[i];
+    const b = STOPS[i + 1];
+    const mix = THREE.MathUtils.lerp;
 
-    steps(dx, dy, mobile ? 0.35 : 0.9).forEach((s, i) => {
-      tl.to(g.position, { x: s.x, y: s.y }, i)
-        .to(g.rotation, { x: s.rx, y: s.ry, z: s.rz }, i)
-        .to(og.position, { x: s.x, y: s.y }, i)
-        .to(".stage", { backgroundColor: s.bg }, i)
-        .to(key.current.color, col(s.key), i)
-        .to(rim.current.color, col(s.rim), i);
-    });
-    tl.to(g.scale, { x: 1.2, y: 3, z: 1.2 }, 5);
-    tl.to(og.scale, { x: 1.2, y: 2, z: 1.2 }, 5);
-    RING_MOVES.forEach((list, i) =>
-      list.forEach(([k, axis, d]) =>
-        tl.to(rings[k].rotation, { [axis]: `+=${d}` }, i),
-      ),
+    // Posição
+    const targetX = isMobile ? 0 : mix(a.x, b.x, e) * viewport.width * SIDE;
+    const ya = isMobile ? a.yMobile : a.y;
+    const yb = isMobile ? b.yMobile : b.y;
+    const targetY = mix(ya, yb, e) - Math.sin(e * Math.PI) * DIP; // desce no meio do trecho
+
+    // Tamanho
+    const targetScale = mix(a.scale, b.scale, e);
+
+    // Rotação (mortal + parafuso + inclinação)
+    const targetRotX = mix(a.rot.x, b.rot.x, e) * TURN;
+    const targetRotY = mix(a.rot.y, b.rot.y, e) * TURN;
+    const targetRotZ = mix(a.rot.z, b.rot.z, e) * TURN;
+
+    g.position.x = THREE.MathUtils.damp(g.position.x, targetX, SMOOTH, delta);
+    g.position.y = THREE.MathUtils.damp(g.position.y, targetY, SMOOTH, delta);
+    g.scale.setScalar(
+      THREE.MathUtils.damp(g.scale.x, targetScale, SMOOTH, delta),
     );
-
-    const line = { duration: 6, ease: "none" };
-    const h = window.innerHeight;
-    tl.to(sky.current.rotation, { y: 0.3, x: 0.05, ...line }, 0)
-      .to(".orb-a", { xPercent: 30, yPercent: 10, ...line }, 0)
-      .to(".orb-b", { xPercent: -50, yPercent: -30, ...line }, 0)
-      .to(".bar", { scaleX: 3, ...line }, 0)
-      .to(".s1", { y: -h * 0.09, ...line }, 0)
-      .to(".s2", { y: -h * 0.2, ...line }, 0)
-      .to(".s3", { y: -h * 0.26, ...line }, 0);
-  });
-
-  useFrame((s, dt) => {
-    const t = tilt.current;
-    t.rotation.y = THREE.MathUtils.damp(
-      t.rotation.y,
-      s.pointer.x * 0.35,
-      3,
-      dt,
+    g.rotation.x = THREE.MathUtils.damp(
+      g.rotation.x,
+      targetRotX,
+      SMOOTH,
+      delta,
     );
-    t.rotation.x = THREE.MathUtils.damp(
-      t.rotation.x,
-      -s.pointer.y * 0.05,
-      3,
-      dt,
+    g.rotation.y = THREE.MathUtils.damp(
+      g.rotation.y,
+      targetRotY,
+      SMOOTH,
+      delta,
     );
-    orbits.current.children.forEach(
-      (o, i) => (o.rotation.z += dt * (0.09 + i * 0.08) * (i % 2 ? -1 : 1)),
+    g.rotation.z = THREE.MathUtils.damp(
+      g.rotation.z,
+      targetRotZ,
+      SMOOTH,
+      delta,
     );
   });
+
+  const fit = (isMobile ? 0.62 : 1) * scale;
 
   return (
-    <>
-      <hemisphereLight args={["#9fb4ff", "#03040a", 0.22]} />
-      <directionalLight
-        ref={key}
-        position={[4, 3, 4]}
-        intensity={1.5}
-        color="#9fe3f2"
-      />
-      <directionalLight
-        ref={rim}
-        position={[-5, 1, -3]}
-        intensity={0.9}
-        color="#e8a15a"
-      />
-
-      <group ref={sky}>
-        <Stars
-          radius={60}
-          depth={45}
-          count={2200}
-          factor={3}
-          saturation={0}
-          fade
-          speed={0.5}
-        />
-      </group>
-
-      {/* Anéis independentes: acompanham a posição da sonda, mas giram por conta própria */}
-      <group ref={ringsRoot} position={[0, -0.2, 0]} scale={1.15}>
-        <group ref={orbits}>
-          <Orbit radius={3.9} rotation={[0.75, 0.3, 0]} color="#4a6ad0" />
-          <Orbit
-            radius={4.8}
-            rotation={[0.55, -0.6, 0.4]}
-            color="#7a5ac8"
-            strength={0.8}
-          />
-          <Orbit
-            radius={6}
-            rotation={[0.9, 0.9, -0.3]}
-            color="#2f7f9a"
-            strength={0.7}
-          />
+    <group ref={group}>
+      <Float
+        speed={reduceMotion ? 0 : 1.6}
+        rotationIntensity={0}
+        floatIntensity={reduceMotion ? 0 : 0.9}
+        floatingRange={[-0.12, 0.12]}
+      >
+        <group scale={fit} rotation-y={MODEL_YAW * TURN}>
+          <primitive object={object} />
         </group>
-      </group>
-
-      <group ref={stage} position={[0, -0.2, 0]} scale={1.15}>
-        <group ref={tilt}>
-          <Float speed={1.4} rotationIntensity={0.15} floatIntensity={0.5}>
-            <group scale={scale} rotation={MODEL_ROTATION}>
-              <primitive object={scene} position={offset} />
-            </group>
-          </Float>
-        </group>
-      </group>
-    </>
+      </Float>
+    </group>
   );
 }
 
 useGLTF.preload(MODEL_URL);
 
-function Clock() {
-  const [t, setT] = useState(() => new Date());
-  useEffect(() => {
-    const id = setInterval(() => setT(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
-  return <span>UTC {t.toISOString().slice(11, 19)}</span>;
-}
-
 export default function App() {
-  // Rolagem suave (Lenis) sincronizada com o GSAP e o ScrollTrigger
-  useEffect(() => {
-    if (reduceMotion) return;
-    lenis = new Lenis({ lerp: 0.07, wheelMultiplier: 0.9 });
-    lenis.on("scroll", ScrollTrigger.update);
-    const tick = (time) => lenis.raf(time * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
-    return () => {
-      gsap.ticker.remove(tick);
-      lenis.destroy();
-      lenis = null;
-    };
-  }, []);
-
-  useGSAP(() => {
-    gsap.to(".hero-word", {
-      yPercent: -25,
-      opacity: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".panel-0",
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
-    if (reduceMotion) return;
-    gsap.utils.toArray(".panel").forEach((panel) => {
-      gsap.from(panel.querySelectorAll(".rv"), {
-        opacity: 0,
-        y: 40,
-        filter: "blur(8px)",
-        stagger: 0.12,
-        duration: 0.9,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: panel,
-          start: "top 55%",
-          toggleActions: "play none none reverse",
-        },
-      });
-    });
-  });
-
   return (
-    <>
-      <div className="stage">
-        <div className="orb orb-a" />
-        <div className="orb orb-b" />
-        <div className="flare" />
-        {STAR_LAYERS.map((l) => (
-          <i
-            key={l.cls}
-            className={`star ${l.cls}`}
-            style={{ boxShadow: l.shadow }}
-          />
-        ))}
-      </div>
-      <div className="grade" />
-      <div className="grain" />
-      <div className="scan" />
-      <div className="bar" />
-
-      <header className="hud">
-        <span className="corner">Voyager 1 · Espaço interestelar</span>
-        <span className="live">
-          <i /> Telemetria ativa
-        </span>
-        <Clock />
+    <div className="app">
+      <header className="header">
+        <a href="#inicio" className="brand">
+          <span className="brand-mark" aria-hidden="true" />
+          <span className="brand-name">Starbucks Café</span>
+        </a>
+        <nav className="nav" aria-label="Principal">
+          <a href="#graos">Grãos</a>
+          <a href="#experiencia">Experiência</a>
+          <a href="#cardapio">Cardápio</a>
+          <a href="#visite">Visite</a>
+        </nav>
       </header>
 
-      <Canvas
-        className="canvas"
-        camera={{ position: [0, 0, 6.7], fov: 35 }}
-        dpr={[1, 1.75]}
-        gl={{ alpha: true, antialias: true }}
-        eventSource={document.body}
-        eventPrefix="client"
-      >
-        <Suspense fallback={null}>
-          <Rover />
-        </Suspense>
-      </Canvas>
+      <div className="canvas-wrap" aria-hidden="true">
+        <Canvas camera={{ position: [0, 0, 8], fov: 40 }} dpr={[1, 2]}>
+          <ambientLight intensity={0.8} />
+          <directionalLight position={[4, 5, 6]} intensity={2} />
+          <Suspense fallback={null}>
+            <Cup />
+            <Environment preset="apartment" />
+          </Suspense>
+        </Canvas>
+      </div>
 
-      <main className="page">
-        <section className="panel panel-0">
-          <p className="rv eyebrow">Diário de uma sonda perdida no espaço</p>
-          <h1 className="hero-word" data-text="VOYAGER">
-            Voyager
-          </h1>
-          <p className="rv lead">
-            A história da Voyager 1, a sonda que <em>nunca parou de ir</em>.
-          </p>
-          <div className="cue">
-            <i />
-            Role para acompanhar
+      <main>
+        <section id="inicio" className="hero">
+          <div className="content hero-content">
+            <h1 className="hero-title">
+              Um café feito com calma para o seu dia começar bem.
+            </h1>
+            <div className="hero-side">
+              <p>
+                Grãos arábica selecionados, torra no ponto e um atendimento que
+                lembra o seu nome. Entre, escolha uma mesa e fique o tempo que
+                quiser.
+              </p>
+              <a href="#visite" className="btn btn-gold">
+                Encontrar uma loja
+              </a>
+            </div>
           </div>
         </section>
 
-        {story.map((s) => (
-          <section key={s.title} className={`panel ${s.side}`}>
-            <div className="copy">
-              <p className="rv tag">{s.tag}</p>
-              <h2 className="rv">{s.title}</h2>
-              <p className="rv">{rich(s.text)}</p>
+        <section id="graos" className="section section-white">
+          <Orbit side="left" />
+          <div className="content content-right">
+            <div className="text-block">
+              <h2>Grãos escolhidos um a um</h2>
+              <p>
+                Trabalhamos com fazendas parceiras e acompanhamos cada lote, da
+                colheita à torra. O resultado é um café encorpado, com notas de
+                chocolate e castanhas, que mantém o mesmo sabor em todas as
+                lojas.
+              </p>
+              <a href="#experiencia" className="btn btn-green">
+                Conhecer a torra
+              </a>
             </div>
-          </section>
-        ))}
+          </div>
+        </section>
 
-        <section className="panel end">
-          <div className="copy">
-            <p className="rv tag">Fase 06 · Mensagem</p>
-            <h2 className="rv">Um disco de ouro a caminho das estrelas</h2>
-            <p className="rv">
-              A bordo, o Disco de Ouro guarda sons e imagens da Terra para quem
-              um dia o encontrar. Ela segue em frente,{" "}
-              <em>sozinha e em silêncio</em>.
-            </p>
-            <button
-              className="rv cta"
-              onClick={() =>
-                lenis
-                  ? lenis.scrollTo(0, { duration: 2.5 })
-                  : window.scrollTo({ top: 0, behavior: "smooth" })
-              }
-            >
-              Rever a viagem
-            </button>
+        <section id="experiencia" className="section section-green">
+          <Orbit side="right" />
+          <div className="content content-left">
+            <div className="text-block">
+              <h2>Do balcão até a sua mesa</h2>
+              <p>
+                Peça pelo aplicativo, retire sem fila ou sente com um livro. Seu
+                café sai quente, no tamanho que você escolher, com leite do
+                jeito que você preferir.
+              </p>
+              <a href="#cardapio" className="btn btn-gold">
+                Fazer meu pedido
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="cardapio" className="section section-white">
+          <Orbit side="left" />
+          <div className="content content-right">
+            <div className="text-block">
+              <h2>Receitas para cada momento</h2>
+              <p>
+                Do espresso clássico aos frapês gelados, o cardápio muda com as
+                estações. Experimente a edição da estação e descubra o seu novo
+                favorito.
+              </p>
+              <a href="#visite" className="btn btn-green">
+                Ver o cardápio
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="visite" className="section section-dark">
+          <div className="content content-center">
+            <h2>Seu próximo café já está esperando</h2>
+            <a href="#inicio" className="btn btn-gold">
+              Ver lojas perto de mim
+            </a>
           </div>
         </section>
       </main>
-    </>
+    </div>
   );
 }
