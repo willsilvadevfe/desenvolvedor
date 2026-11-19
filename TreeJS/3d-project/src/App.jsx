@@ -1,4 +1,4 @@
-import { Suspense, useMemo, useRef } from "react";
+import { Suspense, useId, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Float, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
@@ -60,40 +60,114 @@ function getScrollProgress() {
   return max > 0 ? THREE.MathUtils.clamp(window.scrollY / max, 0, 1) : 0;
 }
 
-/* Detalhe gráfico que fica sob o copo: anéis finos + um traço em meia-lua.
-   A cor vem do CSS (currentColor), o ponto dourado usa --gold. */
-function Orbit({ side }) {
+/* =====================================================================
+   DETALHES GRÁFICOS DAS SECTIONS (ficam sob o copo)
+   A cor vem do CSS (currentColor). O ponto dourado usa --gold.
+   ===================================================================== */
+
+/* Selo de torrefação: texto em círculo girando devagar + anéis finos */
+const BADGE_TEXT =
+  "ARÁBICA SELECIONADO • TORRA NO PONTO • FEITO COM CALMA • ";
+
+function Badge({ side }) {
+  // id único por selo, para o <textPath> não se confundir quando há mais de um
+  const id = useId().replace(/[^a-zA-Z0-9]/g, "");
+
   return (
     <svg
-      className={`orbit orbit-${side}`}
+      className={`orbit orbit-${side} badge`}
       viewBox="0 0 600 600"
+      overflow="visible"
       aria-hidden="true"
       focusable="false"
     >
-      <g fill="none" stroke="currentColor" strokeLinecap="round">
-        <circle
-          cx="300"
-          cy="300"
-          r="235"
-          strokeWidth="2.5"
-          strokeDasharray="1130 347"
-          transform="rotate(-35 300 300)"
+      <defs>
+        <path
+          id={`badge-path-${id}`}
+          d="M300 300 m-215 0 a215 215 0 1 1 430 0 a215 215 0 1 1 -430 0"
         />
-        <circle
-          cx="300"
-          cy="300"
-          r="190"
-          strokeWidth="1.5"
-          strokeDasharray="640 554"
-          opacity="0.55"
-          transform="rotate(110 300 300)"
-        />
+      </defs>
+
+      <g fill="none" stroke="currentColor" opacity="0.5">
+        <circle cx="300" cy="300" r="262" strokeWidth="1.5" />
+        <circle cx="300" cy="300" r="168" strokeWidth="1.5" />
       </g>
-      <path
-        d="M28 440 C170 548 380 556 576 372 C392 506 186 500 28 440 Z"
-        fill="currentColor"
-      />
-      <circle cx="576" cy="372" r="9" fill="var(--gold)" />
+
+      <g>
+        {!reduceMotion && (
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            from="0 300 300"
+            to="360 300 300"
+            dur="45s"
+            repeatCount="indefinite"
+          />
+        )}
+        <text fill="currentColor" fontSize="32" fontWeight="600">
+          <textPath
+            href={`#badge-path-${id}`}
+            textLength="1346"
+            lengthAdjust="spacing"
+          >
+            {BADGE_TEXT}
+          </textPath>
+        </text>
+      </g>
+
+      <circle cx="300" cy="38" r="9" fill="var(--gold)" />
+    </svg>
+  );
+}
+
+/* Grãos de café flutuando ao redor do copo
+   Todos ficam dentro da área segura do viewBox (margem de ~70) para não cortar */
+const BEANS = [
+  { x: 130, y: 150, rot: -30, s: 0.95 },
+  { x: 455, y: 120, rot: 25, s: 0.7 },
+  { x: 480, y: 340, rot: -50, s: 1 },
+  { x: 150, y: 440, rot: 40, s: 0.8 },
+  { x: 330, y: 500, rot: 70, s: 0.55 },
+];
+
+function Beans({ side }) {
+  return (
+    <svg
+      className={`orbit orbit-${side} beans`}
+      viewBox="0 0 600 600"
+      overflow="visible"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {BEANS.map((b, i) => (
+        <g key={i}>
+          {!reduceMotion && (
+            <animateTransform
+              attributeName="transform"
+              type="translate"
+              values="0 0; 0 -12; 0 0"
+              keyTimes="0; 0.5; 1"
+              calcMode="spline"
+              keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
+              begin={`${i * 0.7}s`}
+              dur="6s"
+              repeatCount="indefinite"
+            />
+          )}
+          <g
+            transform={`translate(${b.x} ${b.y}) rotate(${b.rot}) scale(${b.s})`}
+          >
+            <ellipse rx="34" ry="50" fill="currentColor" />
+            <path
+              d="M0 -46 C-14 -16 14 16 0 46"
+              fill="none"
+              stroke="var(--bean-cut)"
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
+          </g>
+        </g>
+      ))}
     </svg>
   );
 }
@@ -190,7 +264,11 @@ export default function App() {
     <div className="app">
       <header className="header">
         <a href="#inicio" className="brand">
-          <span className="brand-mark" aria-hidden="true" />
+          <img
+            src="/star-logo.png"
+            alt="Logo Starbucks"
+            className="brand-logo"
+          />
           <span className="brand-name">Starbucks Café</span>
         </a>
         <nav className="nav" aria-label="Principal">
@@ -232,7 +310,7 @@ export default function App() {
         </section>
 
         <section id="graos" className="section section-white">
-          <Orbit side="left" />
+          <Badge side="left" />
           <div className="content content-right">
             <div className="text-block">
               <h2>Grãos escolhidos um a um</h2>
@@ -250,7 +328,7 @@ export default function App() {
         </section>
 
         <section id="experiencia" className="section section-green">
-          <Orbit side="right" />
+          <Beans side="right" />
           <div className="content content-left">
             <div className="text-block">
               <h2>Do balcão até a sua mesa</h2>
@@ -267,7 +345,7 @@ export default function App() {
         </section>
 
         <section id="cardapio" className="section section-white">
-          <Orbit side="left" />
+          <Badge side="left" />
           <div className="content content-right">
             <div className="text-block">
               <h2>Receitas para cada momento</h2>
