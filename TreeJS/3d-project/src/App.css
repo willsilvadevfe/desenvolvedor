@@ -134,6 +134,7 @@ a:focus-visible {
 /* ---------- Seções ---------- */
 .hero,
 .section {
+  z-index: -1;
   position: relative;
   min-height: 100vh;
   min-height: 100svh;
@@ -355,7 +356,6 @@ a:focus-visible {
 }
 
 @media (max-width: 768px) {
- 
   .brand-logo {
     height: 36px;
   }
