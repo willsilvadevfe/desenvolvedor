@@ -1,10 +1,16 @@
-import { Suspense, useId, useMemo, useRef } from "react";
+import { Suspense, useEffect, useId, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Float, useGLTF } from "@react-three/drei";
+import {
+  Environment,
+  Float,
+  Preload,
+  useGLTF,
+  useProgress,
+} from "@react-three/drei";
 import * as THREE from "three";
 import "./App.css";
 
-const MODEL_URL = "/star.glb";
+const MODEL_URL = "/star-opt.glb";
 
 const reduceMotion =
   typeof window !== "undefined" &&
@@ -66,8 +72,7 @@ function getScrollProgress() {
    ===================================================================== */
 
 /* Selo de torrefação: texto em círculo girando devagar + anéis finos */
-const BADGE_TEXT =
-  "ARÁBICA SELECIONADO • TORRA NO PONTO • FEITO COM CALMA • ";
+const BADGE_TEXT = "ARÁBICA SELECIONADO • TORRA NO PONTO • FEITO COM CALMA • ";
 
 function Badge({ side }) {
   // id único por selo, para o <textPath> não se confundir quando há mais de um
@@ -172,8 +177,51 @@ function Beans({ side }) {
   );
 }
 
-function Cup() {
+/* =====================================================================
+   TELA DE CARREGAMENTO
+   Cobre a página até o .glb (e o ambiente de luz) estarem carregados
+   E o copo ter renderizado alguns frames. Depois faz fade-out.
+   ===================================================================== */
+function Loader({ ready }) {
+  const { progress } = useProgress();
+  const [gone, setGone] = useState(false);
+
+  // Trava o scroll enquanto carrega e remove o loader depois do fade-out
+  useEffect(() => {
+    if (!ready) {
+      document.body.style.overflow = "hidden";
+      return;
+    }
+    document.body.style.overflow = "";
+    const t = setTimeout(() => setGone(true), 800);
+    return () => clearTimeout(t);
+  }, [ready]);
+
+  if (gone) return null;
+
+  const pct = Math.round(ready ? 100 : progress);
+
+  return (
+    <div
+      className={`loader ${ready ? "is-hidden" : ""}`}
+      role="status"
+      aria-live="polite"
+    >
+      <img src="/star-logo.png" alt="" className="loader-logo" />
+      <div className="loader-bar">
+        <span style={{ transform: `scaleX(${pct / 100})` }} />
+      </div>
+      <span className="loader-text">Preparando seu café… {pct}%</span>
+    </div>
+  );
+}
+
+function Cup({ onReady }) {
   const group = useRef();
+  const intro = useRef(); // grupo da animação de entrada
+  const frames = useRef(0);
+  const shown = useRef(false);
+  const appear = useRef(reduceMotion ? 1 : 0); // 0 = escondido, 1 = visível
   const { scene } = useGLTF(MODEL_URL);
   const { viewport, size } = useThree();
   const isMobile = size.width < 768;
@@ -191,6 +239,24 @@ function Cup() {
   useFrame((_, delta) => {
     const g = group.current;
     if (!g) return;
+
+    // Entrada suave: espera 3 frames renderizados, avisa a página (tira o
+    // loader) e faz o copo "nascer" girando e crescendo
+    if (!shown.current && ++frames.current >= 3) {
+      shown.current = true;
+      onReady?.();
+    }
+    appear.current = THREE.MathUtils.damp(
+      appear.current,
+      shown.current ? 1 : 0,
+      3.5,
+      delta,
+    );
+    const k = reduceMotion ? 1 : appear.current;
+    if (intro.current) {
+      intro.current.scale.setScalar(Math.max(k, 0.0001));
+      intro.current.rotation.y = (1 - k) * Math.PI;
+    }
 
     // Em qual trecho estamos (i) e quanto já andamos dele (e, de 0 a 1)
     const p = getScrollProgress() * (STOPS.length - 1);
@@ -243,16 +309,18 @@ function Cup() {
 
   return (
     <group ref={group}>
-      <Float
-        speed={reduceMotion ? 0 : 1.6}
-        rotationIntensity={0}
-        floatIntensity={reduceMotion ? 0 : 0.9}
-        floatingRange={[-0.12, 0.12]}
-      >
-        <group scale={fit} rotation-y={MODEL_YAW * TURN}>
-          <primitive object={object} />
-        </group>
-      </Float>
+      <group ref={intro}>
+        <Float
+          speed={reduceMotion ? 0 : 1.6}
+          rotationIntensity={0}
+          floatIntensity={reduceMotion ? 0 : 0.9}
+          floatingRange={[-0.12, 0.12]}
+        >
+          <group scale={fit} rotation-y={MODEL_YAW * TURN}>
+            <primitive object={object} />
+          </group>
+        </Float>
+      </group>
     </group>
   );
 }
@@ -260,8 +328,21 @@ function Cup() {
 useGLTF.preload(MODEL_URL);
 
 export default function App() {
+  const [ready, setReady] = useState(false);
+
+  // Segurança: se algo falhar no carregamento, libera a página após 15s
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), 15000);
+    return () => clearTimeout(t);
+  }, []);
+
+  function infoDev() {
+    alert("willian");
+  }
+
   return (
     <div className="app">
+      <Loader ready={ready} />
       <header className="header">
         <a href="#inicio" className="brand">
           <img
@@ -284,8 +365,9 @@ export default function App() {
           <ambientLight intensity={0.8} />
           <directionalLight position={[4, 5, 6]} intensity={2} />
           <Suspense fallback={null}>
-            <Cup />
+            <Cup onReady={() => setReady(true)} />
             <Environment preset="apartment" />
+            <Preload all />
           </Suspense>
         </Canvas>
       </div>
@@ -320,7 +402,10 @@ export default function App() {
                 chocolate e castanhas, que mantém o mesmo sabor em todas as
                 lojas.
               </p>
-              <a href="#experiencia" className="btn btn-green">
+              <a
+                href="#experiencia"
+                className="btn btn-green"
+              >
                 Conhecer a torra
               </a>
             </div>

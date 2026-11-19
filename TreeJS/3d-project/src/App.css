@@ -178,7 +178,7 @@ a:focus-visible {
 
 .hero-title {
   max-width: 13ch;
-  font-size: clamp(2rem, 5vw, 4.6rem);
+  font-size: clamp(1.8rem, 5vw, 4.6rem);
 }
 
 .hero-side {
@@ -186,7 +186,7 @@ a:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.6rem;
+  gap: 1rem;
 }
 
 /* Sections 1 e 2: texto de um lado, copo do outro */
@@ -289,9 +289,11 @@ a:focus-visible {
 
 /* =====================================================================
    DETALHES DAS SECTIONS: selo giratório (Badge) e grãos (Beans)
-   Cole este bloco NO FINAL do seu App.css.
+   Cole este bloco NO FINAL do seu App.css (substitua a versão anterior).
    Não apague as regras .orbit, .orbit-left e .orbit-right que você já
-   tem: elas continuam cuidando do tamanho e da posição.
+   tem: elas continuam cuidando da posição.
+   As animações agora são feitas dentro do próprio SVG (no App.jsx),
+   então aqui só ficam cores, tamanho e o logo do header.
    ===================================================================== */
 
 /* Cores por seção (o SVG usa currentColor) */
@@ -304,7 +306,7 @@ a:focus-visible {
 }
 
 .section-green {
-  --bean-cut: var(--green); /* troque pelo verde de fundo da sua section */
+  --bean-cut: #00704a; /* troque pelo verde de fundo da sua section */
 }
 
 .section-green .orbit {
@@ -312,33 +314,106 @@ a:focus-visible {
 }
 
 /* Deixa como cenário, sem competir com o copo e com o texto */
-.badge,
-.beans {
+.orbit.badge,
+.orbit.beans {
   opacity: 0.6;
+  overflow: visible;
 }
 
-/* Selo: giro lento */
-.badge-spin {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: badge-rotate 45s linear infinite;
+/* Tamanho dos grãos: menor que o selo, para não vazar da tela.
+   Se ainda cortar, diminua o 460px; se ficar pequeno, aumente. */
+.orbit.beans {
+  width: min(460px, 80vw);
+  max-width: 100%;
 }
 
-@keyframes badge-rotate {
-  to {
-    transform: rotate(360deg);
+/* Logo do header */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .brand-logo {
+    height: 36px;
   }
 }
 
-/* Grãos: flutuação leve, cada um com um atraso */
-.bean {
-  animation: bean-float 6s ease-in-out infinite;
-  animation-delay: var(--d);
+/* =====================================================================
+   TELA DE CARREGAMENTO (loader)
+   ===================================================================== */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: var(--green, #00704a); /* use o verde do seu hero */
+  color: #fff;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.7s ease,
+    visibility 0s linear 0s;
 }
 
-@keyframes bean-float {
+.loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.7s ease,
+    visibility 0s linear 0.7s;
+}
+
+.loader-logo {
+  width: 84px;
+  height: auto;
+  animation: loader-pulse 1.6s ease-in-out infinite;
+}
+
+.loader-bar {
+  width: min(240px, 60vw);
+  height: 3px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.loader-bar span {
+  display: block;
+  height: 100%;
+  background: var(--gold, #cba258);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.loader-text {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+}
+
+@keyframes loader-pulse {
   50% {
-    transform: translateY(-10px);
+    transform: scale(1.06);
+    opacity: 0.8;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-logo {
+    animation: none;
   }
 }
 
