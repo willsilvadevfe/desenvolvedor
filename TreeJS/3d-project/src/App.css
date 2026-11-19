@@ -172,12 +172,12 @@ a:focus-visible {
 /* Hero: título à esquerda, texto à direita, copo livre no centro */
 .hero-content {
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .hero-title {
   max-width: 13ch;
-  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  font-size: clamp(2rem, 5vw, 4.6rem);
 }
 
 .hero-side {
@@ -288,11 +288,9 @@ a:focus-visible {
 
 /* =====================================================================
    DETALHES DAS SECTIONS: selo giratório (Badge) e grãos (Beans)
-   Cole este bloco NO FINAL do seu App.css (substitua a versão anterior).
+   Cole este bloco NO FINAL do seu App.css.
    Não apague as regras .orbit, .orbit-left e .orbit-right que você já
-   tem: elas continuam cuidando da posição.
-   As animações agora são feitas dentro do próprio SVG (no App.jsx),
-   então aqui só ficam cores, tamanho e o logo do header.
+   tem: elas continuam cuidando do tamanho e da posição.
    ===================================================================== */
 
 /* Cores por seção (o SVG usa currentColor) */
@@ -305,7 +303,7 @@ a:focus-visible {
 }
 
 .section-green {
-  --bean-cut: #00704a; /* troque pelo verde de fundo da sua section */
+  --bean-cut: var(--green); /* troque pelo verde de fundo da sua section */
 }
 
 .section-green .orbit {
@@ -313,35 +311,33 @@ a:focus-visible {
 }
 
 /* Deixa como cenário, sem competir com o copo e com o texto */
-.orbit.badge,
-.orbit.beans {
+.badge,
+.beans {
   opacity: 0.6;
-  overflow: visible;
 }
 
-/* Tamanho dos grãos: menor que o selo, para não vazar da tela.
-   Se ainda cortar, diminua o 460px; se ficar pequeno, aumente. */
-.orbit.beans {
-  width: min(460px, 80vw);
-  max-width: 100%;
+/* Selo: giro lento */
+.badge-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: badge-rotate 45s linear infinite;
 }
 
-/* Logo do header */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+@keyframes badge-rotate {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.brand-logo {
-  height: 44px;
-  width: auto;
-  display: block;
+/* Grãos: flutuação leve, cada um com um atraso */
+.bean {
+  animation: bean-float 6s ease-in-out infinite;
+  animation-delay: var(--d);
 }
 
-@media (max-width: 768px) {
-  .brand-logo {
-    height: 36px;
+@keyframes bean-float {
+  50% {
+    transform: translateY(-10px);
   }
 }
 
@@ -359,6 +355,7 @@ a:focus-visible {
 }
 
 @media (max-width: 768px) {
+ 
   .brand-logo {
     height: 36px;
   }
