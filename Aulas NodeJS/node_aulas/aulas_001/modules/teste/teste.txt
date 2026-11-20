@@ -1,0 +1,2 @@
+Essa pasta foi criada a partir do 'fs'.
+Aprendendo Node.js para backend
