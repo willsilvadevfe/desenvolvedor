@@ -337,16 +337,6 @@ export default function App() {
     return () => clearTimeout(t);
   }, []);
 
-  function sweetAlertDeveloper() {
-    Swal.fire({
-      title: "Error!",
-      text: "Do you want to continue",
-      icon: "error",
-      confirmButtonText: "Cool",
-      scrollbarPadding: false,
-    });
-  }
-
   // Modal grande com informações sobre o desenvolvimento da página
   function sweetAlertDevInfo() {
     Swal.fire({
@@ -354,28 +344,61 @@ export default function App() {
       width: 700,
       scrollbarPadding: false,
       confirmButtonText: "Fechar",
+
+      // Cores do modal usando a paleta da marca
+      background: "#1e3932", // var(--green-deep)
+      color: "#ffffff",
+      confirmButtonColor: "#cba258", // var(--gold)
+      iconColor: "#cba258",
+
       html: `
-        <div style="text-align:left; font-size:0.95rem; line-height:1.6;">
-          <p><strong>Projeto:</strong> Landing Page — Starbucks Café (conceito)</p>
-          <p><strong>Desenvolvedor:</strong> Willian Silva</p>
-          <p><strong>Stack utilizada:</strong></p>
-          <ul style="margin:0 0 0.8rem 1.2rem; padding:0;">
-            <li>React + Vite</li>
-            <li>Three.js com React Three Fiber (@react-three/fiber)</li>
-            <li>@react-three/drei (Environment, Float, Preload, useGLTF)</li>
-            <li>SweetAlert2 para modais</li>
-            <li>CSS puro, com variáveis e design responsivo</li>
-          </ul>
-          <p><strong>Destaques técnicos:</strong></p>
-          <ul style="margin:0 0 0.8rem 1.2rem; padding:0;">
-            <li>Modelo 3D (.glb) animado conforme o scroll da página</li>
-            <li>Tela de carregamento sincronizada com o carregamento do modelo</li>
-            <li>Layout responsivo para desktop e mobile</li>
-            <li>Suporte a "prefers-reduced-motion" para acessibilidade</li>
-          </ul>
-          <p style="margin-bottom:0;"><strong>Contato:</strong> github.com/willsilvadevfe</p>
-        </div>
-      `,
+      <div style="text-align:left; font-size:0.95rem; line-height:1.6;">
+        <p><strong>Projeto:</strong> Landing Page - Starbucks Café </p>
+        <p><strong>Desenvolvedor:</strong> Willian Silva</p>
+        <p style="margin-bottom:0;"><strong>Repositório:</strong> github.com/willsilvadevfe</p>
+
+        <p><strong>Stack utilizada:</strong></p>
+        <img
+          src="https://skillicons.dev/icons?i=react,vite,threejs,css,html,js,git,github"
+          alt="React, Vite, Three.js, CSS, HTML, JavaScript, Git, GitHub"
+          style="margin: 0.4rem 0 1rem;"
+        />
+
+        <p><strong>Destaques técnicos:</strong></p>
+        <ul style="margin:0 0 0.8rem 1.2rem; padding:0;">
+          <li>Modelo 3D (.glb) animado conforme o scroll da página</li>
+          <li>Tela de carregamento sincronizada com o carregamento do modelo</li>
+          <li>Layout responsivo para desktop e mobile</li>
+          <li>SweetAlert2 para modais interativos de feedback e informações</li>
+        </ul>
+
+      </div>
+    `,
+
+      // Ajustes finos de estilo via JS, sem precisar de CSS externo
+      didOpen: (popup) => {
+        // Janela do modal: cantos arredondados, borda dourada e sombra
+        popup.style.borderRadius = "16px";
+        popup.style.border = "2px solid #cba258";
+        popup.style.boxShadow = "0 12px 40px rgba(0, 0, 0, 0.45)";
+
+        // Título em destaque
+        const title = popup.querySelector(".swal2-title");
+        if (title) {
+          title.style.color = "#cba258";
+          title.style.fontWeight = "700";
+        }
+
+        // Botão de confirmação
+        const confirmBtn = popup.querySelector(".swal2-confirm");
+        if (confirmBtn) {
+          confirmBtn.style.borderRadius = "999px";
+          confirmBtn.style.padding = "0.7rem 2rem";
+          confirmBtn.style.fontWeight = "700";
+          confirmBtn.style.color = "#1e3932";
+          confirmBtn.style.boxShadow = "none";
+        }
+      },
     });
   }
 
@@ -441,10 +464,6 @@ export default function App() {
                 href="#visite"
                 className="btn btn-gold"
                 style={{ position: "relative", zIndex: 10 }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  sweetAlertDeveloper();
-                }}
               >
                 Encontrar uma loja
               </a>
