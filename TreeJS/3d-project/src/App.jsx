@@ -359,8 +359,13 @@ export default function App() {
 
         <p><strong>Stack utilizada:</strong></p>
         <img
-          src="https://skillicons.dev/icons?i=react,vite,threejs,css,html,js,git,github"
-          alt="React, Vite, Three.js, CSS, HTML, JavaScript, Git, GitHub"
+          src="https://skillicons.dev/icons?i=react,vite,threejs,css"
+          alt="React, Vite, Three.js, CSS,"
+          style="margin: 0.4rem 0 1rem;"
+        /><br>
+        <img
+          src="https://skillicons.dev/icons?i=html,js,git,github"
+          alt="HTML, JavaScript, Git, GitHub"
           style="margin: 0.4rem 0 1rem;"
         />
 
