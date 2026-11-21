@@ -31,8 +31,29 @@
   box-sizing: border-box;
 }
 
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--green-deep);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 999px;
+  border: 2px solid var(--green-deep);
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-hover);
+}
+
+/* Firefox */
 html {
   scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) var(--green-deep);
 }
 
 body {
@@ -119,10 +140,16 @@ a:focus-visible {
 }
 
 /* ---------- Canvas fixo do copo ---------- */
+/* Corrigido: o canvas e tudo dentro dele não captura mais cliques */
 .canvas-wrap {
   position: fixed;
   inset: 0;
   z-index: 2;
+  pointer-events: none;
+}
+
+.canvas-wrap *,
+.canvas-wrap canvas {
   pointer-events: none;
 }
 
@@ -132,9 +159,11 @@ a:focus-visible {
 }
 
 /* ---------- Seções ---------- */
+/* Corrigido: z-index -1 escondia as seções atrás da camada do canvas.
+   Com z-index 0, a seção fica na ordem normal e o clique chega ao botão. */
 .hero,
 .section {
-  z-index: -1;
+  z-index: 0;
   position: relative;
   min-height: 100vh;
   min-height: 100svh;
@@ -148,6 +177,7 @@ a:focus-visible {
   padding: calc(var(--header-h) + 2rem) var(--pad-x) 3rem;
   display: flex;
   align-items: center;
+  pointer-events: auto;
 }
 
 .hero {
@@ -262,6 +292,9 @@ a:focus-visible {
   font-weight: 700;
   font-size: 1rem;
   text-decoration: none;
+  position: relative;
+  z-index: 4;
+  pointer-events: auto;
   transition:
     background-color 0.2s,
     color 0.2s;
@@ -285,6 +318,50 @@ a:focus-visible {
   background: var(--green-deep);
 }
 
+/* ---------- Botão flutuante: informações de desenvolvimento ---------- */
+.dev-info-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 50;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--green-deep);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
+}
+
+.dev-info-btn:hover {
+  background: var(--green);
+  transform: translateY(-2px);
+}
+
+.dev-info-btn:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  .dev-info-btn {
+    width: 44px;
+    height: 44px;
+    right: 14px;
+    bottom: 14px;
+    font-size: 0.8rem;
+  }
+}
 /* ---------------- Detalhes café CSS --------------------*/
 
 /* =====================================================================

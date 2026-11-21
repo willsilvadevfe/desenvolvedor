@@ -8,6 +8,7 @@ import {
   useProgress,
 } from "@react-three/drei";
 import * as THREE from "three";
+import Swal from "sweetalert2";
 import "./App.css";
 
 const MODEL_URL = "/star-opt.glb";
@@ -336,8 +337,46 @@ export default function App() {
     return () => clearTimeout(t);
   }, []);
 
-  function infoDev() {
-    alert("willian");
+  function sweetAlertDeveloper() {
+    Swal.fire({
+      title: "Error!",
+      text: "Do you want to continue",
+      icon: "error",
+      confirmButtonText: "Cool",
+      scrollbarPadding: false,
+    });
+  }
+
+  // Modal grande com informações sobre o desenvolvimento da página
+  function sweetAlertDevInfo() {
+    Swal.fire({
+      title: "Informações de Desenvolvimento",
+      width: 700,
+      scrollbarPadding: false,
+      confirmButtonText: "Fechar",
+      html: `
+        <div style="text-align:left; font-size:0.95rem; line-height:1.6;">
+          <p><strong>Projeto:</strong> Landing Page — Starbucks Café (conceito)</p>
+          <p><strong>Desenvolvedor:</strong> Willian Silva</p>
+          <p><strong>Stack utilizada:</strong></p>
+          <ul style="margin:0 0 0.8rem 1.2rem; padding:0;">
+            <li>React + Vite</li>
+            <li>Three.js com React Three Fiber (@react-three/fiber)</li>
+            <li>@react-three/drei (Environment, Float, Preload, useGLTF)</li>
+            <li>SweetAlert2 para modais</li>
+            <li>CSS puro, com variáveis e design responsivo</li>
+          </ul>
+          <p><strong>Destaques técnicos:</strong></p>
+          <ul style="margin:0 0 0.8rem 1.2rem; padding:0;">
+            <li>Modelo 3D (.glb) animado conforme o scroll da página</li>
+            <li>Tela de carregamento sincronizada com o carregamento do modelo</li>
+            <li>Layout responsivo para desktop e mobile</li>
+            <li>Suporte a "prefers-reduced-motion" para acessibilidade</li>
+          </ul>
+          <p style="margin-bottom:0;"><strong>Contato:</strong> github.com/willsilvadevfe</p>
+        </div>
+      `,
+    });
   }
 
   return (
@@ -360,8 +399,22 @@ export default function App() {
         </nav>
       </header>
 
+      {/* Botão flutuante com informações de desenvolvimento */}
+      <button
+        type="button"
+        className="dev-info-btn"
+        aria-label="Informações de desenvolvimento"
+        onClick={sweetAlertDevInfo}
+      >
+        {"</>"}
+      </button>
+
       <div className="canvas-wrap" aria-hidden="true">
-        <Canvas camera={{ position: [0, 0, 8], fov: 40 }} dpr={[1, 2]}>
+        <Canvas
+          camera={{ position: [0, 0, 8], fov: 40 }}
+          dpr={[1, 2]}
+          style={{ pointerEvents: "none" }}
+        >
           <ambientLight intensity={0.8} />
           <directionalLight position={[4, 5, 6]} intensity={2} />
           <Suspense fallback={null}>
@@ -384,7 +437,15 @@ export default function App() {
                 lembra o seu nome. Entre, escolha uma mesa e fique o tempo que
                 quiser.
               </p>
-              <a href="#visite" className="btn btn-gold">
+              <a
+                href="#visite"
+                className="btn btn-gold"
+                style={{ position: "relative", zIndex: 10 }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  sweetAlertDeveloper();
+                }}
+              >
                 Encontrar uma loja
               </a>
             </div>
@@ -402,10 +463,7 @@ export default function App() {
                 chocolate e castanhas, que mantém o mesmo sabor em todas as
                 lojas.
               </p>
-              <a
-                href="#experiencia"
-                className="btn btn-green"
-              >
+              <a href="#experiencia" className="btn btn-green">
                 Conhecer a torra
               </a>
             </div>
