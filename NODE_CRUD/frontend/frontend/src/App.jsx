@@ -14,7 +14,7 @@ function App() {
       headers: {
         "content-type": "application/json",
       },
-      body: json.stringify({
+      body: JSON.stringify({
         nome,
         sobrenome,
         email,
@@ -51,7 +51,7 @@ function App() {
         />
         <label>Email</label>
         <input
-          type="text"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
