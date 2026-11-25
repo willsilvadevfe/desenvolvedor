@@ -6,6 +6,19 @@ router.get("/", (req, res) => {
   res.send("Funcionando com sucesso...");
 });
 
+//Mostrar usuarios
+router.get("/usuarios", async (req, res) => {
+  try {
+    const listarUsuarios = await usuarios.findAll();
+    res.status(200).json(listarUsuarios);
+  } catch (error) {
+    res.status(500).json({
+      mensagem: "Erro ao buscar usuário",
+      erro: error.menssage,
+    });
+  }
+});
+
 router.post("/usuarios", async (req, res) => {
   try {
     const { nome, sobrenome, email } = req.body;

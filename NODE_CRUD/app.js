@@ -10,7 +10,6 @@ app.use(cors());
 app.use(express.json());
 app.use("/", indexRouter);
 
-
 async function startServer() {
   try {
     await sequelize.authenticate();

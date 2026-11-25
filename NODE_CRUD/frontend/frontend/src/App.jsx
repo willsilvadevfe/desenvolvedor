@@ -1,10 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [email, setEmail] = useState("");
+  const [usuarios, setUsuarios] = useState([]);
+
+  useEffect(() => {
+    async function buscarUsuarios() {
+      try {
+        const resposta = await fetch("http://localhost:8080/usuarios");
+        const dados = await resposta.json();
+        setUsuarios(dados);
+      } catch (error) {
+        console.error("Error ao buscar usuario: ", error);
+      }
+    }
+
+    buscarUsuarios();
+  }, []);
 
   async function cadastrarUsuarios(e) {
     e.preventDefault();
@@ -58,6 +73,15 @@ function App() {
         />
         <button type="submit">Enviar</button>
       </form>
+      <h2>Usuários Cadastrados</h2>
+      {usuarios.map((usuario) => (
+        <div key={usuario.id}>
+          <p>Nome: {usuario.nome}</p>
+          <p>Sobrenome: {usuario.sobrenome}</p>
+          <p>Email: {usuario.email}</p>
+          <hr />
+        </div>
+      ))}
     </>
   );
 }
