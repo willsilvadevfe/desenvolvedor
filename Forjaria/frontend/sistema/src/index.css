@@ -1,0 +1,145 @@
+:root {
+  /* ==========================================================================
+     Paleta Base - Forjaria & Aço Industrial
+     ========================================================================== */
+  --color-steel-950: #0b1118;
+  --color-steel-900: #111923;
+  --color-steel-800: #1c2836;
+  --color-steel-700: #2c3b4d;
+  --color-steel-600: #425468;
+  --color-steel-500: #5c7087;
+  --color-steel-400: #8699ad;
+  --color-steel-300: #b8c4d1;
+  --color-steel-200: #d9e1ea;
+  --color-steel-100: #ecf0f5;
+  --color-steel-50: #f5f7fa;
+
+  /* ==========================================================================
+     Cores de Acento - Brasa de Forjamento & Sinalização Industrial
+     ========================================================================== */
+  --color-forge-600: #c2410c;
+  --color-forge-500: #ea580c;
+  --color-forge-400: #f97316;
+  --color-forge-100: #ffedd5;
+  --color-forge-50: #fff7ed;
+
+  /* Azul Técnico / Usinagem & Metrologia */
+  --color-cobalt-700: #1d4ed8;
+  --color-cobalt-600: #2563eb;
+  --color-cobalt-100: #dbeafe;
+  --color-cobalt-50: #eff6ff;
+
+  /* ==========================================================================
+     Cores Semânticas - Qualidade & Inspeção
+     ========================================================================== */
+  --color-approved-700: #15803d;
+  --color-approved-600: #16a34a;
+  --color-approved-100: #dcfce7;
+
+  --color-warning-600: #d97706;
+  --color-warning-100: #fef3c7;
+
+  --color-rejected-700: #b91c1c;
+  --color-rejected-600: #dc2626;
+  --color-rejected-100: #fee2e2;
+
+  /* ==========================================================================
+     Tokens Semânticos de Interface (Uso Geral no Projeto)
+     ========================================================================== */
+  --bg-app: var(--color-steel-100);
+  --bg-surface: #ffffff;
+  --bg-surface-hover: var(--color-steel-50);
+  --bg-surface-muted: var(--color-steel-50);
+  --bg-header: var(--color-steel-900);
+  --bg-header-accent: var(--color-steel-800);
+
+  --text-primary: var(--color-steel-900);
+  --text-secondary: var(--color-steel-600);
+  --text-muted: var(--color-steel-500);
+  --text-inverse: #ffffff;
+  --text-inverse-muted: var(--color-steel-300);
+
+  --border-subtle: var(--color-steel-200);
+  --border-strong: var(--color-steel-300);
+  --border-focus: var(--color-forge-500);
+
+  --accent-primary: var(--color-forge-500);
+  --accent-primary-hover: var(--color-forge-600);
+  --accent-primary-soft: var(--color-forge-50);
+  --accent-secondary: var(--color-cobalt-700);
+  --accent-secondary-soft: var(--color-cobalt-50);
+
+  /* ==========================================================================
+     Tipografia
+     ========================================================================== */
+  --font-sans: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Consolas', monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+
+  /* ==========================================================================
+     Espaçamento, Bordas & Sombras
+     ========================================================================== */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(11, 17, 24, 0.06), 0 1px 3px rgba(11, 17, 24, 0.08);
+  --shadow-md: 0 4px 10px rgba(11, 17, 24, 0.08), 0 2px 4px rgba(11, 17, 24, 0.05);
+  --shadow-lg: 0 12px 24px rgba(11, 17, 24, 0.12), 0 4px 8px rgba(11, 17, 24, 0.06);
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --container-max: 1200px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

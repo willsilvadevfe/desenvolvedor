@@ -1,0 +1,355 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-app);
+  background-image:
+    radial-gradient(circle at 100% 0%, rgba(234, 88, 12, 0.06), transparent 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, transparent 180px);
+}
+
+/* ==========================================================================
+   Cabeçalho Industrial
+   ========================================================================== */
+.app-header {
+  background: linear-gradient(135deg, var(--bg-header) 0%, var(--bg-header-accent) 100%);
+  color: var(--text-inverse);
+  border-bottom: 4px solid var(--accent-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.app-header__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.app-header__emblem {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.app-header__emblem-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--text-inverse);
+}
+
+.app-header__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.app-header__eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-forge-400);
+}
+
+.app-header__title {
+  font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--text-inverse);
+}
+
+.app-header__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-inverse-muted);
+}
+
+.app-header__badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-approved-600);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.25);
+}
+
+/* ==========================================================================
+   Conteúdo Principal
+   ========================================================================== */
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6) var(--space-12);
+}
+
+.processes-section__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.processes-section__title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.processes-section__subtitle {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.processes-section__count {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+}
+
+/* Banner de feedback temporário ao clicar em um setor */
+.selection-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--accent-primary-soft);
+  border: 1px solid var(--color-forge-400);
+  border-left: 4px solid var(--accent-primary);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+}
+
+.selection-banner__close {
+  background: transparent;
+  border: none;
+  font-size: var(--text-xl);
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 0 var(--space-1);
+}
+
+.selection-banner__close:hover {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Grade de Botões Industriais
+   ========================================================================== */
+.processes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: var(--space-5);
+}
+
+.process-button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-5);
+  width: 100%;
+  padding: var(--space-5);
+  text-align: left;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-top: 3px solid var(--color-steel-700);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-base),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.process-button:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+  border-top-color: var(--accent-primary);
+  background-color: var(--bg-surface);
+}
+
+.process-button:active {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.process-button:focus-visible {
+  outline: 3px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.process-button--selected {
+  border-color: var(--accent-primary);
+  border-top-color: var(--accent-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.process-button__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.process-button__icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-steel-50);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-steel-800);
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.process-button:hover .process-button__icon-box,
+.process-button--selected .process-button__icon-box {
+  background-color: var(--accent-primary-soft);
+  border-color: var(--color-forge-100);
+  color: var(--color-steel-900);
+}
+
+.process-button__icon {
+  width: 36px;
+  height: 36px;
+}
+
+.process-button__code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  background-color: var(--color-steel-100);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.process-button__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.process-button__category {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.process-button__name {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.process-button__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-steel-700);
+  transition: color var(--transition-fast);
+}
+
+.process-button:hover .process-button__footer,
+.process-button--selected .process-button__footer {
+  color: var(--accent-primary);
+}
+
+.process-button__arrow {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--transition-fast);
+}
+
+.process-button:hover .process-button__arrow {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   Rodapé
+   ========================================================================== */
+.app-footer {
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+
+.app-footer__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .app-header__container,
+  .app-main,
+  .app-footer__container {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  .processes-grid {
+    grid-template-columns: 1fr;
+  }
+}
